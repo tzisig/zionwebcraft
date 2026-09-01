@@ -22,13 +22,13 @@ export const site = {
     whatsapp: '972584433181',
     phone: '058-443-3181',
     phoneHref: 'tel:+972584433181',
-    email: 'zionwebcraft@gmail.com',
+    email: 'mj9963@gmail.com',
     city: 'תל אביב והמרכז',
     hours: 'א׳-ה׳, 09:00-18:00',
   },
 
-  // TODO: point at a real form endpoint (Formspree / Web3Forms / Netlify Forms)
-  formEndpoint: 'https://formspree.io/f/YOUR_FORM_ID',
+  // Formspree endpoint; submissions land in the inbox above.
+  formEndpoint: 'https://formspree.io/f/xljejqee',
 
   social: {
     facebook: '',
