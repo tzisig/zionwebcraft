@@ -17,13 +17,12 @@ export const site = {
     role: 'מפתח אתרים עצמאי',
   },
 
-  // TODO: replace placeholders with real contact details
   contact: {
     // International format, digits only - used to build the wa.me link
-    whatsapp: '972500000000',
-    phone: '050-000-0000',
-    phoneHref: 'tel:+972500000000',
-    email: 'hello@zionwebcraft.co.il',
+    whatsapp: '972584433181',
+    phone: '058-443-3181',
+    phoneHref: 'tel:+972584433181',
+    email: 'zionwebcraft@gmail.com',
     city: 'תל אביב והמרכז',
     hours: 'א׳-ה׳, 09:00-18:00',
   },

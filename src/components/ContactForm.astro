@@ -1,10 +1,10 @@
 ---
 import { site } from '../config/site';
-import { budgetOptions, projectTypeOptions } from '../data/content';
+import { projectTypeOptions } from '../data/content';
 import Icon from './Icon.astro';
 
 interface Props {
-  /** `compact` drops the budget field and shortens the message box. */
+  /** `compact` shortens the message box for the homepage block. */
   variant?: 'full' | 'compact';
   sourceLabel?: string;
 }
@@ -79,20 +79,6 @@ const isFull = variant === 'full';
         {projectTypeOptions.map((o) => <option value={o}>{o}</option>)}
       </select>
     </div>
-
-    {
-      isFull && (
-        <div class="field field--full">
-          <label for="budget">
-            תקציב משוער <span class="field__hint">אופציונלי</span>
-          </label>
-          <select id="budget" name="budget">
-            <option value="">מעדיף לא לציין</option>
-            {budgetOptions.map((o) => <option value={o}>{o}</option>)}
-          </select>
-        </div>
-      )
-    }
 
     <div class="field field--full">
       <label for="message">
