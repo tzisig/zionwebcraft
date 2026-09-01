@@ -6,8 +6,7 @@ export const site = {
   name: 'ZionWebCraft',
   nameHe: 'ציון וובקרפט',
   tagline: 'בונה לעסקים קטנים אתרים שמביאים לקוחות',
-  // TODO: replace with the production domain
-  url: 'https://zionwebcraft.co.il',
+  url: 'https://zionwebcraft.com',
   locale: 'he-IL',
   lang: 'he',
   dir: 'rtl',

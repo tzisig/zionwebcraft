@@ -4,8 +4,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  // TODO: replace with the production domain before deploying.
-  site: 'https://zionwebcraft.co.il',
+  site: 'https://zionwebcraft.com',
   integrations: [
     sitemap({
       i18n: { defaultLocale: 'he', locales: { he: 'he-IL' } },
