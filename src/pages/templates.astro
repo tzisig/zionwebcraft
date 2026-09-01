@@ -1,0 +1,379 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Icon from '../components/Icon.astro';
+import {
+  templates,
+  featuredTemplates,
+  featuredSlugs,
+  fieldLabels,
+  templateUrl,
+  templateCover,
+  type TemplateField,
+} from '../data/templates';
+
+const filters: (TemplateField | 'all')[] = [
+  'all',
+  'professional',
+  'health',
+  'home',
+  'beauty',
+  'creative',
+  'food',
+  'education',
+];
+
+const counts = Object.fromEntries(
+  filters.map((f) => [
+    f,
+    f === 'all' ? templates.length : templates.filter((t) => t.field === f).length,
+  ])
+);
+
+const rest = templates.filter((t) => !featuredSlugs.includes(t.slug));
+---
+
+<BaseLayout
+  title="גלריית תבניות"
+  description="למעלה מ-45 עמודי נחיתה מוכנים לפי תחום: עורכי דין, רופאי שיניים, חשמלאים, מאמני כושר ועוד. כל עמוד בנוי במלואו ומותאם למובייל."
+>
+  <PageHero
+    eyebrow="גלריית תבניות"
+    title="ככה ייראה העמוד של העסק שלך"
+    lead={`בניתי ${templates.length} עמודי נחיתה, אחד לכל תחום. מצאו את שלכם, לחצו, וראו עמוד חי מהתחלה ועד הסוף. כל עמוד מותאם אישית לעסק שלכם לפני שהוא עולה לאוויר.`}
+  >
+    <p class="disclaimer">
+      <Icon name="sparkle" size={16} />
+      <span>
+        אלה עמודי הדגמה שבניתי, לא אתרי לקוחות. השמות והתכנים בדויים ונועדו להראות מבנה,
+        עיצוב וקצב.
+      </span>
+    </p>
+  </PageHero>
+
+  <!-- Featured, with screenshots -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow">מבחר</p>
+        <h2>שישה עמודים מקרוב</h2>
+        <p class="lead">לחצו על כל אחד כדי לפתוח אותו חי בלשונית חדשה.</p>
+      </div>
+
+      <div class="grid grid--3">
+        {
+          featuredTemplates.map((t, i) => (
+            <a
+              class="card card--hover shot reveal"
+              data-reveal-delay={i * 70}
+              href={templateUrl(t.slug)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img class="shot__img" src={templateCover(t.slug)} alt={`עמוד נחיתה לדוגמה עבור ${t.profession}`} loading="lazy" decoding="async" />
+              <div class="shot__body">
+                <span class="tag">{fieldLabels[t.field]}</span>
+                <h3>{t.profession}</h3>
+                <p class="shot__name">{t.name}</p>
+                <span class="link-arrow">
+                  לצפייה בעמוד
+                  <Icon name="external" size={15} />
+                </span>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Full list -->
+  <section class="section section--soft">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow">הכל</p>
+        <h2>כל התחומים</h2>
+        <p class="lead">סננו לפי קטגוריה. לא מצאתם את התחום שלכם? זה בדיוק מה שאני בונה.</p>
+      </div>
+
+      <div class="filters reveal" role="group" aria-label="סינון תבניות לפי תחום">
+        {
+          filters.map((f, i) => (
+            <button
+              type="button"
+              class:list={['filter', { 'is-active': i === 0 }]}
+              data-filter={f}
+              aria-pressed={i === 0 ? 'true' : 'false'}
+            >
+              {fieldLabels[f]}
+              <span class="filter__count">{counts[f]}</span>
+            </button>
+          ))
+        }
+      </div>
+
+      <p class="results" id="results-count" role="status" aria-live="polite">
+        מוצגים {templates.length} עמודים
+      </p>
+
+      <ul class="tiles" id="tile-grid">
+        {
+          rest.map((t) => (
+            <li data-field={t.field}>
+              <a
+                class="card card--hover tile"
+                href={templateUrl(t.slug)}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  class="tile__img"
+                  src={templateCover(t.slug)}
+                  alt={`עמוד נחיתה לדוגמה עבור ${t.profession}`}
+                  loading="lazy"
+                  decoding="async"
+                />
+                <span class="tile__body">
+                  <span class="tile__profession">{t.profession}</span>
+                  <span class="tile__name">{t.name}</span>
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+
+      <p class="empty" id="empty-state" hidden>אין תבניות בקטגוריה הזו.</p>
+
+      <p class="note reveal">
+        כל אחד מ-{templates.length} העמודים הוא עמוד חי ומלא, לא תמונה. לחיצה פותחת אותו
+        בלשונית חדשה.
+      </p>
+    </div>
+  </section>
+
+  <CtaBand
+    title="מצאתם תחום שמתאים לכם?"
+    text="ספרו לי איזה עמוד תפס אתכם, ואבנה גרסה מותאמת לעסק שלכם עם התוכן, התמונות והמסרים שלכם."
+  />
+</BaseLayout>
+
+<style>
+  .disclaimer {
+    display: flex;
+    gap: 0.55rem;
+    align-items: flex-start;
+    margin-top: var(--space-4);
+    padding: 0.85rem 1rem;
+    border-inline-start: 3px solid var(--c-gold);
+    background: var(--c-bg-soft);
+    border-radius: var(--radius);
+    font-size: var(--fs-sm);
+    color: var(--c-ink-soft);
+  }
+
+  .disclaimer :global(svg) {
+    color: var(--c-gold);
+    flex-shrink: 0;
+    margin-top: 0.2rem;
+  }
+
+  .section-head {
+    margin-bottom: var(--space-5);
+    max-width: 66ch;
+  }
+
+  .section-head .lead {
+    margin-top: var(--space-2);
+  }
+
+  /* --- Screenshot cards ------------------------------------------------ */
+  .shot {
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .shot__img {
+    width: 100%;
+    aspect-ratio: 1440 / 840;
+    object-fit: cover;
+    object-position: top center;
+    border-bottom: 1px solid var(--c-border);
+  }
+
+  .shot__body {
+    padding: var(--space-3) var(--space-4) var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    flex: 1;
+  }
+
+  .tag {
+    align-self: flex-start;
+    font-size: var(--fs-xs);
+    font-weight: 600;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    background: var(--c-accent-soft);
+    color: var(--c-accent);
+  }
+
+  .shot h3 {
+    font-size: var(--fs-lg);
+  }
+
+  .shot__name {
+    font-size: var(--fs-sm);
+    color: var(--c-ink-muted);
+    margin-top: -0.25rem;
+    flex: 1;
+  }
+
+  /* --- Filters ---------------------------------------------------------- */
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: var(--space-3);
+  }
+
+  .filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-height: 44px;
+    padding: 0.5rem 1.1rem;
+    background: var(--c-bg);
+    border: 1px solid var(--c-border-strong);
+    border-radius: 999px;
+    font-size: var(--fs-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition:
+      background-color var(--dur) var(--ease),
+      border-color var(--dur) var(--ease),
+      color var(--dur) var(--ease);
+  }
+
+  .filter:hover {
+    border-color: var(--c-accent);
+    background: var(--c-accent-soft);
+  }
+
+  .filter.is-active {
+    background: var(--c-accent);
+    border-color: var(--c-accent);
+    color: #fff;
+  }
+
+  .filter__count {
+    font-size: var(--fs-xs);
+    opacity: 0.65;
+  }
+
+  .results {
+    font-size: var(--fs-xs);
+    color: var(--c-ink-muted);
+    margin-bottom: var(--space-4);
+  }
+
+  /* --- Tiles ------------------------------------------------------------ */
+  .tiles {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--space-3);
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+
+  .tiles li {
+    display: flex;
+  }
+
+  .tile {
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .tile__img {
+    width: 100%;
+    aspect-ratio: 1440 / 840;
+    object-fit: cover;
+    object-position: top center;
+    border-bottom: 1px solid var(--c-border);
+    background: var(--c-bg-soft);
+  }
+
+  .tile__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    padding: 0.75rem 1rem 0.9rem;
+  }
+
+  .tile__profession {
+    font-weight: 600;
+    font-size: var(--fs-sm);
+  }
+
+  .tile__name {
+    font-size: var(--fs-xs);
+    color: var(--c-ink-muted);
+  }
+
+  .empty {
+    padding: var(--space-6) var(--space-3);
+    text-align: center;
+    color: var(--c-ink-muted);
+    border: 1px dashed var(--c-border-strong);
+    border-radius: var(--radius-lg);
+  }
+
+  .note {
+    margin-top: var(--space-4);
+    font-size: var(--fs-xs);
+    color: var(--c-ink-muted);
+  }
+</style>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.filter');
+  const grid = document.getElementById('tile-grid');
+  const empty = document.getElementById('empty-state');
+  const results = document.getElementById('results-count');
+  const items = grid ? Array.from(grid.querySelectorAll<HTMLElement>('[data-field]')) : [];
+
+  const apply = (filter: string) => {
+    let shown = 0;
+    items.forEach((item) => {
+      const match = filter === 'all' || item.dataset.field === filter;
+      item.hidden = !match;
+      if (match) shown += 1;
+    });
+    if (empty) empty.hidden = shown > 0;
+    if (results) results.textContent = `מוצגים ${shown} עמודים`;
+  };
+
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      buttons.forEach((b) => {
+        const active = b === btn;
+        b.classList.toggle('is-active', active);
+        b.setAttribute('aria-pressed', String(active));
+      });
+      apply(btn.dataset.filter ?? 'all');
+    });
+  });
+</script>

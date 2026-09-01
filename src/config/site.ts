@@ -59,6 +59,7 @@ export const nav = [
   { label: 'בית', href: '/' },
   { label: 'שירותים', href: '/services' },
   { label: 'תיק עבודות', href: '/portfolio' },
+  { label: 'גלריית תבניות', href: '/templates' },
   { label: 'תהליך העבודה', href: '/process' },
   { label: 'מחירים', href: '/pricing' },
   { label: 'אודות', href: '/about' },
