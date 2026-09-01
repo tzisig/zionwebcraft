@@ -1,0 +1,176 @@
+---
+import type { Project } from '../data/projects';
+import { categoryLabels } from '../data/projects';
+import Icon from './Icon.astro';
+
+interface Props {
+  project: Project;
+  delay?: number;
+}
+
+const { project, delay = 0 } = Astro.props;
+// Deterministic hue per project so the placeholder covers stay stable between builds.
+const hue = [...project.slug].reduce((a, c) => a + c.charCodeAt(0), 0) % 40;
+---
+
+<article
+  class="card card--hover project-card reveal"
+  data-reveal-delay={delay}
+  data-category={project.category}
+>
+  {
+    project.cover ? (
+      <img
+        class="project-card__cover project-card__shot"
+        src={project.cover}
+        alt={`צילום מסך מהאתר של ${project.name}`}
+        loading="lazy"
+        decoding="async"
+      />
+    ) : (
+      <div class="project-card__cover" style={`--h:${210 + hue}`} aria-hidden="true">
+        <span class="project-card__initial">{project.name.charAt(0)}</span>
+      </div>
+    )
+  }
+
+  <div class="project-card__body">
+    <div class="project-card__top">
+      <span class="tag">{categoryLabels[project.category]}</span>
+      {project.status === 'in-progress' && <span class="tag tag--wip">בבנייה</span>}
+      <span class="project-card__year">{project.year}</span>
+    </div>
+
+    <h3 class="project-card__name">{project.name}</h3>
+    <p class="project-card__field">{project.field}</p>
+
+    <dl class="project-card__case">
+      <div><dt>האתגר</dt><dd>{project.challenge}</dd></div>
+      <div><dt>הפתרון</dt><dd>{project.solution}</dd></div>
+      <div><dt>התוצאה</dt><dd class="project-card__result">{project.result}</dd></div>
+    </dl>
+
+    {
+      project.liveUrl && (
+        <a
+          class="link-arrow"
+          href={project.liveUrl}
+          target="_blank"
+          rel="noopener noreferrer nofollow"
+        >
+          <span>לצפייה באתר החי</span>
+          <Icon name="external" size={15} />
+          <span class="sr-only">, נפתח בחלון חדש</span>
+        </a>
+      )
+    }
+  </div>
+</article>
+
+<style>
+  .project-card {
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .project-card__cover {
+    aspect-ratio: 16 / 10;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(
+      135deg,
+      hsl(var(--h) 30% 22%) 0%,
+      hsl(var(--h) 26% 34%) 100%
+    );
+  }
+
+  .project-card__shot {
+    width: 100%;
+    object-fit: cover;
+    object-position: top center;
+  }
+
+  .project-card__initial {
+    font-family: var(--font-serif);
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .project-card__body {
+    padding: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    flex: 1;
+  }
+
+  .project-card__top {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-size: var(--fs-xs);
+    font-weight: 600;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    background: var(--c-accent-soft);
+    color: var(--c-accent);
+  }
+
+  .tag--wip {
+    background: #fdf4e3;
+    color: #8a5d0d;
+  }
+
+  .project-card__year {
+    margin-inline-start: auto;
+    font-size: var(--fs-xs);
+    color: var(--c-ink-muted);
+  }
+
+  .project-card__name {
+    font-size: var(--fs-lg);
+  }
+
+  .project-card__field {
+    font-size: var(--fs-sm);
+    color: var(--c-ink-muted);
+    margin-top: -0.4rem;
+  }
+
+  .project-card__case {
+    display: grid;
+    gap: var(--space-2);
+    margin: var(--space-2) 0 0;
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--c-border);
+    flex: 1;
+  }
+
+  .project-card__case dt {
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--c-ink-muted);
+    margin-bottom: 0.15rem;
+  }
+
+  .project-card__case dd {
+    margin: 0;
+    font-size: var(--fs-sm);
+    color: var(--c-ink-soft);
+    line-height: 1.6;
+  }
+
+  .project-card__result {
+    color: var(--c-ink) !important;
+    font-weight: 600;
+  }
+</style>

@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import TestimonialCard from '../components/TestimonialCard.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { testimonials } from '../data/content';
+import { site } from '../config/site';
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    itemListElement: testimonials.map((t, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      item: {
+        '@type': 'Review',
+        reviewBody: t.quote,
+        author: { '@type': 'Person', name: t.name },
+        itemReviewed: { '@type': 'ProfessionalService', name: site.nameHe },
+      },
+    })),
+  },
+];
+---
+
+<BaseLayout
+  title="המלצות לקוחות"
+  description="מה לקוחות אומרים על העבודה איתי: עורכי דין, קליות קפה, מאמני כושר וסטודיו לעיצוב פנים."
+  schema={schema}
+>
+  <PageHero
+    eyebrow="המלצות"
+    title="מה לקוחות אומרים"
+    lead="כל ההמלצות כאן מלקוחות אמיתיים שאפשר להתקשר אליהם ולשאול. פשוט בקשו ממני מספר."
+  />
+
+  <section class="section">
+    <div class="container">
+      <div class="masonry">
+        {
+          testimonials.map((t, i) => (
+            <TestimonialCard
+              quote={t.quote}
+              name={t.name}
+              business={t.business}
+              delay={i * 60}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    title="רוצה להיות ההמלצה הבאה?"
+    text="בוא נדבר על מה העסק שלך צריך. שיחת היכרות של 30 דקות, ללא עלות."
+  />
+</BaseLayout>
+
+<style>
+  .masonry {
+    display: grid;
+    gap: var(--space-4);
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    align-items: start;
+  }
+</style>

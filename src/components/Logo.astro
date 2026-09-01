@@ -1,0 +1,82 @@
+---
+/** Wordmark: serif monogram in a square plus the business name. */
+interface Props {
+  variant?: 'dark' | 'light';
+  href?: string | null;
+}
+
+const { variant = 'dark', href = '/' } = Astro.props;
+const Tag = href ? 'a' : 'div';
+---
+
+<Tag
+  href={href ?? undefined}
+  class:list={['logo', `logo--${variant}`]}
+  aria-label="ציון וובקרפט, לעמוד הבית"
+>
+  <span class="logo__mark" aria-hidden="true">ZW</span>
+  <span class="logo__text">
+    <span class="logo__name">ZionWebCraft</span>
+    <span class="logo__sub">בניית אתרים</span>
+  </span>
+</Tag>
+
+<style>
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .logo__mark {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 38px;
+    flex-shrink: 0;
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    letter-spacing: 0.02em;
+    font-weight: 700;
+    line-height: 1;
+    border-radius: var(--radius);
+    background: var(--c-accent);
+    color: #fff;
+  }
+
+  .logo--light .logo__mark {
+    background: #fff;
+    color: var(--c-accent);
+  }
+
+  .logo__text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+  }
+
+  .logo__name {
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+  }
+
+  .logo__sub {
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    color: var(--c-ink-muted);
+  }
+
+  .logo--light .logo__sub {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  @media (max-width: 420px) {
+    .logo__sub {
+      display: none;
+    }
+  }
+</style>

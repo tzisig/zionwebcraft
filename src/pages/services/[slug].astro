@@ -1,0 +1,328 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import FaqList from '../../components/FaqList.astro';
+import ContactForm from '../../components/ContactForm.astro';
+import Icon from '../../components/Icon.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { services } from '../../data/services';
+import { projects } from '../../data/projects';
+import { site, waLink } from '../../config/site';
+
+export const getStaticPaths = (() =>
+  services.map((service) => ({
+    params: { slug: service.slug },
+    props: { service },
+  }))) satisfies GetStaticPaths;
+
+const { service } = Astro.props;
+const related = projects.filter((p) => p.category === service.slug).slice(0, 3);
+const others = services.filter((s) => s.slug !== service.slug);
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: service.title,
+    description: service.short,
+    provider: { '@type': 'ProfessionalService', name: site.nameHe, url: site.url },
+    areaServed: 'IL',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: service.faq.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+];
+---
+
+<BaseLayout title={service.title} description={service.short} schema={schema}>
+  <PageHero eyebrow="שירות" title={service.title} lead={service.short}>
+    <div class="btn-row hero-actions">
+      <a class="btn btn--primary" href="#service-form">
+        קבלת הצעת מחיר
+        <Icon name="arrow" size={16} />
+      </a>
+      <a
+        class="btn btn--outline"
+        href={waLink(`היי, אשמח לשמוע פרטים על ${service.title}`)}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Icon name="whatsapp" size={16} />
+        שאלה מהירה בוואטסאפ
+      </a>
+    </div>
+  </PageHero>
+
+  <nav class="crumbs" aria-label="מיקום באתר">
+    <div class="container">
+      <ol>
+        <li><a href="/">בית</a></li>
+        <li><a href="/services">שירותים</a></li>
+        <li aria-current="page">{service.title}</li>
+      </ol>
+    </div>
+  </nav>
+
+  <section class="section">
+    <div class="container detail">
+      <div class="detail__main reveal">
+        <h2>למי זה מתאים</h2>
+        <p class="lead">{service.forWho}</p>
+
+        <h2 class="detail__h2">מה כלול</h2>
+        <ul class="checklist">
+          {
+            service.includes.map((item) => (
+              <li>
+                <Icon name="check" size={18} />
+                <span>{item}</span>
+              </li>
+            ))
+          }
+        </ul>
+
+        <h2 class="detail__h2">שאלות על השירות הזה</h2>
+        <FaqList items={service.faq} />
+      </div>
+
+      <aside class="detail__aside">
+        <div class="card detail__box reveal">
+          <h3>בקצרה</h3>
+          <dl>
+            <div>
+              <dt><Icon name="clock" size={15} /> זמן אספקה</dt>
+              <dd>{service.timeline}</dd>
+            </div>
+            <div>
+              <dt><Icon name="sparkle" size={15} /> מה משפיע על המחיר</dt>
+              <dd>{service.startingNote}</dd>
+            </div>
+          </dl>
+          <a class="btn btn--primary btn--block" href="#service-form">
+            רוצה הצעת מחיר
+          </a>
+        </div>
+
+        <div class="card detail__box detail__box--others reveal">
+          <h3>שירותים נוספים</h3>
+          <ul>
+            {
+              others.map((o) => (
+                <li>
+                  <a href={`/services/${o.slug}`}>
+                    <Icon name={o.icon} size={17} />
+                    <span>{o.title}</span>
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  {
+    related.length > 0 && (
+      <section class="section section--soft">
+        <div class="container">
+          <div class="reveal">
+            <p class="eyebrow">דוגמאות</p>
+            <h2 class="related__title">פרויקטים מסוג {service.title}</h2>
+          </div>
+          <div class="grid grid--3 related__grid">
+            {related.map((p, i) => (
+              <ProjectCard project={p} delay={i * 70} />
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="section" id="service-form">
+    <div class="container container--narrow">
+      <div class="reveal form-head">
+        <p class="eyebrow">הצעת מחיר</p>
+        <h2>נתחיל מכמה פרטים</h2>
+        <p class="lead">אחזור אליכם תוך יום עסקים עם שאלות ממוקדות וטווח מחיר ראשוני.</p>
+      </div>
+      <div class="card form-card reveal">
+        <ContactForm sourceLabel={`service-${service.slug}`} />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero-actions {
+    margin-top: var(--space-4);
+  }
+
+  .crumbs {
+    border-bottom: 1px solid var(--c-border);
+    background: var(--c-bg-soft);
+    font-size: var(--fs-xs);
+  }
+
+  .crumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0.7rem 0;
+    margin: 0;
+    color: var(--c-ink-muted);
+  }
+
+  .crumbs li + li::before {
+    content: '/';
+    margin-inline-end: 0.5rem;
+    color: var(--c-border-strong);
+  }
+
+  .crumbs a {
+    color: var(--c-ink-soft);
+    text-decoration: none;
+  }
+
+  .crumbs a:hover {
+    text-decoration: underline;
+  }
+
+  .detail {
+    display: grid;
+    gap: var(--space-6);
+    align-items: start;
+  }
+
+  .detail__h2 {
+    margin-top: var(--space-6);
+  }
+
+  .detail h2 {
+    font-size: var(--fs-xl);
+    margin-bottom: var(--space-3);
+  }
+
+  .checklist {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .checklist li {
+    display: flex;
+    gap: 0.65rem;
+    align-items: flex-start;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--c-border);
+    font-size: var(--fs-sm);
+  }
+
+  .checklist :global(svg) {
+    color: var(--c-gold);
+    flex-shrink: 0;
+    margin-top: 0.22rem;
+  }
+
+  .detail__box {
+    background: var(--c-bg-soft);
+  }
+
+  .detail__box + .detail__box {
+    margin-top: var(--space-3);
+  }
+
+  .detail__box h3 {
+    font-size: var(--fs-md);
+    margin-bottom: var(--space-3);
+  }
+
+  .detail__box dl {
+    display: grid;
+    gap: var(--space-3);
+    margin: 0 0 var(--space-4);
+  }
+
+  .detail__box dt {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--c-ink-muted);
+  }
+
+  .detail__box dd {
+    margin: 0.25rem 0 0;
+    font-size: var(--fs-sm);
+    color: var(--c-ink-soft);
+  }
+
+  .detail__box--others ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.2rem;
+  }
+
+  .detail__box--others a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    padding: 0.5rem 0;
+    font-size: var(--fs-sm);
+    text-decoration: none;
+    border-bottom: 1px solid var(--c-border);
+    transition: color var(--dur) var(--ease);
+  }
+
+  .detail__box--others a:hover {
+    color: var(--c-accent);
+  }
+
+  .detail__box--others :global(svg) {
+    color: var(--c-accent);
+  }
+
+  .related__title {
+    margin-bottom: var(--space-5);
+  }
+
+  .form-head {
+    margin-bottom: var(--space-4);
+  }
+
+  .form-head .lead {
+    margin-top: var(--space-2);
+  }
+
+  .form-card {
+    padding: clamp(1.25rem, 3vw, 2.25rem);
+  }
+
+  @media (min-width: 960px) {
+    .detail {
+      grid-template-columns: minmax(0, 1.6fr) minmax(280px, 0.9fr);
+    }
+
+    .detail__aside {
+      position: sticky;
+      top: calc(var(--header-h) + var(--space-3));
+    }
+  }
+</style>

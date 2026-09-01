@@ -1,0 +1,71 @@
+---
+import { site, waLink } from '../config/site';
+import Icon from './Icon.astro';
+
+interface Props {
+  title?: string;
+  text?: string;
+}
+
+const {
+  title = 'יש לך רעיון? בוא נבדוק אם הוא מתאים לי',
+  text = 'שיחת היכרות של 30 דקות, ללא עלות וללא התחייבות. בסופה תדע בדיוק מה מתאים לעסק שלך, גם אם בסוף לא נעבוד יחד.',
+} = Astro.props;
+---
+
+<section class="section section--inverse cta-band">
+  <div class="container container--narrow cta-band__inner reveal">
+    <p class="eyebrow">הצעד הבא</p>
+    <h2>{title}</h2>
+    <p class="lead">{text}</p>
+    <div class="btn-row cta-band__actions">
+      <a class="btn btn--light" href="/contact">
+        השאירו פרטים
+        <Icon name="arrow" size={17} />
+      </a>
+      <a
+        class="btn btn--ghost-light"
+        href={waLink()}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Icon name="whatsapp" size={17} />
+        דברו איתי בוואטסאפ
+      </a>
+    </div>
+    <p class="cta-band__note">
+      או פשוט התקשרו: <a href={site.contact.phoneHref}>{site.contact.phone}</a>
+    </p>
+  </div>
+</section>
+
+<style>
+  .cta-band__inner {
+    text-align: center;
+  }
+
+  .cta-band__inner :global(.eyebrow) {
+    justify-content: center;
+  }
+
+  .cta-band__inner :global(.lead) {
+    margin: var(--space-3) auto 0;
+  }
+
+  .cta-band__actions {
+    justify-content: center;
+    margin-top: var(--space-4);
+  }
+
+  .cta-band__note {
+    margin-top: var(--space-3);
+    font-size: var(--fs-sm);
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .cta-band__note a {
+    color: #fff;
+    font-weight: 600;
+    text-underline-offset: 4px;
+  }
+</style>

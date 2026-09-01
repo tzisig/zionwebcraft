@@ -1,0 +1,147 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import Icon from '../components/Icon.astro';
+import { featuredProjects } from '../data/projects';
+import { site, waLink } from '../config/site';
+---
+
+<BaseLayout
+  title="תודה על הפנייה"
+  description="הפנייה שלכם התקבלה. אחזור אליכם תוך יום עסקים אחד."
+  noindex
+>
+  <section class="thanks">
+    <div class="container container--narrow thanks__inner">
+      <span class="thanks__check" aria-hidden="true">
+        <Icon name="check" size={34} />
+      </span>
+      <p class="eyebrow">הפנייה התקבלה</p>
+      <h1>תודה, קיבלתי את הפרטים</h1>
+      <p class="lead">
+        אני חוזר אליכם <strong>תוך יום עסקים אחד</strong>, בדרך כלל הרבה לפני. אם זה דחוף,
+        אפשר פשוט לשלוח לי הודעה בוואטסאפ ולקצר את התהליך.
+      </p>
+
+      <div class="btn-row thanks__actions">
+        <a class="btn btn--wa" href={waLink('היי, בדיוק השארתי פרטים באתר')} target="_blank" rel="noopener noreferrer">
+          <Icon name="whatsapp" size={17} />
+          לזרז בוואטסאפ
+        </a>
+        <a class="btn btn--outline" href={site.contact.phoneHref}>
+          <Icon name="phone" size={17} />
+          {site.contact.phone}
+        </a>
+      </div>
+
+      <ol class="next">
+        <li><strong>עכשיו</strong><span>הפנייה נכנסה אליי</span></li>
+        <li><strong>תוך יום עסקים</strong><span>אני חוזר אליכם</span></li>
+        <li><strong>תוך יומיים</strong><span>הצעת מחיר מפורטת בכתב</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--soft">
+    <div class="container">
+      <div class="reveal meanwhile">
+        <p class="eyebrow">בינתיים</p>
+        <h2>הנה כמה פרויקטים שבניתי</h2>
+        <p class="lead">שווה מבט לפני השיחה, כדי שנדע על מה לדבר.</p>
+      </div>
+      <div class="grid grid--3">
+        {featuredProjects.map((p, i) => <ProjectCard project={p} delay={i * 70} />)}
+      </div>
+      <div class="meanwhile__foot reveal">
+        <a class="btn btn--outline" href="/portfolio">
+          לתיק העבודות המלא
+          <Icon name="arrow" size={16} />
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .thanks {
+    padding-block: clamp(3rem, 2rem + 5vw, 5.5rem);
+    border-bottom: 1px solid var(--c-border);
+    background:
+      radial-gradient(ellipse 70% 100% at 50% 0%, var(--c-accent-soft) 0%, transparent 70%),
+      var(--c-bg);
+  }
+
+  .thanks__inner {
+    text-align: center;
+  }
+
+  .thanks__check {
+    display: grid;
+    place-items: center;
+    width: 72px;
+    height: 72px;
+    margin: 0 auto var(--space-4);
+    border-radius: 999px;
+    background: #f1f8f4;
+    color: #1f7a4d;
+    border: 1px solid #cfe6da;
+  }
+
+  .thanks__inner :global(.eyebrow) {
+    justify-content: center;
+  }
+
+  .thanks__inner .lead {
+    margin: var(--space-3) auto 0;
+  }
+
+  .thanks__actions {
+    justify-content: center;
+    margin-top: var(--space-4);
+  }
+
+  .next {
+    list-style: none;
+    display: grid;
+    gap: var(--space-3);
+    padding: var(--space-4) 0 0;
+    margin: var(--space-5) 0 0;
+    border-top: 1px solid var(--c-border);
+    text-align: start;
+  }
+
+  .next li {
+    display: grid;
+    gap: 0.15rem;
+  }
+
+  .next strong {
+    font-family: var(--font-serif);
+    font-size: var(--fs-sm);
+    color: var(--c-accent);
+  }
+
+  .next span {
+    font-size: var(--fs-sm);
+    color: var(--c-ink-soft);
+  }
+
+  .meanwhile {
+    margin-bottom: var(--space-5);
+  }
+
+  .meanwhile .lead {
+    margin-top: var(--space-2);
+  }
+
+  .meanwhile__foot {
+    margin-top: var(--space-5);
+  }
+
+  @media (min-width: 640px) {
+    .next {
+      grid-template-columns: repeat(3, 1fr);
+      text-align: center;
+    }
+  }
+</style>

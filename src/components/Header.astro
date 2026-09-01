@@ -1,0 +1,253 @@
+---
+import { nav, site, waLink } from '../config/site';
+import Icon from './Icon.astro';
+import Logo from './Logo.astro';
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
+---
+
+<header class="site-header" id="site-header">
+  <div class="container site-header__inner">
+    <Logo />
+
+    <nav class="site-nav" aria-label="ניווט ראשי">
+      <ul class="site-nav__list">
+        {
+          nav.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class:list={['site-nav__link', { 'is-active': isActive(item.href) }]}
+                aria-current={isActive(item.href) ? 'page' : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="site-header__actions">
+      <a
+        class="btn btn--wa btn--sm site-header__wa"
+        href={waLink()}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Icon name="whatsapp" size={17} />
+        <span>וואטסאפ</span>
+      </a>
+
+      <button
+        type="button"
+        class="menu-toggle"
+        id="menu-toggle"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <span class="sr-only">פתיחת תפריט</span>
+        <Icon name="menu" size={22} class="menu-toggle__open" />
+        <Icon name="close" size={22} class="menu-toggle__close" />
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobile-menu" hidden>
+    <nav class="container" aria-label="ניווט נייד">
+      <ul class="mobile-menu__list">
+        {
+          nav.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class:list={['mobile-menu__link', { 'is-active': isActive(item.href) }]}
+                aria-current={isActive(item.href) ? 'page' : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="mobile-menu__actions">
+        <a class="btn btn--wa btn--block" href={waLink()} target="_blank" rel="noopener noreferrer">
+          <Icon name="whatsapp" size={18} />
+          דברו איתי בוואטסאפ
+        </a>
+        <a class="btn btn--outline btn--block" href={site.contact.phoneHref}>
+          <Icon name="phone" size={18} />
+          {site.contact.phone}
+        </a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: saturate(180%) blur(12px);
+    border-bottom: 1px solid var(--c-border);
+    transition: box-shadow var(--dur) var(--ease);
+  }
+
+  .site-header.is-scrolled {
+    box-shadow: 0 1px 12px rgba(26, 26, 26, 0.07);
+  }
+
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    min-height: var(--header-h);
+  }
+
+  .site-nav {
+    display: none;
+    flex: 1;
+  }
+
+  .site-nav__list {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(0.5rem, 1.4vw, 1.4rem);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .site-nav__link {
+    display: inline-block;
+    padding: 0.5rem 0.2rem;
+    font-size: var(--fs-sm);
+    font-weight: 500;
+    color: var(--c-ink-soft);
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition:
+      color var(--dur) var(--ease),
+      border-color var(--dur) var(--ease);
+  }
+
+  .site-nav__link:hover {
+    color: var(--c-ink);
+  }
+
+  .site-nav__link.is-active {
+    color: var(--c-accent);
+    font-weight: 600;
+    border-bottom-color: var(--c-gold);
+  }
+
+  .site-header__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .site-header__wa {
+    display: none;
+  }
+
+  .menu-toggle {
+    display: inline-grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    background: transparent;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    color: var(--c-ink);
+  }
+
+  .menu-toggle :global(.menu-toggle__close) {
+    display: none;
+  }
+
+  .menu-toggle[aria-expanded='true'] :global(.menu-toggle__open) {
+    display: none;
+  }
+
+  .menu-toggle[aria-expanded='true'] :global(.menu-toggle__close) {
+    display: block;
+  }
+
+  .mobile-menu {
+    border-top: 1px solid var(--c-border);
+    background: var(--c-bg);
+    padding-block: var(--space-3) var(--space-4);
+    max-height: calc(100dvh - var(--header-h));
+    overflow-y: auto;
+  }
+
+  .mobile-menu__list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-3);
+  }
+
+  .mobile-menu__link {
+    display: block;
+    padding: 0.85rem 0;
+    min-height: 48px;
+    font-size: var(--fs-md);
+    font-weight: 500;
+    text-decoration: none;
+    border-bottom: 1px solid var(--c-border);
+  }
+
+  .mobile-menu__link.is-active {
+    color: var(--c-accent);
+    font-weight: 700;
+  }
+
+  .mobile-menu__actions {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  @media (min-width: 900px) {
+    .site-nav,
+    .site-header__wa {
+      display: flex;
+    }
+
+    .menu-toggle,
+    .mobile-menu {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const toggle = document.getElementById('menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+  const header = document.getElementById('site-header');
+
+  toggle?.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!open));
+    if (menu) menu.hidden = open;
+  });
+
+  // Close the mobile menu when the viewport grows past the desktop breakpoint.
+  const desktop = window.matchMedia('(min-width: 900px)');
+  desktop.addEventListener('change', (e) => {
+    if (e.matches && menu) {
+      menu.hidden = true;
+      toggle?.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 8);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+</script>

@@ -1,0 +1,168 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Icon from '../components/Icon.astro';
+import { processSteps } from '../data/content';
+---
+
+<BaseLayout
+  title="תהליך העבודה"
+  description="שישה שלבים מהשיחה הראשונה ועד ההשקה: מה קורה בכל שלב, כמה זמן הוא לוקח ומה אתה מקבל בסופו."
+>
+  <PageHero
+    eyebrow="תהליך העבודה"
+    title="שישה שלבים, בלי אזורים אפורים"
+    lead="בכל שלב אתה יודע מה קורה, כמה זמן זה לוקח ומה אתה מקבל בסופו. זה מה שמונע הפתעות."
+  />
+
+  <section class="section">
+    <div class="container container--narrow">
+      <ol class="timeline">
+        {
+          processSteps.map((step, i) => (
+            <li class="timeline__item reveal" data-reveal-delay={i * 60}>
+              <div class="timeline__marker" aria-hidden="true">
+                <span>{step.n}</span>
+              </div>
+              <div class="timeline__body">
+                <div class="timeline__head">
+                  <h2>{step.title}</h2>
+                  <span class="timeline__duration">
+                    <Icon name="clock" size={14} />
+                    {step.duration}
+                  </span>
+                </div>
+                <p>{step.text}</p>
+                <p class="timeline__deliverable">
+                  <Icon name="check" size={15} />
+                  <span>
+                    <strong>מה אתה מקבל:</strong> {step.deliverable}
+                  </span>
+                </p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+
+      <aside class="note reveal">
+        <h2>כמה זמן זה לוקח בסך הכל</h2>
+        <p>
+          דף נחיתה: 5-10 ימי עבודה. אתר תדמית: 2-4 שבועות. חנות אונליין: 4-8 שבועות.
+          הגורם שהכי משפיע הוא לא הפיתוח אלא כמה מהר מגיעים התוכן והאישורים מהצד שלך, ולכן
+          בשלב האפיון אנחנו קובעים מראש מי אחראי על מה ומתי.
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  <CtaBand
+    title="מוכן להתחיל בשלב אחד?"
+    text="השלב הראשון הוא שיחה של 30 דקות. אין בה מצגת ואין בה מכירה, רק שאלות שיעזרו לשנינו להבין אם זה מתאים."
+  />
+</BaseLayout>
+
+<style>
+  .timeline {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .timeline__item {
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    gap: var(--space-3);
+    position: relative;
+  }
+
+  /* Connector line between markers. */
+  .timeline__item:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: 25px;
+    top: 56px;
+    bottom: calc(var(--space-5) * -1);
+    width: 1px;
+    background: var(--c-border);
+  }
+
+  .timeline__marker {
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 999px;
+    background: var(--c-bg);
+    border: 1px solid var(--c-accent);
+    color: var(--c-accent);
+    font-family: var(--font-serif);
+    font-weight: 700;
+    z-index: 1;
+  }
+
+  .timeline__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-2);
+    margin-bottom: 0.5rem;
+  }
+
+  .timeline__body h2 {
+    font-size: var(--fs-lg);
+  }
+
+  .timeline__duration {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: var(--fs-xs);
+    color: var(--c-ink-muted);
+    padding: 0.15rem 0.6rem;
+    border-radius: 999px;
+    background: var(--c-bg-soft);
+  }
+
+  .timeline__body p {
+    color: var(--c-ink-soft);
+    font-size: var(--fs-sm);
+  }
+
+  .timeline__deliverable {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-top: var(--space-2);
+    padding-top: var(--space-2);
+    border-top: 1px solid var(--c-border);
+    color: var(--c-ink) !important;
+  }
+
+  .timeline__deliverable :global(svg) {
+    color: var(--c-gold);
+    flex-shrink: 0;
+    margin-top: 0.2rem;
+  }
+
+  .note {
+    margin-top: var(--space-7);
+    padding: var(--space-4);
+    border-inline-start: 3px solid var(--c-gold);
+    background: var(--c-bg-soft);
+    border-radius: var(--radius);
+  }
+
+  .note h2 {
+    font-size: var(--fs-md);
+    margin-bottom: 0.5rem;
+  }
+
+  .note p {
+    font-size: var(--fs-sm);
+    color: var(--c-ink-soft);
+  }
+</style>

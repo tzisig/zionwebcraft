@@ -1,0 +1,28 @@
+{
+  "name": "zionwebcraft",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "cross-env NAPI_RS_FORCE_WASI=true astro dev",
+    "build": "cross-env NAPI_RS_FORCE_WASI=true astro build",
+    "preview": "cross-env NAPI_RS_FORCE_WASI=true astro preview",
+    "check": "cross-env NAPI_RS_FORCE_WASI=true astro check",
+    "astro": "cross-env NAPI_RS_FORCE_WASI=true astro"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "@bruits/satteri-wasm32-wasi": "^0.10.5",
+    "astro": "^7.2.10"
+  },
+  "allowScripts": {
+    "esbuild": true
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "cross-env": "^10.1.0",
+    "typescript": "^6.0.3"
+  }
+}

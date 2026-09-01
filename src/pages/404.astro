@@ -1,0 +1,89 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import { nav } from '../config/site';
+---
+
+<BaseLayout
+  title="העמוד לא נמצא"
+  description="העמוד שחיפשתם לא קיים. הנה הדרך חזרה."
+  noindex
+>
+  <section class="section notfound">
+    <div class="container container--narrow">
+      <p class="eyebrow">שגיאה 404</p>
+      <h1>העמוד הזה לא קיים</h1>
+      <p class="lead">
+        כנראה שהקישור ישן או שנפלה טעות בכתובת. הנה הדרכים המהירות לחזור למסלול.
+      </p>
+
+      <div class="btn-row notfound__actions">
+        <a class="btn btn--primary" href="/">
+          לעמוד הבית
+          <Icon name="arrow" size={16} />
+        </a>
+        <a class="btn btn--outline" href="/contact">צור קשר</a>
+      </div>
+
+      <nav class="notfound__links" aria-label="עמודים ראשיים">
+        <h2>או ישירות לעמוד שחיפשתם</h2>
+        <ul>
+          {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+        </ul>
+      </nav>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .notfound {
+    text-align: center;
+  }
+
+  .notfound :global(.eyebrow) {
+    justify-content: center;
+  }
+
+  .notfound .lead {
+    margin: var(--space-3) auto 0;
+  }
+
+  .notfound__actions {
+    justify-content: center;
+    margin-top: var(--space-4);
+  }
+
+  .notfound__links {
+    margin-top: var(--space-6);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--c-border);
+  }
+
+  .notfound__links h2 {
+    font-family: var(--font-sans);
+    font-size: var(--fs-xs);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--c-ink-muted);
+    margin-bottom: var(--space-3);
+  }
+
+  .notfound__links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem 1.2rem;
+    font-size: var(--fs-sm);
+  }
+
+  .notfound__links a {
+    display: inline-block;
+    padding: 0.5rem 0;
+    min-height: 44px;
+    color: var(--c-accent);
+    font-weight: 500;
+  }
+</style>

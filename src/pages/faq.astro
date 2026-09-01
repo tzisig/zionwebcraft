@@ -1,0 +1,82 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import FaqList from '../components/FaqList.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Icon from '../components/Icon.astro';
+import { faq } from '../data/content';
+import { waLink } from '../config/site';
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+];
+---
+
+<BaseLayout
+  title="שאלות נפוצות"
+  description="כמה זמן לוקח לבנות אתר, כמה זה עולה, מה קורה אחרי ההשקה ואיך משלמים. התשובות לשאלות שאני מקבל הכי הרבה."
+  schema={schema}
+>
+  <PageHero
+    eyebrow="שאלות נפוצות"
+    title="התשובות לשאלות שחוזרות אצלי הכי הרבה"
+    lead="אם השאלה שלך לא כאן, שלחו לי הודעה בוואטסאפ. אני עונה גם על שאלות של מי שעדיין לא לקוח."
+  />
+
+  <section class="section">
+    <div class="container container--narrow">
+      <FaqList items={faq} />
+
+      <div class="still reveal">
+        <Icon name="quote" size={24} class="still__icon" />
+        <div>
+          <h2>נשארה שאלה?</h2>
+          <p>שלחו לי אותה בוואטסאפ. אני עונה בדרך כלל תוך כמה שעות בשעות העבודה.</p>
+          <a class="btn btn--wa" href={waLink('היי, יש לי שאלה על בניית אתר')} target="_blank" rel="noopener noreferrer">
+            <Icon name="whatsapp" size={17} />
+            שאלו אותי בוואטסאפ
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</BaseLayout>
+
+<style>
+  .still {
+    display: flex;
+    gap: var(--space-3);
+    align-items: flex-start;
+    margin-top: var(--space-6);
+    padding: var(--space-4);
+    background: var(--c-bg-soft);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--c-border);
+  }
+
+  .still :global(.still__icon) {
+    color: var(--c-gold);
+    flex-shrink: 0;
+  }
+
+  .still h2 {
+    font-size: var(--fs-md);
+    margin-bottom: 0.35rem;
+  }
+
+  .still p {
+    font-size: var(--fs-sm);
+    color: var(--c-ink-soft);
+    margin-bottom: var(--space-3);
+  }
+</style>

@@ -1,0 +1,69 @@
+/**
+ * Single source of truth for business details.
+ * Fill in the TODO values before going live.
+ */
+export const site = {
+  name: 'ZionWebCraft',
+  nameHe: 'ציון וובקרפט',
+  tagline: 'בונה לעסקים קטנים אתרים שמביאים לקוחות',
+  // TODO: replace with the production domain
+  url: 'https://zionwebcraft.co.il',
+  locale: 'he-IL',
+  lang: 'he',
+  dir: 'rtl',
+
+  owner: {
+    name: 'אלעד',
+    role: 'מפתח אתרים עצמאי',
+  },
+
+  // TODO: replace placeholders with real contact details
+  contact: {
+    // International format, digits only - used to build the wa.me link
+    whatsapp: '972500000000',
+    phone: '050-000-0000',
+    phoneHref: 'tel:+972500000000',
+    email: 'hello@zionwebcraft.co.il',
+    city: 'תל אביב והמרכז',
+    hours: 'א׳-ה׳, 09:00-18:00',
+  },
+
+  // TODO: point at a real form endpoint (Formspree / Web3Forms / Netlify Forms)
+  formEndpoint: 'https://formspree.io/f/YOUR_FORM_ID',
+
+  social: {
+    facebook: '',
+    instagram: '',
+    linkedin: '',
+  },
+
+  // TODO: paste real IDs to enable tracking. Empty string = script not rendered.
+  analytics: {
+    gaMeasurementId: '',
+    metaPixelId: '',
+  },
+
+  stats: [
+    { value: '+40', label: 'אתרים שבניתי' },
+    { value: '7', label: 'שנות ניסיון' },
+    { value: '100%', label: 'ציון מהירות ממוצע' },
+    { value: '14', label: 'ימי עבודה בממוצע לאתר' },
+  ],
+} as const;
+
+export const whatsappMessage = 'היי, הגעתי מהאתר של ציון וובקרפט ואשמח לשמוע פרטים על בניית אתר';
+
+export function waLink(message: string = whatsappMessage): string {
+  return `https://wa.me/${site.contact.whatsapp}?text=${encodeURIComponent(message)}`;
+}
+
+export const nav = [
+  { label: 'בית', href: '/' },
+  { label: 'שירותים', href: '/services' },
+  { label: 'תיק עבודות', href: '/portfolio' },
+  { label: 'תהליך העבודה', href: '/process' },
+  { label: 'מחירים', href: '/pricing' },
+  { label: 'אודות', href: '/about' },
+  { label: 'שאלות נפוצות', href: '/faq' },
+  { label: 'צור קשר', href: '/contact' },
+] as const;

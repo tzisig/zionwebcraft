@@ -1,0 +1,84 @@
+---
+import type { Service } from '../data/services';
+import Icon from './Icon.astro';
+
+interface Props {
+  service: Service;
+  delay?: number;
+}
+
+const { service, delay = 0 } = Astro.props;
+---
+
+<article class="card card--hover service-card reveal" data-reveal-delay={delay}>
+  <span class="service-card__icon" aria-hidden="true">
+    <Icon name={service.icon} size={22} />
+  </span>
+  <h3 class="service-card__title">
+    <a href={`/services/${service.slug}`}>{service.title}</a>
+  </h3>
+  <p class="service-card__text">{service.short}</p>
+  <p class="service-card__meta">
+    <Icon name="clock" size={14} />
+    {service.timeline}
+  </p>
+  <span class="link-arrow" aria-hidden="true">
+    לפרטים המלאים
+    <Icon name="arrow" size={15} />
+  </span>
+</article>
+
+<style>
+  .service-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    position: relative;
+  }
+
+  .service-card__icon {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border-radius: var(--radius);
+    background: var(--c-accent-soft);
+    color: var(--c-accent);
+    margin-bottom: var(--space-1);
+  }
+
+  .service-card__title {
+    font-size: var(--fs-lg);
+  }
+
+  /* Whole card is the click target; the inner anchor keeps the accessible name. */
+  .service-card__title a {
+    text-decoration: none;
+  }
+
+  .service-card__title a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  .service-card__text {
+    color: var(--c-ink-soft);
+    font-size: var(--fs-sm);
+    flex: 1;
+  }
+
+  .service-card__meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: var(--fs-xs);
+    color: var(--c-ink-muted);
+    padding-top: var(--space-2);
+    border-top: 1px solid var(--c-border);
+  }
+
+  .service-card :global(.link-arrow) {
+    margin-top: var(--space-1);
+  }
+</style>

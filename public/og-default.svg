@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#FFFFFF"/>
+  <rect x="0" y="0" width="1200" height="8" fill="#1F2A44"/>
+  <rect x="80" y="72" width="72" height="72" rx="8" fill="#1F2A44"/>
+  <text x="116" y="124" font-family="Georgia, serif" font-size="34" font-weight="700" fill="#FFFFFF" text-anchor="middle">ZW</text>
+  <text x="172" y="112" font-family="Georgia, serif" font-size="38" font-weight="700" fill="#1A1A1A">ZionWebCraft</text>
+  <text x="172" y="140" font-family="Arial, Helvetica, sans-serif" font-size="16" letter-spacing="3" fill="#737880">בניית אתרים</text>
+  <text x="80" y="330" font-family="Georgia, serif" font-size="72" font-weight="700" fill="#1A1A1A" direction="rtl">אתרים שמביאים לקוחות</text>
+  <text x="80" y="410" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#4A4F57" direction="rtl">לעסקים קטנים ולפרילנסרים</text>
+  <rect x="80" y="470" width="360" height="6" fill="#B08B4F"/>
+  <text x="80" y="548" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#737880" direction="rtl">אפיון · עיצוב · פיתוח · ליווי</text>
+</svg>

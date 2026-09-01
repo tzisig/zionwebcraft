@@ -1,0 +1,207 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import ContactForm from '../components/ContactForm.astro';
+import Icon from '../components/Icon.astro';
+import { pricingFactors } from '../data/content';
+import { waLink } from '../config/site';
+---
+
+<BaseLayout
+  title="מחירים"
+  description="למה אין מחירון קבוע, מה משפיע על עלות פרויקט ואיך מקבלים הצעת מחיר אישית תוך יומיים."
+>
+  <PageHero
+    eyebrow="מחירים"
+    title="אין מחירון, ויש סיבה טובה"
+    lead="לא ראיתי עדיין שני עסקים שצריכים בדיוק את אותו הדבר. מחירון קבוע היה אומר שאתה משלם על מה שאתה לא צריך, או מקבל פחות ממה שאתה כן."
+  >
+    <div class="btn-row hero-actions">
+      <a class="btn btn--primary" href="#quote">
+        לקבלת הצעת מחיר
+        <Icon name="arrow" size={16} />
+      </a>
+      <a class="btn btn--outline" href={waLink()} target="_blank" rel="noopener noreferrer">
+        <Icon name="whatsapp" size={16} />
+        לשאול משהו קצר
+      </a>
+    </div>
+  </PageHero>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow">מה משפיע על העלות</p>
+        <h2>ארבעה גורמים שקובעים את המחיר</h2>
+        <p class="lead">
+          כשאני מכין הצעת מחיר, אלה הדברים שאני שוקל. אם תדע מה מהם רלוונטי אצלך, גם השיחה
+          הראשונה תהיה מדויקת יותר.
+        </p>
+      </div>
+
+      <div class="grid grid--2">
+        {
+          pricingFactors.map((f, i) => (
+            <article class="card factor reveal" data-reveal-delay={i * 70}>
+              <span class="factor__n" aria-hidden="true">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <h3>{f.title}</h3>
+              <p>{f.text}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--soft">
+    <div class="container container--narrow">
+      <div class="section-head reveal">
+        <p class="eyebrow">איך זה עובד בפועל</p>
+        <h2>מהשיחה הראשונה להצעה בכתב, תוך יומיים</h2>
+      </div>
+
+      <ol class="how reveal">
+        <li>
+          <strong>שיחה של 30 דקות</strong>
+          <span>מבינים מה העסק צריך. בסופה אתה מקבל טווח מחיר בעל פה, כדי שלא נבזבז זמן.</span>
+        </li>
+        <li>
+          <strong>הצעה מפורטת בכתב</strong>
+          <span>תוך יומיים: מה כלול, מה לא כלול, לוח זמנים, אבני דרך ותנאי תשלום.</span>
+        </li>
+        <li>
+          <strong>מחיר סגור</strong>
+          <span>המחיר בהצעה הוא המחיר הסופי. תוספת נדרשת מאושרת מראש בכתב, אחרת היא לא קורית.</span>
+        </li>
+        <li>
+          <strong>תשלום בפריסה</strong>
+          <span>40% בתחילת העבודה, 30% באישור העיצוב, 30% בהשקה. בפרויקטים גדולים אפשר יותר.</span>
+        </li>
+      </ol>
+
+      <p class="disclaimer reveal">
+        <Icon name="sparkle" size={16} />
+        <span>
+          אני לא הכי זול בשוק ולא מתיימר להיות. אם התקציב שלך קטן ממה שהפרויקט דורש, אני אגיד
+          לך את זה בשיחה הראשונה ואציע חלופה, גם אם היא לא אצלי.
+        </span>
+      </p>
+    </div>
+  </section>
+
+  <section class="section" id="quote">
+    <div class="container container--narrow">
+      <div class="section-head reveal">
+        <p class="eyebrow">הצעת מחיר</p>
+        <h2>ספרו לי מה צריך, ואחזור עם מספרים</h2>
+        <p class="lead">
+          מילוי הטופס לוקח דקה. אחזור אליכם תוך יום עסקים אחד, בלי ספאם ובלי שיחות חוזרות.
+        </p>
+      </div>
+      <div class="card form-card reveal">
+        <ContactForm sourceLabel="pricing" />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero-actions {
+    margin-top: var(--space-4);
+  }
+
+  .section-head {
+    margin-bottom: var(--space-5);
+    max-width: 66ch;
+  }
+
+  .section-head .lead {
+    margin-top: var(--space-2);
+  }
+
+  .factor__n {
+    display: block;
+    font-family: var(--font-serif);
+    font-size: var(--fs-sm);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--c-gold);
+    margin-bottom: 0.5rem;
+  }
+
+  .factor h3 {
+    font-size: var(--fs-md);
+    margin-bottom: 0.5rem;
+  }
+
+  .factor p {
+    font-size: var(--fs-sm);
+    color: var(--c-ink-soft);
+  }
+
+  .how {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0;
+    counter-reset: how;
+    background: var(--c-bg);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-lg);
+  }
+
+  .how li {
+    display: grid;
+    gap: 0.25rem;
+    padding: var(--space-3) var(--space-4);
+    counter-increment: how;
+    position: relative;
+  }
+
+  .how li + li {
+    border-top: 1px solid var(--c-border);
+  }
+
+  .how li::before {
+    content: counter(how);
+    position: absolute;
+    inset-inline-end: var(--space-4);
+    top: var(--space-3);
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    color: var(--c-border-strong);
+  }
+
+  .how strong {
+    font-family: var(--font-serif);
+    font-size: var(--fs-md);
+  }
+
+  .how span {
+    font-size: var(--fs-sm);
+    color: var(--c-ink-soft);
+    max-width: 60ch;
+  }
+
+  .disclaimer {
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-start;
+    margin-top: var(--space-4);
+    font-size: var(--fs-sm);
+    color: var(--c-ink-soft);
+  }
+
+  .disclaimer :global(svg) {
+    color: var(--c-gold);
+    flex-shrink: 0;
+    margin-top: 0.25rem;
+  }
+
+  .form-card {
+    padding: clamp(1.25rem, 3vw, 2.25rem);
+  }
+</style>

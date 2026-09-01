@@ -1,0 +1,181 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../config/site';
+import { values } from '../data/content';
+---
+
+<BaseLayout
+  title="אודות"
+  description="מי עומד מאחורי ציון וובקרפט: איך התחלתי, איך אני עובד ולמה עסקים קטנים בוחרים לעבוד מול איש אחד."
+>
+  <PageHero
+    eyebrow="אודות"
+    title="נעים להכיר, אני אלעד"
+    lead="בונה אתרים לעסקים קטנים כבר שבע שנים. עובד לבד, בכוונה, כדי שתמיד תדע עם מי אתה מדבר."
+  />
+
+  <section class="section">
+    <div class="container about">
+      <div class="about__portrait reveal">
+        <!-- Placeholder frame. Drop a real photo at /public/images/elad.jpg and swap this block for <img>. -->
+        <div class="portrait">
+          <span class="portrait__initial" aria-hidden="true">א</span>
+          <span class="sr-only">תמונה של אלעד, מייסד ציון וובקרפט</span>
+        </div>
+        <dl class="about__facts">
+          <div><dt>ניסיון</dt><dd>7 שנים</dd></div>
+          <div><dt>אתרים שנבנו</dt><dd>מעל 40</dd></div>
+          <div><dt>אזור פעילות</dt><dd>{site.contact.city}</dd></div>
+        </dl>
+      </div>
+
+      <div class="about__text reveal">
+        <h2>איך זה התחיל</h2>
+        <p>
+          התחלתי בגלל בקשה של חבר. הוא פתח עסק קטן, שילם הרבה כסף לחברה גדולה, וקיבל אתר שהוא
+          לא הבין איך לעדכן ושאף אחד לא מצא בגוגל. בניתי לו אתר חדש בערבים, והפניות הראשונות
+          הגיעו תוך שבועיים.
+        </p>
+        <p>
+          מאז עברו שבע שנים ומעל ארבעים אתרים, אבל הבעיה נשארה אותה בעיה: עסקים קטנים מקבלים
+          יחס של לקוח קטן. אצלי אין מנהל לקוח, אין מוקד תמיכה ואין העברה בין מחלקות. אתה מדבר
+          איתי, ואני זה שבונה.
+        </p>
+
+        <h2 class="about__h2">איך אני עובד</h2>
+        <p>
+          כל פרויקט מתחיל בשאלה אחת: מה האתר צריך להשיג. אם התשובה היא יותר פניות, אנחנו
+          בונים מסלול שמוביל לפנייה. אם התשובה היא מכירות, אנחנו מקצרים את הדרך לקנייה. עיצוב
+          יפה הוא תוצאה של החלטות נכונות, לא המטרה שלהן.
+        </p>
+        <p>
+          אני עובד עם מספר מצומצם של לקוחות בו זמנית. זה אומר לוחות זמנים שנשמרים, וזה גם
+          אומר שלפעמים אני אומר לא לפרויקט שלא מתאים לי או שאני לא הכי טוב עבורו.
+        </p>
+
+        <a class="link-arrow about__link" href="/process">
+          לתהליך העבודה המלא
+          <Icon name="arrow" size={15} />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--soft">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow">ערכים</p>
+        <h2>ארבעה דברים שלא משתנים</h2>
+      </div>
+      <div class="grid grid--2">
+        {
+          values.map((v, i) => (
+            <article class="card value reveal" data-reveal-delay={i * 70}>
+              <h3>{v.title}</h3>
+              <p>{v.text}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    title="נשמע מתאים? בוא נדבר"
+    text="שיחת היכרות קצרה, בלי מחויבות. גם אם בסוף לא נעבוד יחד, תצא ממנה עם תמונה ברורה יותר."
+  />
+</BaseLayout>
+
+<style>
+  .about {
+    display: grid;
+    gap: var(--space-6);
+    align-items: start;
+  }
+
+  .portrait {
+    aspect-ratio: 4 / 5;
+    display: grid;
+    place-items: center;
+    border-radius: var(--radius-lg);
+    background: linear-gradient(160deg, var(--c-accent) 0%, #2f3f63 100%);
+    border: 1px solid var(--c-border);
+  }
+
+  .portrait__initial {
+    font-family: var(--font-serif);
+    font-size: 5rem;
+    color: rgba(255, 255, 255, 0.45);
+  }
+
+  .about__facts {
+    display: grid;
+    gap: 0;
+    margin: var(--space-4) 0 0;
+    border-top: 1px solid var(--c-border);
+  }
+
+  .about__facts > div {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--c-border);
+    font-size: var(--fs-sm);
+  }
+
+  .about__facts dt {
+    color: var(--c-ink-muted);
+  }
+
+  .about__facts dd {
+    margin: 0;
+    font-weight: 600;
+  }
+
+  .about__text h2 {
+    font-size: var(--fs-xl);
+    margin-bottom: var(--space-3);
+  }
+
+  .about__h2 {
+    margin-top: var(--space-5);
+  }
+
+  .about__text p + p {
+    margin-top: var(--space-3);
+  }
+
+  .about__text p {
+    color: var(--c-ink-soft);
+  }
+
+  .about__link {
+    margin-top: var(--space-4);
+  }
+
+  .section-head {
+    margin-bottom: var(--space-5);
+    max-width: 60ch;
+  }
+
+  .value h3 {
+    font-size: var(--fs-md);
+    margin-bottom: 0.5rem;
+  }
+
+  .value p {
+    font-size: var(--fs-sm);
+    color: var(--c-ink-soft);
+  }
+
+  @media (min-width: 900px) {
+    .about {
+      grid-template-columns: minmax(260px, 0.8fr) minmax(0, 1.4fr);
+      gap: var(--space-7);
+    }
+  }
+</style>

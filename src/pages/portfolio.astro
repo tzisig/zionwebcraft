@@ -1,0 +1,156 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { projects, categoryLabels } from '../data/projects';
+
+const filters: (keyof typeof categoryLabels)[] = [
+  'all',
+  'business-website',
+  'ecommerce',
+  'landing-page',
+];
+
+const counts = Object.fromEntries(
+  filters.map((f) => [
+    f,
+    f === 'all' ? projects.length : projects.filter((p) => p.category === f).length,
+  ])
+);
+---
+
+<BaseLayout
+  title="תיק עבודות"
+  description="פרויקטים שבניתי: אתרי תדמית, חנויות אונליין ודפי נחיתה. לכל פרויקט האתגר, הפתרון והתוצאה בפועל."
+>
+  <PageHero
+    eyebrow="תיק עבודות"
+    title="פרויקטים, ומה יצא מהם בפועל"
+    lead="לכל פרויקט: מה היה האתגר, מה בניתי, ומה השתנה אחרי ההשקה. אפשר לסנן לפי סוג."
+  />
+
+  <section class="section">
+    <div class="container">
+      <div class="filters reveal" role="group" aria-label="סינון פרויקטים לפי סוג">
+        {
+          filters.map((f, i) => (
+            <button
+              type="button"
+              class:list={['filter', { 'is-active': i === 0 }]}
+              data-filter={f}
+              aria-pressed={i === 0 ? 'true' : 'false'}
+            >
+              {categoryLabels[f]}
+              <span class="filter__count">{counts[f]}</span>
+            </button>
+          ))
+        }
+      </div>
+
+      <p class="results" id="results-count" role="status" aria-live="polite">
+        מוצגים {projects.length} פרויקטים
+      </p>
+
+      <div class="grid grid--3" id="project-grid">
+        {projects.map((p, i) => <ProjectCard project={p} delay={i * 60} />)}
+      </div>
+
+      <p class="empty" id="empty-state" hidden>
+        אין פרויקטים בקטגוריה הזו כרגע. נסו קטגוריה אחרת.
+      </p>
+    </div>
+  </section>
+
+  <CtaBand
+    title="רוצה שהפרויקט הבא כאן יהיה שלך?"
+    text="ספר לי מה העסק שלך צריך, ואחזור אליך תוך יום עסקים עם תוכנית ראשונית וטווח מחיר."
+  />
+</BaseLayout>
+
+<style>
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: var(--space-4);
+  }
+
+  .filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-height: 44px;
+    padding: 0.5rem 1.1rem;
+    background: transparent;
+    border: 1px solid var(--c-border-strong);
+    border-radius: 999px;
+    font-size: var(--fs-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition:
+      background-color var(--dur) var(--ease),
+      border-color var(--dur) var(--ease),
+      color var(--dur) var(--ease);
+  }
+
+  .filter:hover {
+    border-color: var(--c-accent);
+    background: var(--c-accent-soft);
+  }
+
+  .filter.is-active {
+    background: var(--c-accent);
+    border-color: var(--c-accent);
+    color: #fff;
+  }
+
+  .filter__count {
+    font-size: var(--fs-xs);
+    opacity: 0.65;
+  }
+
+  .results {
+    font-size: var(--fs-xs);
+    color: var(--c-ink-muted);
+    margin-bottom: var(--space-4);
+  }
+
+  .empty {
+    padding: var(--space-6) var(--space-3);
+    text-align: center;
+    color: var(--c-ink-muted);
+    border: 1px dashed var(--c-border-strong);
+    border-radius: var(--radius-lg);
+  }
+</style>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.filter');
+  const grid = document.getElementById('project-grid');
+  const empty = document.getElementById('empty-state');
+  const results = document.getElementById('results-count');
+  const cards = grid ? Array.from(grid.querySelectorAll<HTMLElement>('[data-category]')) : [];
+
+  const apply = (filter: string) => {
+    let shown = 0;
+    cards.forEach((card) => {
+      const match = filter === 'all' || card.dataset.category === filter;
+      card.hidden = !match;
+      if (match) shown += 1;
+    });
+    if (empty) empty.hidden = shown > 0;
+    if (results) results.textContent = `מוצגים ${shown} פרויקטים`;
+  };
+
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      buttons.forEach((b) => {
+        const active = b === btn;
+        b.classList.toggle('is-active', active);
+        b.setAttribute('aria-pressed', String(active));
+      });
+      apply(btn.dataset.filter ?? 'all');
+    });
+  });
+</script>

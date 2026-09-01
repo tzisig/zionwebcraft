@@ -1,0 +1,156 @@
+---
+import { nav, site, waLink } from '../config/site';
+import { services } from '../data/services';
+import Icon from './Icon.astro';
+import Logo from './Logo.astro';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__grid">
+    <div class="site-footer__brand">
+      <Logo variant="light" />
+      <p class="site-footer__pitch">
+        בונה לעסקים קטנים אתרים מהירים שמייצרים פניות. אפיון, עיצוב, פיתוח וליווי, מול איש אחד.
+      </p>
+      <a class="btn btn--wa" href={waLink()} target="_blank" rel="noopener noreferrer">
+        <Icon name="whatsapp" size={18} />
+        דברו איתי בוואטסאפ
+      </a>
+    </div>
+
+    <nav class="site-footer__col" aria-label="עמודי האתר">
+      <h2 class="site-footer__title">האתר</h2>
+      <ul>
+        {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+      </ul>
+    </nav>
+
+    <nav class="site-footer__col" aria-label="שירותים">
+      <h2 class="site-footer__title">שירותים</h2>
+      <ul>
+        {services.map((s) => <li><a href={`/services/${s.slug}`}>{s.title}</a></li>)}
+      </ul>
+    </nav>
+
+    <div class="site-footer__col">
+      <h2 class="site-footer__title">יצירת קשר</h2>
+      <ul>
+        <li>
+          <a href={site.contact.phoneHref}>
+            <Icon name="phone" size={15} />
+            {site.contact.phone}
+          </a>
+        </li>
+        <li>
+          <a href={`mailto:${site.contact.email}`}>
+            <Icon name="mail" size={15} />
+            {site.contact.email}
+          </a>
+        </li>
+        <li>
+          <span class="site-footer__meta">
+            <Icon name="map-pin" size={15} />
+            {site.contact.city}
+          </span>
+        </li>
+        <li>
+          <span class="site-footer__meta">
+            <Icon name="clock" size={15} />
+            {site.contact.hours}
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container site-footer__bottom">
+    <p>&copy; {year} {site.name}. כל הזכויות שמורות.</p>
+    <p class="site-footer__credit">נבנה כאן, בעברית, ובאהבה לפרטים.</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--c-bg-inverse);
+    color: rgba(255, 255, 255, 0.78);
+    padding-block: var(--space-7) var(--space-4);
+    font-size: var(--fs-sm);
+  }
+
+  .site-footer__grid {
+    display: grid;
+    gap: var(--space-5);
+    grid-template-columns: 1fr;
+  }
+
+  .site-footer__pitch {
+    margin-block: var(--space-3);
+    max-width: 40ch;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .site-footer__title {
+    font-family: var(--font-sans);
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: var(--space-2);
+  }
+
+  .site-footer__col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .site-footer__col a,
+  .site-footer__meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: rgba(255, 255, 255, 0.78);
+    text-decoration: none;
+    transition: color var(--dur) var(--ease);
+  }
+
+  .site-footer__col a:hover {
+    color: #fff;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .site-footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-2);
+    margin-top: var(--space-6);
+    padding-top: var(--space-3);
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+    font-size: var(--fs-xs);
+    color: rgba(255, 255, 255, 0.55);
+  }
+
+  .site-footer__credit {
+    font-family: var(--font-serif);
+    font-style: italic;
+  }
+
+  @media (min-width: 700px) {
+    .site-footer__grid {
+      grid-template-columns: 1.4fr 1fr 1fr;
+    }
+  }
+
+  @media (min-width: 1000px) {
+    .site-footer__grid {
+      grid-template-columns: 1.6fr 1fr 1fr 1.2fr;
+    }
+  }
+</style>

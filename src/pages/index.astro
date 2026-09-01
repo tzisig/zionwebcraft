@@ -1,0 +1,528 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHead from '../components/SectionHead.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import ContactForm from '../components/ContactForm.astro';
+import Icon from '../components/Icon.astro';
+import { site, waLink } from '../config/site';
+import { services } from '../data/services';
+import { featuredProjects } from '../data/projects';
+import { processSteps, testimonials } from '../data/content';
+
+const hero = testimonials.find((t) => t.featured)!;
+const shortProcess = processSteps.slice(0, 4);
+---
+
+<BaseLayout
+  title={site.nameHe}
+  description="ציון וובקרפט בונה לעסקים קטנים ולפרילנסרים אתרי תדמית, חנויות אונליין ודפי נחיתה מהירים שמייצרים פניות. אפיון, עיצוב, פיתוח וליווי מול איש אחד."
+>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container hero__inner">
+      <div class="hero__content">
+        <p class="eyebrow">בניית אתרים לעסקים קטנים</p>
+        <h1 class="hero__title">
+          בונה לעסקים קטנים <em>אתרים שמביאים לקוחות</em>
+        </h1>
+        <p class="lead hero__lead">
+          לא רק אתר יפה. אתר מהיר, ברור ומדיד, שגורם למי שנחת עליו להרים טלפון או להשאיר פרטים.
+          אפיון, עיצוב, פיתוח וליווי, הכל מול איש אחד.
+        </p>
+
+        <div class="btn-row hero__actions">
+          <a class="btn btn--primary" href="/contact">
+            השאירו פרטים
+            <Icon name="arrow" size={17} />
+          </a>
+          <a
+            class="btn btn--wa"
+            href={waLink()}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Icon name="whatsapp" size={17} />
+            דברו איתי בוואטסאפ
+          </a>
+        </div>
+
+        <ul class="hero__points">
+          <li><Icon name="check" size={16} /> תשובה תוך יום עסקים</li>
+          <li><Icon name="check" size={16} /> מחיר סגור מראש</li>
+          <li><Icon name="check" size={16} /> האתר רשום על שמך</li>
+        </ul>
+      </div>
+
+      <div class="hero__panel">
+        <figure class="mock">
+          <div class="mock__bar" aria-hidden="true">
+            <span></span><span></span><span></span>
+            <span class="mock__url"></span>
+          </div>
+          <img
+            class="mock__shot"
+            src="/images/projects/niv-arad.png"
+            alt="צילום מסך מאתר שבניתי עבור ניב ארד, אסטרטגיית משכנתא"
+            width="2880"
+            height="1720"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </figure>
+        <div class="mock-badge" aria-hidden="true">
+          <strong>100</strong>
+          <span>ציון מהירות</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="stats">
+    <div class="container">
+      <dl class="stats__grid">
+        {
+          site.stats.map((stat, i) => (
+            <div class="stats__item reveal" data-reveal-delay={i * 60}>
+              <dt class="stats__value">{stat.value}</dt>
+              <dd class="stats__label">{stat.label}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="section">
+    <div class="container">
+      <SectionHead
+        eyebrow="מה אני עושה"
+        title="ארבעה סוגי פרויקטים, מטרה אחת"
+        lead="לכל עסק צריך משהו אחר. הנה מה שאני בונה, וכמה זמן זה לוקח."
+      />
+      <div class="grid grid--4">
+        {services.map((s, i) => <ServiceCard service={s} delay={i * 70} />)}
+      </div>
+      <div class="section__foot reveal">
+        <a class="link-arrow" href="/services">
+          כל השירותים בפירוט
+          <Icon name="arrow" size={15} />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured work -->
+  <section class="section section--soft">
+    <div class="container">
+      <SectionHead
+        eyebrow="תיק עבודות"
+        title="פרויקטים נבחרים"
+        lead="שלושה פרויקטים אחרונים, כולל מה היה האתגר ומה יצא מזה בפועל."
+      />
+      <div class="grid grid--3">
+        {featuredProjects.map((p, i) => <ProjectCard project={p} delay={i * 80} />)}
+      </div>
+      <div class="section__foot reveal">
+        <a class="btn btn--outline" href="/portfolio">
+          לתיק העבודות המלא
+          <Icon name="arrow" size={16} />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Process -->
+  <section class="section">
+    <div class="container">
+      <SectionHead
+        eyebrow="איך זה עובד"
+        title="תהליך ברור, בלי הפתעות"
+        lead="אתה יודע בכל רגע איפה הפרויקט עומד ומה השלב הבא."
+      />
+      <ol class="steps">
+        {
+          shortProcess.map((step, i) => (
+            <li class="steps__item reveal" data-reveal-delay={i * 70}>
+              <span class="steps__n">{step.n}</span>
+              <h3 class="steps__title">{step.title}</h3>
+              <p class="steps__duration">{step.duration}</p>
+              <p class="steps__text">{step.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+      <div class="section__foot reveal">
+        <a class="link-arrow" href="/process">
+          התהליך המלא, שלב אחרי שלב
+          <Icon name="arrow" size={15} />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured quote -->
+  <section class="section section--inverse">
+    <div class="container container--narrow big-quote reveal">
+      <Icon name="quote" size={34} class="big-quote__mark" />
+      <blockquote>{hero.quote}</blockquote>
+      <p class="big-quote__author">
+        <strong>{hero.name}</strong>
+        <span>{hero.business}</span>
+      </p>
+      <a class="link-arrow big-quote__link" href="/testimonials">
+        עוד המלצות של לקוחות
+        <Icon name="arrow" size={15} />
+      </a>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="section" id="contact-form">
+    <div class="container contact-split">
+      <div class="contact-split__intro reveal">
+        <SectionHead
+          eyebrow="נדבר?"
+          title="ספרו לי על העסק, ואחזור אליכם"
+          lead="מלאו את הפרטים ואחזור תוך יום עסקים אחד עם שאלות ממוקדות וטווח מחיר ראשוני."
+        />
+        <ul class="contact-split__list">
+          <li>
+            <Icon name="check" size={17} />
+            <span>שיחת ייעוץ ראשונה ללא עלות</span>
+          </li>
+          <li>
+            <Icon name="check" size={17} />
+            <span>הצעת מחיר מפורטת בכתב תוך יומיים</span>
+          </li>
+          <li>
+            <Icon name="check" size={17} />
+            <span>בלי ספאם ובלי שיחות מכירה חוזרות</span>
+          </li>
+        </ul>
+        <a class="btn btn--wa" href={waLink()} target="_blank" rel="noopener noreferrer">
+          <Icon name="whatsapp" size={18} />
+          מעדיפים וואטסאפ? לחצו כאן
+        </a>
+      </div>
+      <div class="card contact-split__form reveal">
+        <ContactForm variant="compact" sourceLabel="homepage" />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* --- Hero --------------------------------------------------------- */
+  .hero {
+    padding-block: clamp(3rem, 2rem + 5vw, 6rem);
+    background:
+      radial-gradient(ellipse 80% 80% at 85% 0%, var(--c-accent-soft) 0%, transparent 65%),
+      var(--c-bg);
+    border-bottom: 1px solid var(--c-border);
+  }
+
+  .hero__inner {
+    display: grid;
+    gap: var(--space-6);
+    align-items: center;
+  }
+
+  .hero__title em {
+    font-style: normal;
+    color: var(--c-accent);
+    position: relative;
+    white-space: nowrap;
+  }
+
+  .hero__title em::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0.08em;
+    height: 0.12em;
+    background: var(--c-gold);
+    opacity: 0.35;
+  }
+
+  .hero__lead {
+    margin-top: var(--space-3);
+  }
+
+  .hero__actions {
+    margin-top: var(--space-5);
+  }
+
+  .hero__points {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-4);
+    list-style: none;
+    padding: 0;
+    margin: var(--space-4) 0 0;
+    font-size: var(--fs-sm);
+    color: var(--c-ink-soft);
+  }
+
+  .hero__points li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .hero__points :global(svg) {
+    color: var(--c-gold);
+  }
+
+  /* --- Hero mock ---------------------------------------------------- */
+  .hero__panel {
+    position: relative;
+    display: none;
+  }
+
+  .mock {
+    margin: 0;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-lg);
+    background: #fff;
+    box-shadow: 0 30px 60px -40px rgba(31, 42, 68, 0.45);
+    overflow: hidden;
+  }
+
+  .mock__bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 14px;
+    background: var(--c-bg-soft);
+    border-bottom: 1px solid var(--c-border);
+  }
+
+  .mock__bar > span:not(.mock__url) {
+    width: 9px;
+    height: 9px;
+    border-radius: 999px;
+    background: var(--c-border-strong);
+  }
+
+  .mock__url {
+    flex: 1;
+    max-width: 180px;
+    height: 14px;
+    margin-inline-start: auto;
+    border-radius: 999px;
+    background: var(--c-bg);
+    border: 1px solid var(--c-border);
+  }
+
+  /* Capture is 1440x860 at 2x, cropped to the client site's fold. */
+  .mock__shot {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1440 / 860;
+    object-fit: cover;
+    object-position: top center;
+  }
+
+  .mock-badge {
+    position: absolute;
+    inset-block-end: -18px;
+    inset-inline-start: -18px;
+    display: grid;
+    place-items: center;
+    width: 96px;
+    height: 96px;
+    border-radius: 999px;
+    background: var(--c-accent);
+    color: #fff;
+    text-align: center;
+    box-shadow: 0 16px 34px -18px rgba(31, 42, 68, 0.7);
+  }
+
+  .mock-badge strong {
+    font-family: var(--font-serif);
+    font-size: 1.85rem;
+    line-height: 1;
+  }
+
+  .mock-badge span {
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    opacity: 0.85;
+  }
+
+  /* --- Stats -------------------------------------------------------- */
+  .stats {
+    padding-block: var(--space-5);
+    border-bottom: 1px solid var(--c-border);
+    background: var(--c-bg-soft);
+  }
+
+  .stats__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+    margin: 0;
+    text-align: center;
+  }
+
+  .stats__value {
+    font-family: var(--font-serif);
+    font-size: clamp(1.9rem, 1.2rem + 2.4vw, 2.75rem);
+    font-weight: 700;
+    color: var(--c-accent);
+    line-height: 1.1;
+  }
+
+  .stats__label {
+    margin: 0.25rem 0 0;
+    font-size: var(--fs-xs);
+    letter-spacing: 0.06em;
+    color: var(--c-ink-muted);
+  }
+
+  /* --- Steps -------------------------------------------------------- */
+  .steps {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--space-4);
+    counter-reset: step;
+  }
+
+  .steps__item {
+    padding-top: var(--space-3);
+    border-top: 2px solid var(--c-accent);
+  }
+
+  .steps__n {
+    font-family: var(--font-serif);
+    font-size: var(--fs-sm);
+    font-weight: 700;
+    color: var(--c-gold);
+    letter-spacing: 0.1em;
+  }
+
+  .steps__title {
+    margin-top: 0.35rem;
+    font-size: var(--fs-md);
+  }
+
+  .steps__duration {
+    font-size: var(--fs-xs);
+    color: var(--c-ink-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .steps__text {
+    font-size: var(--fs-sm);
+    color: var(--c-ink-soft);
+  }
+
+  /* --- Big quote ----------------------------------------------------- */
+  .big-quote {
+    text-align: center;
+  }
+
+  .big-quote :global(.big-quote__mark) {
+    margin-inline: auto;
+    color: var(--c-gold);
+  }
+
+  .big-quote blockquote {
+    margin: var(--space-3) 0 0;
+    font-family: var(--font-serif);
+    font-size: clamp(1.25rem, 0.9rem + 1.4vw, 1.85rem);
+    line-height: 1.5;
+  }
+
+  .big-quote__author {
+    margin-top: var(--space-4);
+    font-size: var(--fs-sm);
+  }
+
+  .big-quote__author strong {
+    display: block;
+  }
+
+  .big-quote__author span {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .big-quote__link {
+    margin-top: var(--space-4);
+    color: #fff;
+  }
+
+  .big-quote__link:hover {
+    border-bottom-color: #fff;
+  }
+
+  /* --- Contact split -------------------------------------------------- */
+  .contact-split {
+    display: grid;
+    gap: var(--space-6);
+    align-items: start;
+  }
+
+  .contact-split__list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-4);
+    display: grid;
+    gap: 0.65rem;
+    font-size: var(--fs-sm);
+  }
+
+  .contact-split__list li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .contact-split__list :global(svg) {
+    color: var(--c-gold);
+    flex-shrink: 0;
+  }
+
+  .contact-split__form {
+    padding: clamp(1.25rem, 3vw, 2.25rem);
+  }
+
+  .section__foot {
+    margin-top: var(--space-5);
+  }
+
+  /* --- Responsive ------------------------------------------------------ */
+  @media (min-width: 640px) {
+    .steps {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .stats__grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  @media (min-width: 1000px) {
+    .hero__inner {
+      grid-template-columns: 1.05fr 0.95fr;
+    }
+
+    .hero__panel {
+      display: block;
+    }
+
+    .steps {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .contact-split {
+      grid-template-columns: 1fr 1.05fr;
+    }
+  }
+</style>

@@ -1,0 +1,288 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactForm from '../components/ContactForm.astro';
+import Icon from '../components/Icon.astro';
+import { site, waLink } from '../config/site';
+
+const channels = [
+  {
+    icon: 'whatsapp' as const,
+    label: 'וואטסאפ',
+    value: 'הערוץ המהיר ביותר',
+    href: waLink(),
+    external: true,
+    primary: true,
+  },
+  {
+    icon: 'phone' as const,
+    label: 'טלפון',
+    value: site.contact.phone,
+    href: site.contact.phoneHref,
+    external: false,
+    primary: false,
+  },
+  {
+    icon: 'mail' as const,
+    label: 'אימייל',
+    value: site.contact.email,
+    href: `mailto:${site.contact.email}`,
+    external: false,
+    primary: false,
+  },
+];
+---
+
+<BaseLayout
+  title="צור קשר"
+  description="דברו איתי בוואטסאפ, בטלפון או השאירו פרטים בטופס. אני חוזר לכל פנייה תוך יום עסקים אחד."
+>
+  <section class="contact-hero">
+    <div class="container">
+      <p class="eyebrow">צור קשר</p>
+      <h1>הדרך הכי מהירה להתחיל</h1>
+      <p class="lead">
+        אני חוזר לכל פנייה תוך יום עסקים אחד. אם זה דחוף, וואטסאפ הוא הערוץ המהיר ביותר.
+      </p>
+
+      <a
+        class="btn btn--wa contact-hero__wa"
+        href={waLink()}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Icon name="whatsapp" size={20} />
+        דברו איתי בוואטסאפ עכשיו
+      </a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container contact-grid">
+      <div class="card contact-form-card reveal">
+        <h2>או השאירו פרטים ואחזור אליכם</h2>
+        <p class="contact-form-card__sub">
+          שדות המסומנים בכוכבית הם חובה. השאר עוזר לי להתכונן לשיחה.
+        </p>
+        <ContactForm sourceLabel="contact-page" />
+      </div>
+
+      <aside class="contact-aside">
+        <div class="card reveal">
+          <h2 class="contact-aside__title">פרטי קשר ישירים</h2>
+          <ul class="channels">
+            {
+              channels.map((c) => (
+                <li>
+                  <a
+                    href={c.href}
+                    class:list={['channel', { 'channel--primary': c.primary }]}
+                    target={c.external ? '_blank' : undefined}
+                    rel={c.external ? 'noopener noreferrer' : undefined}
+                  >
+                    <span class="channel__icon">
+                      <Icon name={c.icon} size={20} />
+                    </span>
+                    <span class="channel__text">
+                      <strong>{c.label}</strong>
+                      <span>{c.value}</span>
+                    </span>
+                    <Icon name="arrow" size={16} class="channel__arrow" />
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+
+          <dl class="hours">
+            <div>
+              <dt><Icon name="clock" size={15} /> שעות מענה</dt>
+              <dd>{site.contact.hours}</dd>
+            </div>
+            <div>
+              <dt><Icon name="map-pin" size={15} /> אזור פעילות</dt>
+              <dd>{site.contact.city}, ועבודה מרחוק בכל הארץ</dd>
+            </div>
+          </dl>
+        </div>
+
+        <div class="card expect reveal">
+          <h2 class="contact-aside__title">מה קורה אחרי שתשלחו</h2>
+          <ol>
+            <li><strong>תוך יום עסקים</strong> אני חוזר אליכם בערוץ שביקשתם</li>
+            <li><strong>שיחה של 30 דקות</strong> להבין מה העסק צריך</li>
+            <li><strong>תוך יומיים</strong> הצעת מחיר מפורטת בכתב</li>
+          </ol>
+        </div>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact-hero {
+    padding-block: clamp(2.5rem, 1.5rem + 4vw, 4.5rem);
+    border-bottom: 1px solid var(--c-border);
+    background:
+      radial-gradient(ellipse 70% 100% at 50% 0%, var(--c-accent-soft) 0%, transparent 70%),
+      var(--c-bg);
+    text-align: center;
+  }
+
+  .contact-hero :global(.eyebrow) {
+    justify-content: center;
+  }
+
+  .contact-hero .lead {
+    margin: var(--space-3) auto 0;
+  }
+
+  .contact-hero__wa {
+    margin-top: var(--space-4);
+    min-height: 56px;
+    font-size: var(--fs-base);
+  }
+
+  .contact-grid {
+    display: grid;
+    gap: var(--space-5);
+    align-items: start;
+  }
+
+  .contact-form-card {
+    padding: clamp(1.25rem, 3vw, 2.25rem);
+  }
+
+  .contact-form-card h2 {
+    font-size: var(--fs-xl);
+  }
+
+  .contact-form-card__sub {
+    margin: 0.5rem 0 var(--space-4);
+    font-size: var(--fs-sm);
+    color: var(--c-ink-muted);
+  }
+
+  .contact-aside {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .contact-aside__title {
+    font-size: var(--fs-md);
+    margin-bottom: var(--space-3);
+  }
+
+  .channels {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-4);
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .channel {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-height: 60px;
+    padding: 0.7rem 0.9rem;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    text-decoration: none;
+    transition:
+      border-color var(--dur) var(--ease),
+      background-color var(--dur) var(--ease);
+  }
+
+  .channel:hover {
+    border-color: var(--c-accent);
+    background: var(--c-accent-soft);
+  }
+
+  .channel--primary {
+    border-color: #1f7a4d;
+    background: #f1f8f4;
+  }
+
+  .channel--primary:hover {
+    border-color: #1f7a4d;
+    background: #e6f2ea;
+  }
+
+  .channel__icon {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: var(--radius);
+    background: var(--c-accent-soft);
+    color: var(--c-accent);
+  }
+
+  .channel--primary .channel__icon {
+    background: #1f7a4d;
+    color: #fff;
+  }
+
+  .channel__text {
+    display: grid;
+    line-height: 1.35;
+    font-size: var(--fs-sm);
+  }
+
+  .channel__text span {
+    color: var(--c-ink-muted);
+    font-size: var(--fs-xs);
+  }
+
+  .channel :global(.channel__arrow) {
+    margin-inline-start: auto;
+    color: var(--c-ink-muted);
+    transform: rotate(180deg);
+  }
+
+  .hours {
+    display: grid;
+    gap: var(--space-3);
+    margin: 0;
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--c-border);
+  }
+
+  .hours dt {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--c-ink-muted);
+  }
+
+  .hours dd {
+    margin: 0.2rem 0 0;
+    font-size: var(--fs-sm);
+  }
+
+  .expect {
+    background: var(--c-bg-soft);
+  }
+
+  .expect ol {
+    margin: 0;
+    padding-inline-start: 1.2rem;
+    display: grid;
+    gap: 0.6rem;
+    font-size: var(--fs-sm);
+    color: var(--c-ink-soft);
+  }
+
+  @media (min-width: 960px) {
+    .contact-grid {
+      grid-template-columns: minmax(0, 1.4fr) minmax(300px, 0.9fr);
+      gap: var(--space-5);
+    }
+  }
+</style>

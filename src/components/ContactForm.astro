@@ -1,0 +1,336 @@
+---
+import { site } from '../config/site';
+import { budgetOptions, projectTypeOptions } from '../data/content';
+import Icon from './Icon.astro';
+
+interface Props {
+  /** `compact` drops the budget field and shortens the message box. */
+  variant?: 'full' | 'compact';
+  sourceLabel?: string;
+}
+
+const { variant = 'full', sourceLabel = 'contact-page' } = Astro.props;
+const isFull = variant === 'full';
+---
+
+<form
+  class="lead-form"
+  id="lead-form"
+  method="POST"
+  action={site.formEndpoint}
+  novalidate
+>
+  <!-- Honeypot: bots fill it in, humans never see it. -->
+  <div class="lead-form__hp" aria-hidden="true">
+    <label for="company-website">אל תמלאו שדה זה</label>
+    <input type="text" id="company-website" name="_gotcha" tabindex="-1" autocomplete="off" />
+  </div>
+  <input type="hidden" name="source" value={sourceLabel} />
+  <input type="hidden" name="_subject" value="פנייה חדשה מהאתר" />
+
+  <div class="lead-form__grid">
+    <div class="field">
+      <label for="name">שם מלא <span class="req" aria-hidden="true">*</span></label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        required
+        autocomplete="name"
+        placeholder="ישראל ישראלי"
+        aria-describedby="name-error"
+      />
+      <p class="field__error" id="name-error" hidden></p>
+    </div>
+
+    <div class="field">
+      <label for="phone">טלפון <span class="req" aria-hidden="true">*</span></label>
+      <input
+        type="tel"
+        id="phone"
+        name="phone"
+        required
+        inputmode="tel"
+        autocomplete="tel"
+        placeholder="050-0000000"
+        aria-describedby="phone-error"
+      />
+      <p class="field__error" id="phone-error" hidden></p>
+    </div>
+
+    <div class="field">
+      <label for="email">אימייל <span class="req" aria-hidden="true">*</span></label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        required
+        autocomplete="email"
+        placeholder="name@example.com"
+        aria-describedby="email-error"
+      />
+      <p class="field__error" id="email-error" hidden></p>
+    </div>
+
+    <div class="field">
+      <label for="project-type">סוג הפרויקט</label>
+      <select id="project-type" name="projectType">
+        <option value="">בחרו מהרשימה</option>
+        {projectTypeOptions.map((o) => <option value={o}>{o}</option>)}
+      </select>
+    </div>
+
+    {
+      isFull && (
+        <div class="field field--full">
+          <label for="budget">
+            תקציב משוער <span class="field__hint">אופציונלי</span>
+          </label>
+          <select id="budget" name="budget">
+            <option value="">מעדיף לא לציין</option>
+            {budgetOptions.map((o) => <option value={o}>{o}</option>)}
+          </select>
+        </div>
+      )
+    }
+
+    <div class="field field--full">
+      <label for="message">
+        במה אפשר לעזור? <span class="field__hint">אופציונלי</span>
+      </label>
+      <textarea
+        id="message"
+        name="message"
+        rows={isFull ? 5 : 3}
+        placeholder="ספרו בקצרה על העסק ועל מה שאתם צריכים"></textarea>
+      <p class="field__hint field__hint--below">
+        ככל שתפרטו יותר, כך התשובה שלי תהיה מדויקת יותר.
+      </p>
+    </div>
+  </div>
+
+  <p class="lead-form__status" id="form-status" role="status" aria-live="polite" hidden></p>
+
+  <div class="lead-form__actions">
+    <button type="submit" class="btn btn--primary" id="lead-submit">
+      <span class="lead-form__btn-text">שליחת הפנייה</span>
+      <Icon name="arrow" size={17} />
+    </button>
+    <p class="lead-form__note">
+      <Icon name="clock" size={15} />
+      אני חוזר לכל פנייה תוך יום עסקים אחד.
+    </p>
+  </div>
+</form>
+
+<style>
+  .lead-form__hp {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+  }
+
+  .lead-form__grid {
+    display: grid;
+    gap: var(--space-3);
+    grid-template-columns: 1fr;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .field label {
+    font-size: var(--fs-sm);
+    font-weight: 600;
+  }
+
+  .req {
+    color: var(--c-error);
+  }
+
+  .field__hint {
+    font-weight: 400;
+    font-size: var(--fs-xs);
+    color: var(--c-ink-muted);
+  }
+
+  .field__hint--below {
+    margin-top: 0.15rem;
+  }
+
+  .field input,
+  .field select,
+  .field textarea {
+    width: 100%;
+    min-height: 48px;
+    padding: 0.7rem 0.9rem;
+    background: var(--c-bg);
+    border: 1px solid var(--c-border-strong);
+    border-radius: var(--radius);
+    font-size: var(--fs-sm);
+    transition:
+      border-color var(--dur) var(--ease),
+      box-shadow var(--dur) var(--ease);
+  }
+
+  .field textarea {
+    resize: vertical;
+    line-height: 1.6;
+  }
+
+  .field input:hover,
+  .field select:hover,
+  .field textarea:hover {
+    border-color: var(--c-ink-muted);
+  }
+
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus {
+    outline: none;
+    border-color: var(--c-accent);
+    box-shadow: 0 0 0 3px var(--c-accent-soft);
+  }
+
+  .field input[aria-invalid='true'],
+  .field textarea[aria-invalid='true'] {
+    border-color: var(--c-error);
+  }
+
+  .field__error {
+    font-size: var(--fs-xs);
+    color: var(--c-error);
+    font-weight: 500;
+  }
+
+  .lead-form__status {
+    margin-top: var(--space-3);
+    padding: 0.8rem 1rem;
+    border-radius: var(--radius);
+    font-size: var(--fs-sm);
+    background: #fdf0ef;
+    color: var(--c-error);
+    border: 1px solid #f5cfcb;
+  }
+
+  .lead-form__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+    margin-top: var(--space-4);
+  }
+
+  .lead-form__note {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: var(--fs-xs);
+    color: var(--c-ink-muted);
+  }
+
+  button[aria-busy='true'] {
+    opacity: 0.7;
+    pointer-events: none;
+  }
+
+  @media (min-width: 640px) {
+    .lead-form__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .field--full {
+      grid-column: 1 / -1;
+    }
+  }
+</style>
+
+<script>
+  const form = document.getElementById('lead-form') as HTMLFormElement | null;
+  const status = document.getElementById('form-status') as HTMLParagraphElement | null;
+  const submit = document.getElementById('lead-submit') as HTMLButtonElement | null;
+
+  if (form && status && submit) {
+    const messages: Record<string, string> = {
+      name: 'נא למלא שם מלא',
+      phone: 'נא למלא מספר טלפון תקין',
+      email: 'נא למלא כתובת אימייל תקינה',
+    };
+
+    const showError = (input: HTMLInputElement, text: string) => {
+      const box = document.getElementById(`${input.id}-error`);
+      input.setAttribute('aria-invalid', 'true');
+      if (box) {
+        box.textContent = text;
+        box.hidden = false;
+      }
+    };
+
+    const clearError = (input: HTMLInputElement) => {
+      const box = document.getElementById(`${input.id}-error`);
+      input.removeAttribute('aria-invalid');
+      if (box) box.hidden = true;
+    };
+
+    const validateField = (input: HTMLInputElement) => {
+      const value = input.value.trim();
+      let ok = value.length > 0;
+      if (ok && input.name === 'phone') ok = /^[\d\s()+-]{9,}$/.test(value);
+      if (ok && input.name === 'email') ok = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value);
+      if (ok) clearError(input);
+      else showError(input, messages[input.name] ?? 'שדה חובה');
+      return ok;
+    };
+
+    const required = ['name', 'phone', 'email'].map(
+      (id) => document.getElementById(id) as HTMLInputElement
+    );
+
+    // Validate on blur, then keep correcting live once the field has errored.
+    required.forEach((input) => {
+      input.addEventListener('blur', () => validateField(input));
+      input.addEventListener('input', () => {
+        if (input.getAttribute('aria-invalid') === 'true') validateField(input);
+      });
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const results = required.map(validateField);
+
+      if (results.includes(false)) {
+        status.hidden = false;
+        status.textContent = 'חלק מהשדות חסרים או שגויים. בדקו את המסומן באדום.';
+        required.find((i) => i.getAttribute('aria-invalid') === 'true')?.focus();
+        return;
+      }
+
+      status.hidden = true;
+      submit.setAttribute('aria-busy', 'true');
+      const label = submit.querySelector('.lead-form__btn-text');
+      const original = label?.textContent ?? '';
+      if (label) label.textContent = 'שולח...';
+
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        });
+        if (!res.ok) throw new Error(String(res.status));
+        window.location.href = '/thank-you';
+      } catch {
+        submit.removeAttribute('aria-busy');
+        if (label) label.textContent = original;
+        status.hidden = false;
+        status.textContent =
+          'השליחה נכשלה. אפשר לנסות שוב, או פשוט לשלוח לי הודעה בוואטסאפ.';
+      }
+    });
+  }
+</script>
