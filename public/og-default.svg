@@ -1,12 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
   <rect width="1200" height="630" fill="#FFFFFF"/>
   <rect x="0" y="0" width="1200" height="8" fill="#1F2A44"/>
-  <rect x="80" y="72" width="72" height="72" rx="8" fill="#1F2A44"/>
-  <text x="116" y="124" font-family="Georgia, serif" font-size="34" font-weight="700" fill="#FFFFFF" text-anchor="middle">ZW</text>
-  <text x="172" y="112" font-family="Georgia, serif" font-size="38" font-weight="700" fill="#1A1A1A">ZionWebCraft</text>
-  <text x="172" y="140" font-family="Arial, Helvetica, sans-serif" font-size="16" letter-spacing="3" fill="#737880">בניית אתרים</text>
-  <text x="80" y="330" font-family="Georgia, serif" font-size="72" font-weight="700" fill="#1A1A1A" direction="rtl">אתרים שמביאים לקוחות</text>
-  <text x="80" y="410" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#4A4F57" direction="rtl">לעסקים קטנים ולפרילנסרים</text>
-  <rect x="80" y="470" width="360" height="6" fill="#B08B4F"/>
-  <text x="80" y="548" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#737880" direction="rtl">אפיון · עיצוב · פיתוח · ליווי</text>
+
+  <g transform="translate(80, 64) scale(0.52)" fill="none" stroke-linejoin="miter">
+    <rect x="0" y="0" width="200" height="200" rx="8" stroke="#1F2A44" stroke-width="10"/>
+    <line x1="0" y1="36" x2="200" y2="36" stroke="#1F2A44" stroke-width="5"/>
+    <line x1="0" y1="164" x2="200" y2="164" stroke="#1F2A44" stroke-width="5"/>
+    <path d="M 22 62 L 72 62 L 32 138 L 72 138" stroke="#1F2A44" stroke-width="14" stroke-linecap="square"/>
+    <path d="M 60 50 L 80 150 L 100 85 L 120 150 L 140 50" stroke="#B08B4F" stroke-width="16" stroke-linecap="square"/>
+    <path d="M 175 68 C 152 50 128 68 128 100 C 128 132 152 150 175 132" stroke="#1F2A44" stroke-width="14" stroke-linecap="square"/>
+  </g>
+
+  <text x="204" y="118" font-family="Georgia, serif" font-size="42" font-weight="700" fill="#1A1A1A">ZionWebCraft</text>
+  <text x="206" y="150" font-family="Arial, Helvetica, sans-serif" font-size="18" letter-spacing="1.5" fill="#737880">Architecting the Web</text>
+
+  <text x="80" y="336" font-family="Georgia, serif" font-size="72" font-weight="700" fill="#1A1A1A" direction="rtl">אתרים שמביאים לקוחות</text>
+  <text x="80" y="416" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#4A4F57" direction="rtl">לעסקים קטנים ולפרילנסרים</text>
+  <rect x="80" y="476" width="360" height="6" fill="#B08B4F"/>
+  <text x="80" y="554" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#737880" direction="rtl">אפיון · עיצוב · פיתוח · ליווי</text>
 </svg>

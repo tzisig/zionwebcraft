@@ -1,11 +1,22 @@
 ---
-/** Wordmark: serif monogram in a square plus the business name. */
+/**
+ * Lockup: inline ZWC monogram plus an HTML wordmark.
+ *
+ * The wordmark is real text rather than SVG <text> so it renders in the site's
+ * own faces (Frank Ruhl Libre / Assistant) instead of falling back to whatever
+ * Georgia resolves to on the viewer's machine.
+ *
+ * The monogram's navy strokes use currentColor, so the `light` variant flips
+ * them to white for the navy footer without needing a second file.
+ */
 interface Props {
   variant?: 'dark' | 'light';
   href?: string | null;
+  /** Hide the tagline where vertical space is tight. */
+  tagline?: boolean;
 }
 
-const { variant = 'dark', href = '/' } = Astro.props;
+const { variant = 'dark', href = '/', tagline = true } = Astro.props;
 const Tag = href ? 'a' : 'div';
 ---
 
@@ -14,68 +25,118 @@ const Tag = href ? 'a' : 'div';
   class:list={['logo', `logo--${variant}`]}
   aria-label="ציון וובקרפט, לעמוד הבית"
 >
-  <span class="logo__mark" aria-hidden="true">ZW</span>
-  <span class="logo__text">
+  <svg
+    class="logo__mark"
+    viewBox="0 0 220 220"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <g transform="translate(10, 10)" fill="none" stroke-linejoin="miter">
+      <rect
+        x="0"
+        y="0"
+        width="200"
+        height="200"
+        rx="8"
+        stroke="currentColor"
+        stroke-width="10"></rect>
+      <line x1="0" y1="36" x2="200" y2="36" stroke="currentColor" stroke-width="5"></line>
+      <line x1="0" y1="164" x2="200" y2="164" stroke="currentColor" stroke-width="5"></line>
+
+      <path
+        d="M 22 62 L 72 62 L 32 138 L 72 138"
+        stroke="currentColor"
+        stroke-width="14"
+        stroke-linecap="square"></path>
+      <path
+        d="M 60 50 L 80 150 L 100 85 L 120 150 L 140 50"
+        class="logo__w"
+        stroke-width="16"
+        stroke-linecap="square"></path>
+      <path
+        d="M 175 68 C 152 50 128 68 128 100 C 128 132 152 150 175 132"
+        stroke="currentColor"
+        stroke-width="14"
+        stroke-linecap="square"></path>
+    </g>
+  </svg>
+
+  <span class="logo__text" aria-hidden="true">
     <span class="logo__name">ZionWebCraft</span>
-    <span class="logo__sub">בניית אתרים</span>
+    {tagline && <span class="logo__tagline">Architecting the Web</span>}
   </span>
 </Tag>
 
 <style>
   .logo {
+    --logo-gold: #b08b4f;
     display: inline-flex;
     align-items: center;
-    gap: 0.6rem;
+    gap: 0.55rem;
     text-decoration: none;
-    color: inherit;
+    color: var(--c-accent);
+    direction: ltr;
+  }
+
+  .logo--light {
+    /* Lifted gold keeps its contrast against the navy footer. */
+    --logo-gold: #cfa864;
+    color: #ffffff;
+  }
+
+  .logo__mark :global(.logo__w) {
+    stroke: var(--logo-gold);
   }
 
   .logo__mark {
-    display: grid;
-    place-items: center;
     width: 42px;
-    height: 38px;
+    height: 42px;
     flex-shrink: 0;
-    font-family: var(--font-serif);
-    font-size: 1.05rem;
-    letter-spacing: 0.02em;
-    font-weight: 700;
-    line-height: 1;
-    border-radius: var(--radius);
-    background: var(--c-accent);
-    color: #fff;
-  }
-
-  .logo--light .logo__mark {
-    background: #fff;
-    color: var(--c-accent);
   }
 
   .logo__text {
     display: flex;
     flex-direction: column;
-    line-height: 1.1;
+    line-height: 1.05;
   }
 
   .logo__name {
     font-family: var(--font-serif);
-    font-size: 1.2rem;
+    font-size: 1.18rem;
     font-weight: 700;
-    letter-spacing: 0.01em;
+    letter-spacing: -0.01em;
+    color: var(--c-accent);
   }
 
-  .logo__sub {
-    font-size: 0.7rem;
-    letter-spacing: 0.16em;
+  .logo--light .logo__name {
+    color: #ffffff;
+  }
+
+  .logo__tagline {
+    margin-top: 2px;
+    font-family: var(--font-sans);
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
     color: var(--c-ink-muted);
   }
 
-  .logo--light .logo__sub {
-    color: rgba(255, 255, 255, 0.7);
+  .logo--light .logo__tagline {
+    color: rgba(255, 255, 255, 0.72);
   }
 
-  @media (max-width: 420px) {
-    .logo__sub {
+  @media (max-width: 480px) {
+    .logo__mark {
+      width: 40px;
+      height: 40px;
+    }
+
+    .logo__name {
+      font-size: 1.1rem;
+    }
+
+    .logo__tagline {
       display: none;
     }
   }

@@ -1,1 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="8" fill="#1F2A44"/><text x="32" y="43" font-family="Georgia,serif" font-size="28" font-weight="700" fill="#ffffff" text-anchor="middle">ZW</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220">
+  <!-- Simplified for 16px: solid ground, no inner rules, heavier strokes. -->
+  <rect width="220" height="220" rx="30" fill="#1F2A44"/>
+  <g transform="translate(10, 10)" fill="none" stroke-linecap="square" stroke-linejoin="miter">
+    <path d="M 22 62 L 72 62 L 32 138 L 72 138" stroke="#FFFFFF" stroke-width="18"/>
+    <path d="M 60 50 L 80 150 L 100 85 L 120 150 L 140 50" stroke="#CFA864" stroke-width="20"/>
+    <path d="M 175 68 C 152 50 128 68 128 100 C 128 132 152 150 175 132" stroke="#FFFFFF" stroke-width="18"/>
+  </g>
+</svg>
