@@ -59,10 +59,31 @@ const schema = [
 </BaseLayout>
 
 <style>
+  /* Flex rather than grid so a partial last row centres itself instead of
+     hugging one edge. Cards are capped at a fraction of the row so full rows
+     still line up on a strict column grid. */
   .masonry {
-    display: grid;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: var(--space-4);
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    align-items: start;
+    align-items: stretch;
+  }
+
+  .masonry > :global(*) {
+    flex: 1 1 280px;
+    max-width: 100%;
+  }
+
+  @media (min-width: 700px) {
+    .masonry > :global(*) {
+      max-width: calc((100% - var(--space-4)) / 2);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .masonry > :global(*) {
+      max-width: calc((100% - 2 * var(--space-4)) / 3);
+    }
   }
 </style>

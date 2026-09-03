@@ -43,6 +43,8 @@ export const processSteps = [
   },
 ];
 
+// TODO: every entry below is placeholder copy written to fill the layout.
+// Replace each one with a real client quote before the site goes live.
 export const testimonials = [
   {
     quote:
@@ -77,6 +79,13 @@ export const testimonials = [
       'האתר הישן שלי נטען שש שניות. עכשיו הוא נפתח מיד, וגם הלקוחות מעירים על זה.',
     name: 'שירה כהן',
     business: 'קליניקת שירה',
+    featured: false,
+  },
+  {
+    quote:
+      'העברתי אליו אתר שמישהו אחר בנה והזניח. תוך שבוע הוא היה מהיר, מאובטח ומעודכן, ומאז אני פשוט לא חושב עליו.',
+    name: 'אבי שטרן',
+    business: 'שטרן מיזוג אוויר',
     featured: false,
   },
 ];
