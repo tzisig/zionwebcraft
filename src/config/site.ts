@@ -12,8 +12,10 @@ export const site = {
   dir: 'rtl',
 
   owner: {
-    name: 'אלעד',
+    name: 'ציון',
     role: 'מפתח אתרים עצמאי',
+    /** Drop a photo at this path to replace the placeholder on /about. */
+    photo: '/images/owner.jpg',
   },
 
   contact: {
@@ -42,10 +44,10 @@ export const site = {
   },
 
   stats: [
-    { value: '+40', label: 'אתרים שבניתי' },
-    { value: '7', label: 'שנות ניסיון' },
-    { value: '100%', label: 'ציון מהירות ממוצע' },
-    { value: '14', label: 'ימי עבודה בממוצע לאתר' },
+    { value: '2001', label: 'בונה אתרים מאז' },
+    { value: 'מאות', label: 'אתרים שבניתי' },
+    { value: '1', label: 'איש קשר, מהאפיון עד ההשקה' },
+    { value: '2', label: 'מדינות: ישראל וארה״ב' },
   ],
 } as const;
 

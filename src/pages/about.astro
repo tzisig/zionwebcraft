@@ -5,6 +5,10 @@ import CtaBand from '../components/CtaBand.astro';
 import Icon from '../components/Icon.astro';
 import { site } from '../config/site';
 import { values } from '../data/content';
+
+// Opt-in flag: set to false to fall back to the lettermark placeholder.
+const hasPhoto = true;
+const initial = site.owner.name.charAt(0);
 ---
 
 <BaseLayout
@@ -13,21 +17,34 @@ import { values } from '../data/content';
 >
   <PageHero
     eyebrow="אודות"
-    title="נעים להכיר, אני אלעד"
-    lead="בונה אתרים לעסקים קטנים כבר שבע שנים. עובד לבד, בכוונה, כדי שתמיד תדע עם מי אתה מדבר."
+    title={`נעים להכיר, אני ${site.owner.name}`}
+    lead="בונה אתרים מאז 2001. הייתי בעל עסק קטן בעצמי, ולכן אני מכיר את הצד שלך של השולחן. עובד לבד, בכוונה, כדי שתמיד תדע עם מי אתה מדבר."
   />
 
   <section class="section">
     <div class="container about">
       <div class="about__portrait reveal">
-        <!-- Placeholder frame. Drop a real photo at /public/images/elad.jpg and swap this block for <img>. -->
-        <div class="portrait">
-          <span class="portrait__initial" aria-hidden="true">א</span>
-          <span class="sr-only">תמונה של אלעד, מייסד ציון וובקרפט</span>
-        </div>
+        {
+          hasPhoto ? (
+            <img
+              class="portrait portrait--photo"
+              src={site.owner.photo}
+              alt={`${site.owner.name}, ${site.owner.role} ומייסד ${site.nameHe}`}
+              width="880"
+              height="1100"
+              loading="lazy"
+              decoding="async"
+            />
+          ) : (
+            <div class="portrait">
+              <span class="portrait__initial" aria-hidden="true">{initial}</span>
+              <span class="sr-only">{`תמונה של ${site.owner.name}, מייסד ${site.nameHe}`}</span>
+            </div>
+          )
+        }
         <dl class="about__facts">
-          <div><dt>ניסיון</dt><dd>7 שנים</dd></div>
-          <div><dt>אתרים שנבנו</dt><dd>מעל 40</dd></div>
+          <div><dt>בונה אתרים מאז</dt><dd>2001</dd></div>
+          <div><dt>עבדתי ב</dt><dd>ישראל וארצות הברית</dd></div>
           <div><dt>אזור פעילות</dt><dd>{site.contact.city}</dd></div>
         </dl>
       </div>
@@ -35,21 +52,36 @@ import { values } from '../data/content';
       <div class="about__text reveal">
         <h2>איך זה התחיל</h2>
         <p>
-          התחלתי בגלל בקשה של חבר. הוא פתח עסק קטן, שילם הרבה כסף לחברה גדולה, וקיבל אתר שהוא
-          לא הבין איך לעדכן ושאף אחד לא מצא בגוגל. בניתי לו אתר חדש בערבים, והפניות הראשונות
-          הגיעו תוך שבועיים.
+          בשנת 2001 נרשמתי לקורס שחברת בניית אתרים הריצה כדי לגייס מתוכו עובדים. היינו
+          עשרים וחמישה, והחברה בחרה עשרה. הייתי אחד מהם. שם למדתי את הבסיס: HTML,
+          JavaScript, בסיסי נתונים ומבני נתונים. הכלים מאז התחלפו כמה פעמים, העקרונות לא.
+        </p>
+
+        <h2 class="about__h2">הדרך לא הייתה ישרה</h2>
+        <p>
+          אחרי שנה ורבע עברתי לעבוד ככלכלן בחברת הייטק. חמש השנים האלה לימדו אותי להסתכל
+          על מספרים, ולכן עד היום השאלה הראשונה שאני שואל היא לא איך האתר ייראה, אלא מה
+          הוא צריך להחזיר.
         </p>
         <p>
-          מאז עברו שבע שנים ומעל ארבעים אתרים, אבל הבעיה נשארה אותה בעיה: עסקים קטנים מקבלים
-          יחס של לקוח קטן. אצלי אין מנהל לקוח, אין מוקד תמיכה ואין העברה בין מחלקות. אתה מדבר
-          איתי, ואני זה שבונה.
+          משם עברתי לארצות הברית ועבדתי שם כקבלן חשמל. בערבים המשכתי לבנות אתרים, לעצמי
+          ולאחרים, ולימדתי את עצמי PHP ואחר כך וורדפרס. זו התקופה שבה הבנתי הכי הרבה על
+          הלקוחות שלי, מהסיבה הפשוטה שהייתי אחד מהם: בעל עסק קטן שצריך שהטלפון יצלצל.
+        </p>
+
+        <h2 class="about__h2">איפה אני היום</h2>
+        <p>
+          לפני תשע שנים חזרתי לארץ. מאז למדתי בעצמי פיתוח פול-סטאק, Python, React ו-Astro,
+          ובהם אני בונה היום. העובדה שהתחלתי ב-2001 ועדיין כאן אומרת דבר אחד: בתחום הזה
+          הטכנולוגיה מתחלפת כל כמה שנים, ומי שלא לומד מחדש נשאר מאחור. האתר שלך נבנה
+          בכלים של היום.
         </p>
 
         <h2 class="about__h2">איך אני עובד</h2>
         <p>
-          כל פרויקט מתחיל בשאלה אחת: מה האתר צריך להשיג. אם התשובה היא יותר פניות, אנחנו
-          בונים מסלול שמוביל לפנייה. אם התשובה היא מכירות, אנחנו מקצרים את הדרך לקנייה. עיצוב
-          יפה הוא תוצאה של החלטות נכונות, לא המטרה שלהן.
+          כל פרויקט מתחיל בשאלה אחת: מה האתר צריך להשיג. אם התשובה היא יותר פניות, בונים
+          מסלול שמוביל לפנייה. אם התשובה היא מכירות, מקצרים את הדרך לקנייה. עיצוב יפה הוא
+          תוצאה של החלטות נכונות, לא המטרה שלהן.
         </p>
         <p>
           אני עובד עם מספר מצומצם של לקוחות בו זמנית. זה אומר לוחות זמנים שנשמרים, וזה גם
@@ -103,6 +135,11 @@ import { values } from '../data/content';
     border-radius: var(--radius-lg);
     background: linear-gradient(160deg, var(--c-accent) 0%, #2f3f63 100%);
     border: 1px solid var(--c-border);
+  }
+
+  .portrait--photo {
+    object-fit: cover;
+    width: 100%;
   }
 
   .portrait__initial {
