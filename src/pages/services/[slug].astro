@@ -42,7 +42,7 @@ const schema = [
 ---
 
 <BaseLayout title={service.title} description={service.short} schema={schema}>
-  <PageHero eyebrow="שירות" title={service.title} lead={service.short}>
+  <PageHero eyebrow={service.title} title={service.headline} lead={service.short}>
     <div class="btn-row hero-actions">
       <a class="btn btn--primary" href="#service-form">
         קבלת הצעת מחיר
@@ -75,6 +75,11 @@ const schema = [
       <div class="detail__main reveal">
         <h2>למי זה מתאים</h2>
         <p class="lead">{service.forWho}</p>
+
+        <aside class="cost">
+          <h3>מה זה עולה לא לעשות כלום</h3>
+          <p>{service.cost}</p>
+        </aside>
 
         <h2 class="detail__h2">מה כלול</h2>
         <ul class="checklist">
@@ -210,6 +215,29 @@ const schema = [
   .detail h2 {
     font-size: var(--fs-xl);
     margin-bottom: var(--space-3);
+  }
+
+  .cost {
+    margin-top: var(--space-4);
+    padding: var(--space-3) var(--space-4);
+    border-inline-start: 3px solid var(--c-gold);
+    background: var(--c-bg-soft);
+    border-radius: var(--radius);
+  }
+
+  .cost h3 {
+    font-family: var(--font-sans);
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--c-ink-muted);
+    margin-bottom: 0.4rem;
+  }
+
+  .cost p {
+    font-size: var(--fs-sm);
+    color: var(--c-ink-soft);
   }
 
   .checklist {

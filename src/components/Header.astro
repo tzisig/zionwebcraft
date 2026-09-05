@@ -14,17 +14,59 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
     <nav class="site-nav" aria-label="ניווט ראשי">
       <ul class="site-nav__list">
         {
-          nav.map((item) => (
-            <li>
-              <a
-                href={item.href}
-                class:list={['site-nav__link', { 'is-active': isActive(item.href) }]}
-                aria-current={isActive(item.href) ? 'page' : undefined}
-              >
-                {item.label}
-              </a>
-            </li>
-          ))
+          nav.map((item, i) =>
+            item.children ? (
+              <li class="site-nav__has-menu">
+                <a
+                  href={item.href}
+                  class:list={['site-nav__link', { 'is-active': isActive(item.href) }]}
+                  aria-current={isActive(item.href) ? 'page' : undefined}
+                >
+                  {item.label}
+                </a>
+                <button
+                  type="button"
+                  class="submenu-toggle"
+                  aria-expanded="false"
+                  aria-controls={`submenu-${i}`}
+                >
+                  <span class="sr-only">{`פתיחת תת-תפריט ${item.label}`}</span>
+                  <svg width="11" height="7" viewBox="0 0 11 7" aria-hidden="true">
+                    <path
+                      d="M1 1l4.5 4.5L10 1"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.6"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                </button>
+                <ul class="submenu" id={`submenu-${i}`} hidden>
+                  {item.children.map((child) => (
+                    <li>
+                      <a
+                        href={child.href}
+                        class:list={['submenu__link', { 'is-active': path === child.href }]}
+                        aria-current={path === child.href ? 'page' : undefined}
+                      >
+                        {child.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ) : (
+              <li>
+                <a
+                  href={item.href}
+                  class:list={['site-nav__link', { 'is-active': isActive(item.href) }]}
+                  aria-current={isActive(item.href) ? 'page' : undefined}
+                >
+                  {item.label}
+                </a>
+              </li>
+            )
+          )
         }
       </ul>
     </nav>
@@ -67,6 +109,21 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
               >
                 {item.label}
               </a>
+              {item.children && (
+                <ul class="mobile-menu__sub">
+                  {item.children.map((child) => (
+                    <li>
+                      <a
+                        href={child.href}
+                        class:list={['mobile-menu__sublink', { 'is-active': path === child.href }]}
+                        aria-current={path === child.href ? 'page' : undefined}
+                      >
+                        {child.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </li>
           ))
         }
@@ -144,6 +201,97 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
     color: var(--c-accent);
     font-weight: 600;
     border-bottom-color: var(--c-gold);
+  }
+
+  /* --- Services dropdown ------------------------------------------------ */
+  .site-nav__has-menu {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.15rem;
+  }
+
+  .submenu-toggle {
+    display: inline-grid;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    border-radius: var(--radius-sm);
+    color: var(--c-ink-muted);
+    cursor: pointer;
+    transition: transform var(--dur) var(--ease);
+  }
+
+  .submenu-toggle[aria-expanded='true'] {
+    transform: rotate(180deg);
+    color: var(--c-accent);
+  }
+
+  .submenu {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    inset-inline-end: -0.75rem;
+    z-index: 20;
+    min-width: 230px;
+    list-style: none;
+    margin: 0;
+    padding: 0.4rem;
+    background: var(--c-bg);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 18px 40px -22px rgba(31, 42, 68, 0.45);
+  }
+
+  .submenu__link {
+    display: block;
+    padding: 0.6rem 0.8rem;
+    min-height: 44px;
+    border-radius: var(--radius);
+    font-size: var(--fs-sm);
+    color: var(--c-ink-soft);
+    text-decoration: none;
+    transition:
+      background-color var(--dur) var(--ease),
+      color var(--dur) var(--ease);
+  }
+
+  .submenu__link:hover {
+    background: var(--c-accent-soft);
+    color: var(--c-accent);
+  }
+
+  .submenu__link.is-active {
+    color: var(--c-accent);
+    font-weight: 600;
+  }
+
+  /* --- Mobile nested list ------------------------------------------------ */
+  .mobile-menu__sub {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0.4rem;
+  }
+
+  .mobile-menu__sublink {
+    display: block;
+    padding: 0.7rem 0;
+    padding-inline-start: var(--space-3);
+    min-height: 46px;
+    font-size: var(--fs-sm);
+    color: var(--c-ink-soft);
+    text-decoration: none;
+    border-bottom: 1px solid var(--c-border);
+    border-inline-start: 2px solid var(--c-border);
+    margin-inline-start: 0.35rem;
+  }
+
+  .mobile-menu__sublink.is-active {
+    color: var(--c-accent);
+    font-weight: 600;
+    border-inline-start-color: var(--c-gold);
   }
 
   .site-header__actions {
@@ -245,6 +393,45 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
       menu.hidden = true;
       toggle?.setAttribute('aria-expanded', 'false');
     }
+  });
+
+  // Services dropdown: click to open, Escape or an outside click to close.
+  const submenuToggles = document.querySelectorAll<HTMLButtonElement>('.submenu-toggle');
+
+  const closeAllSubmenus = () => {
+    submenuToggles.forEach((btn) => {
+      btn.setAttribute('aria-expanded', 'false');
+      const panel = document.getElementById(btn.getAttribute('aria-controls') ?? '');
+      if (panel) panel.hidden = true;
+    });
+  };
+
+  submenuToggles.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const open = btn.getAttribute('aria-expanded') === 'true';
+      closeAllSubmenus();
+      if (!open) {
+        btn.setAttribute('aria-expanded', 'true');
+        const panel = document.getElementById(btn.getAttribute('aria-controls') ?? '');
+        if (panel) panel.hidden = false;
+      }
+    });
+  });
+
+  document.addEventListener('click', closeAllSubmenus);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeAllSubmenus();
+  });
+
+  // Keep the panel open while the pointer or keyboard focus is inside it.
+  document.querySelectorAll<HTMLElement>('.site-nav__has-menu').forEach((wrap) => {
+    wrap.addEventListener('click', (e) => e.stopPropagation());
+    wrap.addEventListener('focusout', () => {
+      window.setTimeout(() => {
+        if (!wrap.contains(document.activeElement)) closeAllSubmenus();
+      }, 0);
+    });
   });
 
   const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 8);

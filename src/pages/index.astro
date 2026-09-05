@@ -15,20 +15,20 @@ const shortProcess = processSteps.slice(0, 4);
 ---
 
 <BaseLayout
-  title={site.nameHe}
-  description="ציון וובקרפט בונה לעסקים קטנים ולפרילנסרים אתרי תדמית, חנויות אונליין ודפי נחיתה מהירים שמייצרים פניות. אפיון, עיצוב, פיתוח וליווי מול איש אחד."
+  title="בניית אתרים לעסקים"
+  description="בניית אתרים לעסקים קטנים: אתרי תדמית, חנויות אונליין ודפי נחיתה מהירים שמייצרים פניות. אפיון, עיצוב, פיתוח וליווי מול איש אחד, מ-2001."
 >
   <!-- Hero -->
   <section class="hero">
     <div class="container hero__inner">
       <div class="hero__content">
-        <p class="eyebrow">בניית אתרים לעסקים קטנים</p>
+        <p class="eyebrow">בניית אתרים לעסקים</p>
         <h1 class="hero__title">
-          בונה לעסקים קטנים <em>אתרים שמביאים לקוחות</em>
+          בניית אתרים לעסקים <em>שרוצים שהטלפון יצלצל</em>
         </h1>
         <p class="lead hero__lead">
-          לא רק אתר יפה. אתר מהיר, ברור ומדיד, שגורם למי שנחת עליו להרים טלפון או להשאיר פרטים.
-          אפיון, עיצוב, פיתוח וליווי, הכל מול איש אחד.
+          אתר יפה זה מינימום. מה שמבדיל אתר שעובד מאתר שסתם קיים הוא כמה מהר הוא נטען, כמה
+          ברור מה לעשות בו, וכמה קל להשאיר בו פרטים. את זה אני בונה מ-2001, מול איש אחד: אני.
         </p>
 
         <div class="btn-row hero__actions">
@@ -48,9 +48,9 @@ const shortProcess = processSteps.slice(0, 4);
         </div>
 
         <ul class="hero__points">
-          <li><Icon name="check" size={16} /> תשובה תוך יום עסקים</li>
-          <li><Icon name="check" size={16} /> מחיר סגור מראש</li>
-          <li><Icon name="check" size={16} /> האתר רשום על שמך</li>
+          <li><Icon name="check" size={16} /> תשובה תוך יום עסקים אחד</li>
+          <li><Icon name="check" size={16} /> מחיר סגור, בלי תוספות באמצע</li>
+          <li><Icon name="check" size={16} /> הדומיין והאתר על שמך</li>
         </ul>
       </div>
 
@@ -95,9 +95,9 @@ const shortProcess = processSteps.slice(0, 4);
   <section class="section">
     <div class="container">
       <SectionHead
-        eyebrow="מה אני עושה"
-        title="ארבעה סוגי פרויקטים, מטרה אחת"
-        lead="לכל עסק צריך משהו אחר. הנה מה שאני בונה, וכמה זמן זה לוקח."
+        eyebrow="מה אני בונה"
+        title="ארבעה סוגי אתרים. אחד מהם מתאים לך."
+        lead="לא כל עסק צריך את אותו הדבר. הנה ארבעת הסוגים, למי כל אחד מתאים וכמה זמן הוא לוקח."
       />
       <div class="grid grid--4">
         {services.map((s, i) => <ServiceCard service={s} delay={i * 70} />)}
@@ -116,8 +116,8 @@ const shortProcess = processSteps.slice(0, 4);
     <div class="container">
       <SectionHead
         eyebrow="תיק עבודות"
-        title="פרויקטים נבחרים"
-        lead="מה היה האתגר, מה בניתי, ומה השתנה אחרי ההשקה."
+        title="עבודה אחרונה"
+        lead="לא רשימה של לוגואים. פרויקט אחד, עם האתגר שהיה, מה בניתי בפועל, ומה השתנה אחרי ההשקה."
       />
       <div class="grid grid--3">
         {featuredProjects.map((p, i) => <ProjectCard project={p} delay={i * 80} />)}
@@ -170,7 +170,7 @@ const shortProcess = processSteps.slice(0, 4);
         <span>{hero.business}</span>
       </p>
       <a class="link-arrow big-quote__link" href="/testimonials">
-        עוד המלצות של לקוחות
+        עוד המלצות מלקוחות
         <Icon name="arrow" size={15} />
       </a>
     </div>
@@ -183,12 +183,12 @@ const shortProcess = processSteps.slice(0, 4);
         <SectionHead
           eyebrow="נדבר?"
           title="ספרו לי על העסק, ואחזור אליכם"
-          lead="מלאו את הפרטים ואחזור תוך יום עסקים אחד עם שאלות ממוקדות וטווח מחיר ראשוני."
+          lead="מילוי הטופס לוקח פחות מדקה. אחזור אליכם תוך יום עסקים אחד עם שאלות ממוקדות וטווח מחיר ראשוני, בלי מצגת ובלי שיחת מכירה."
         />
         <ul class="contact-split__list">
           <li>
             <Icon name="check" size={17} />
-            <span>שיחת ייעוץ ראשונה ללא עלות</span>
+            <span>שיחת היכרות של 30 דקות, ללא עלות וללא התחייבות</span>
           </li>
           <li>
             <Icon name="check" size={17} />
@@ -196,7 +196,7 @@ const shortProcess = processSteps.slice(0, 4);
           </li>
           <li>
             <Icon name="check" size={17} />
-            <span>בלי ספאם ובלי שיחות מכירה חוזרות</span>
+            <span>אם זה לא מתאים לי, אני אגיד לך ואפנה אותך הלאה</span>
           </li>
         </ul>
         <a class="btn btn--wa" href={waLink()} target="_blank" rel="noopener noreferrer">

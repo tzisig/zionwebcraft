@@ -57,9 +57,25 @@ export function waLink(message: string = whatsappMessage): string {
   return `https://wa.me/${site.contact.whatsapp}?text=${encodeURIComponent(message)}`;
 }
 
-export const nav = [
+export type NavItem = {
+  label: string;
+  href: string;
+  /** Rendered as a dropdown on desktop and a nested list on mobile. */
+  children?: { label: string; href: string }[];
+};
+
+export const nav: NavItem[] = [
   { label: 'בית', href: '/' },
-  { label: 'שירותים', href: '/services' },
+  {
+    label: 'שירותים',
+    href: '/services',
+    children: [
+      { label: 'אתר תדמית לעסקים', href: '/services/business-website' },
+      { label: 'חנות אונליין', href: '/services/ecommerce' },
+      { label: 'דף נחיתה', href: '/services/landing-page' },
+      { label: 'תחזוקת אתרים', href: '/services/maintenance' },
+    ],
+  },
   { label: 'תיק עבודות', href: '/portfolio' },
   { label: 'גלריית תבניות', href: '/templates' },
   { label: 'תהליך העבודה', href: '/process' },
@@ -67,4 +83,4 @@ export const nav = [
   { label: 'אודות', href: '/about' },
   { label: 'שאלות נפוצות', href: '/faq' },
   { label: 'צור קשר', href: '/contact' },
-] as const;
+];
