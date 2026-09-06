@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import CtaBand from '../components/CtaBand.astro';
 import Icon from '../components/Icon.astro';
+import { industries } from '../data/industries';
 import {
   templates,
   featuredTemplates,
@@ -32,6 +33,7 @@ const counts = Object.fromEntries(
 );
 
 const rest = templates.filter((t) => !featuredSlugs.includes(t.slug));
+
 ---
 
 <BaseLayout
@@ -116,6 +118,18 @@ const rest = templates.filter((t) => !featuredSlugs.includes(t.slug));
       <p class="results" id="results-count" role="status" aria-live="polite">
         מוצגים {templates.length} עמודים
       </p>
+
+      <nav class="deep reveal" aria-label="עמודים לפי מקצוע">
+        <h3>רוצים לקרוא לעומק על תחום מסוים?</h3>
+        <p>
+          לכל אחד מהתחומים האלה יש עמוד שמסביר מה הלקוח שלכם בודק לפני שהוא פונה, ומה
+          האתר חייב לענות עליו.
+        </p>
+        <a class="link-arrow" href="/websites">
+          {`לכל ${industries.length} העמודים לפי מקצוע`}
+          <Icon name="arrow" size={15} />
+        </a>
+      </nav>
 
       <ul class="tiles" id="tile-grid">
         {
@@ -281,6 +295,31 @@ const rest = templates.filter((t) => !featuredSlugs.includes(t.slug));
     font-size: var(--fs-xs);
     color: var(--c-ink-muted);
     margin-bottom: var(--space-4);
+  }
+
+  .deep {
+    margin-bottom: var(--space-4);
+    padding: var(--space-3) var(--space-4);
+    background: var(--c-bg);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-lg);
+  }
+
+  .deep h3 {
+    font-family: var(--font-sans);
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--c-ink-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .deep p {
+    font-size: var(--fs-sm);
+    color: var(--c-ink-soft);
+    margin-bottom: 0.6rem;
+    max-width: 60ch;
   }
 
   /* --- Tiles ------------------------------------------------------------ */

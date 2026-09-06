@@ -1,0 +1,322 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Icon from '../../components/Icon.astro';
+import { industries } from '../../data/industries';
+import { templateCover } from '../../data/templates';
+
+/**
+ * Sector grouping is defined here rather than on each entry: it only exists
+ * for this index, and keeping it out of the data avoids a field every page
+ * would carry but never use.
+ */
+const sectors: { title: string; note: string; slugs: string[] }[] = [
+  {
+    title: 'משפט, פיננסים ונדלן',
+    note: 'תחומים שבהם הלקוח בודק אותך לפני שהוא מרים טלפון.',
+    slugs: [
+      'lawyer',
+      'personal-injury-lawyer',
+      'notary',
+      'accountant',
+      'financial-advisor',
+      'mortgage-advisor',
+      'insurance-agent',
+      'marketing-consultant',
+      'real-estate-agent',
+    ],
+  },
+  {
+    title: 'בריאות וטיפול',
+    note: 'קליניקות ומטפלים, שבהם ההחלטה היא כמעט תמיד החלטת אמון.',
+    slugs: [
+      'dentist',
+      'optometrist',
+      'physiotherapy',
+      'chiropractor',
+      'holistic-clinic',
+      'massage-therapist',
+      'speech-therapist',
+      'vet',
+      'life-coach',
+    ],
+  },
+  {
+    title: 'בית ובעלי מקצוע',
+    note: 'רובם חיפושי חירום מהטלפון, שבהם מהירות הטעינה היא חלק מהתחרות.',
+    slugs: [
+      'electrician',
+      'plumber',
+      'locksmith',
+      'handyman',
+      'roofer',
+      'hvac',
+      'solar',
+      'pest-control',
+      'landscaper',
+      'auto-mechanic',
+      'cleaning-company',
+      'moving-company',
+    ],
+  },
+  {
+    title: 'יופי, כושר וחיות',
+    note: 'תחומים מקומיים שבהם מחירון גלוי ותמונות אמיתיות מכריעים.',
+    slugs: ['beauty', 'barber', 'gym', 'personal-trainer', 'yoga', 'dog-groomer'],
+  },
+  {
+    title: 'יצירה ועיצוב',
+    note: 'כאן האתר עצמו הוא חלק מתיק העבודות, ולא רק מציג אותו.',
+    slugs: ['architect', 'interior-designer', 'graphic-designer', 'fashion-designer', 'photographer'],
+  },
+  {
+    title: 'אוכל, אירועים ולימוד',
+    note: 'עסקים שנבחרים בעיניים, ונסגרים על תאריך ותקציב.',
+    slugs: ['private-chef', 'bakery', 'caterer', 'florist', 'wedding-planner', 'piano-teacher'],
+  },
+];
+
+const bySlug = new Map(industries.map((i) => [i.slug, i]));
+const grouped = sectors.map((sector) => ({
+  ...sector,
+  items: sector.slugs.map((slug) => bySlug.get(slug)).filter((i) => i !== undefined),
+}));
+
+// Anything added to the data but forgotten here still gets listed.
+const placed = new Set(sectors.flatMap((s) => s.slugs));
+const unplaced = industries.filter((i) => !placed.has(i.slug));
+
+const featured = ['lawyer', 'electrician', 'dentist', 'photographer', 'plumber', 'beauty']
+  .map((slug) => bySlug.get(slug))
+  .filter((i) => i !== undefined);
+---
+
+<BaseLayout
+  title="בניית אתרים לפי מקצוע"
+  description={`${industries.length} עמודים, אחד לכל מקצוע: מה הלקוח שלך בודק לפני שהוא פונה, מה האתר חייב לענות עליו, ודוגמה חיה שאפשר לפתוח.`}
+>
+  <PageHero
+    eyebrow="לפי מקצוע"
+    title="בניית אתרים לפי מקצוע"
+    lead={`לכל מקצוע יש לקוח שמחליט אחרת. בניתי ${industries.length} עמודים, אחד לכל תחום, עם מה שהלקוח שלך באמת בודק לפני שהוא פונה, ועם דוגמה חיה שאפשר לפתוח ולגלול.`}
+  />
+
+  <!-- Six with screenshots -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow">מבחר</p>
+        <h2>שישה תחומים מקרוב</h2>
+      </div>
+
+      <div class="grid grid--3">
+        {
+          featured.map((item, i) => (
+            <a
+              class="card card--hover shot reveal"
+              data-reveal-delay={i * 60}
+              href={`/websites/${item!.slug}`}
+            >
+              <img
+                class="shot__img"
+                src={templateCover(item!.demo)}
+                alt={`דוגמה לאתר עבור ${item!.profession}`}
+                loading="lazy"
+                decoding="async"
+              />
+              <div class="shot__body">
+                <h3>{item!.keyword}</h3>
+                <p>{item!.lead}</p>
+                <span class="link-arrow">
+                  לעמוד המלא
+                  <Icon name="arrow" size={15} />
+                </span>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Everything, by sector -->
+  <section class="section section--soft">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow">הכל</p>
+        <h2>{`כל ${industries.length} התחומים`}</h2>
+        <p class="lead">לא מצאתם את שלכם? זה בדיוק מה שאני בונה. תגידו לי מה התחום ואבנה עמוד שמדבר אליו.</p>
+      </div>
+
+      <div class="sectors">
+        {
+          grouped.map((sector, i) => (
+            <section class="sector reveal" data-reveal-delay={i * 40}>
+              <h3>{sector.title}</h3>
+              <p class="sector__note">{sector.note}</p>
+              <ul>
+                {sector.items.map((item) => (
+                  <li>
+                    <a href={`/websites/${item!.slug}`}>
+                      <span>{item!.profession}</span>
+                      <Icon name="arrow" size={14} class="sector__arrow" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))
+        }
+
+        {
+          unplaced.length > 0 && (
+            <section class="sector reveal">
+              <h3>נוספים</h3>
+              <ul>
+                {unplaced.map((item) => (
+                  <li>
+                    <a href={`/websites/${item.slug}`}>
+                      <span>{item.profession}</span>
+                      <Icon name="arrow" size={14} class="sector__arrow" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )
+        }
+      </div>
+
+      <p class="note reveal">
+        לכל אחד מהתחומים האלה יש גם עמוד נחיתה חי שאפשר לפתוח.
+        <a href="/templates">לגלריית התבניות המלאה</a>
+      </p>
+    </div>
+  </section>
+
+  <CtaBand
+    title="התחום שלכם לא ברשימה?"
+    text="תגידו לי במה אתם עוסקים ומה הלקוח שלכם בודק לפני שהוא פונה. אבנה עמוד שמדבר בדיוק אליו."
+  />
+</BaseLayout>
+
+<style>
+  .section-head {
+    margin-bottom: var(--space-5);
+    max-width: 66ch;
+  }
+
+  .section-head .lead {
+    margin-top: var(--space-2);
+  }
+
+  /* --- Featured cards ------------------------------------------------------ */
+  .shot {
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .shot__img {
+    width: 100%;
+    aspect-ratio: 1440 / 840;
+    object-fit: cover;
+    object-position: top center;
+    border-bottom: 1px solid var(--c-border);
+  }
+
+  .shot__body {
+    padding: var(--space-3) var(--space-4) var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+  }
+
+  .shot h3 {
+    font-size: var(--fs-md);
+  }
+
+  .shot p {
+    font-size: var(--fs-sm);
+    color: var(--c-ink-soft);
+    flex: 1;
+  }
+
+  /* --- Sectors -------------------------------------------------------------- */
+  .sectors {
+    display: grid;
+    gap: var(--space-4);
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    align-items: start;
+  }
+
+  .sector {
+    background: var(--c-bg);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+  }
+
+  .sector h3 {
+    font-size: var(--fs-md);
+    margin-bottom: 0.3rem;
+  }
+
+  .sector__note {
+    font-size: var(--fs-xs);
+    color: var(--c-ink-muted);
+    margin-bottom: var(--space-3);
+  }
+
+  .sector ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .sector a {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 44px;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--c-border);
+    font-size: var(--fs-sm);
+    text-decoration: none;
+    transition: color var(--dur) var(--ease);
+  }
+
+  .sector li:last-child a {
+    border-bottom: 0;
+  }
+
+  .sector a:hover {
+    color: var(--c-accent);
+  }
+
+  .sector :global(.sector__arrow) {
+    margin-inline-start: auto;
+    color: var(--c-border-strong);
+    transform: rotate(180deg);
+  }
+
+  .sector a:hover :global(.sector__arrow) {
+    color: var(--c-accent);
+  }
+
+  .note {
+    margin-top: var(--space-4);
+    font-size: var(--fs-sm);
+    color: var(--c-ink-muted);
+  }
+
+  .note a {
+    color: var(--c-accent);
+    font-weight: 500;
+  }
+</style>

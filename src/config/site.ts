@@ -74,6 +74,7 @@ export const nav: NavItem[] = [
       { label: 'חנות אונליין', href: '/services/ecommerce' },
       { label: 'דף נחיתה', href: '/services/landing-page' },
       { label: 'תחזוקת אתרים', href: '/services/maintenance' },
+      { label: 'אתרים לפי מקצוע', href: '/websites' },
     ],
   },
   { label: 'תיק עבודות', href: '/portfolio' },

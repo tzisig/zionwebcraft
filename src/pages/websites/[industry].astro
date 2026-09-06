@@ -1,0 +1,406 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import FaqList from '../../components/FaqList.astro';
+import ContactForm from '../../components/ContactForm.astro';
+import Icon from '../../components/Icon.astro';
+import { industries } from '../../data/industries';
+import { services } from '../../data/services';
+import { templates, templateUrl, templateCover } from '../../data/templates';
+import { site, waLink } from '../../config/site';
+
+export const getStaticPaths = (() =>
+  industries.map((industry) => ({
+    params: { industry: industry.slug },
+    props: { industry },
+  }))) satisfies GetStaticPaths;
+
+const { industry } = Astro.props;
+const service = services.find((s) => s.slug === industry.service)!;
+const demo = templates.find((t) => t.slug === industry.demo)!;
+const others = industries.filter((i) => i.slug !== industry.slug).slice(0, 6);
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: industry.keyword,
+    description: industry.description,
+    provider: { '@type': 'ProfessionalService', name: site.nameHe, url: site.url },
+    areaServed: 'IL',
+    audience: { '@type': 'Audience', audienceType: industry.profession },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: industry.faq.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+];
+---
+
+<BaseLayout title={industry.title} description={industry.description} schema={schema}>
+  <PageHero eyebrow={industry.keyword} title={industry.h1} lead={industry.lead}>
+    <div class="btn-row hero-actions">
+      <a class="btn btn--primary" href="#industry-form">
+        השאירו פרטים
+        <Icon name="arrow" size={16} />
+      </a>
+      <a
+        class="btn btn--outline"
+        href={waLink(`היי, אני מחפש ${industry.keyword}`)}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Icon name="whatsapp" size={16} />
+        שאלה מהירה בוואטסאפ
+      </a>
+    </div>
+  </PageHero>
+
+  <nav class="crumbs" aria-label="מיקום באתר">
+    <div class="container">
+      <ol>
+        <li><a href="/">בית</a></li>
+        <li><a href="/templates">לפי מקצוע</a></li>
+        <li aria-current="page">{industry.profession}</li>
+      </ol>
+    </div>
+  </nav>
+
+  <!-- How this customer decides -->
+  <section class="section">
+    <div class="container container--narrow">
+      <h2 class="head reveal">איך הלקוח שלך בוחר</h2>
+      {industry.decision.map((para) => <p class="body reveal">{para}</p>)}
+    </div>
+  </section>
+
+  <!-- Live demo for this trade -->
+  <section class="section section--soft">
+    <div class="container">
+      <div class="demo reveal">
+        <a class="demo__shot" href={templateUrl(demo.slug)} target="_blank" rel="noopener noreferrer">
+          <img
+            src={templateCover(demo.slug)}
+            alt={`עמוד נחיתה לדוגמה עבור ${demo.profession}`}
+            loading="lazy"
+            decoding="async"
+          />
+        </a>
+        <div class="demo__text">
+          <p class="eyebrow">דוגמה חיה</p>
+          <h2>בניתי כבר עמוד ל{industry.profession}. אפשר לפתוח אותו עכשיו.</h2>
+          <p>
+            זה לא צילום מסך של רעיון, זה עמוד מלא שאפשר לגלול, ללחוץ ולבדוק במובייל. הוא
+            נבנה עם שם ותוכן בדויים כדי להדגים מבנה, קצב ועיצוב. הגרסה שלך תיבנה עם התוכן,
+            התמונות והמסרים שלך.
+          </p>
+          <div class="btn-row">
+            <a
+              class="btn btn--outline"
+              href={templateUrl(demo.slug)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Icon name="external" size={16} />
+              לפתיחת הדוגמה
+            </a>
+            <a class="btn btn--outline" href="/templates">עוד 50 תחומים</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What this trade's site has to answer -->
+  <section class="section">
+    <div class="container container--narrow">
+      <h2 class="head reveal">מה אתר ל{industry.profession} חייב לענות עליו</h2>
+      <ul class="musts">
+        {
+          industry.must.map((m, i) => (
+            <li class="reveal" data-reveal-delay={i * 50}>
+              <Icon name="check" size={18} />
+              <span>
+                <strong>{m.title}</strong>
+                {m.text}
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+
+      <div class="service-link reveal">
+        <a href={`/services/${service.slug}`}>
+          <Icon name={service.icon} size={20} />
+          <span>
+            <strong>{service.headline}</strong>
+            {`כל הפרטים על ${service.title}: מה כלול, כמה זמן, ומה משפיע על המחיר.`}
+          </span>
+          <Icon name="arrow" size={16} class="service-link__arrow" />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--soft">
+    <div class="container container--narrow">
+      <h2 class="head reveal">שאלות מ{industry.profession}</h2>
+      <FaqList items={industry.faq} />
+    </div>
+  </section>
+
+  <section class="section" id="industry-form">
+    <div class="container container--narrow">
+      <div class="form-head reveal">
+        <p class="eyebrow">נדבר?</p>
+        <h2>{`רוצה אתר ל${industry.profession.replace(/ים$/, '')} שלך?`}</h2>
+        <p class="lead">
+          ספר לי על העסק ואחזור אליך תוך יום עסקים אחד עם שאלות ממוקדות וטווח מחיר ראשוני.
+          בלי מצגת ובלי שיחת מכירה.
+        </p>
+      </div>
+      <div class="card form-card reveal">
+        <ContactForm sourceLabel={`industry-${industry.slug}`} />
+      </div>
+
+      <nav class="others reveal" aria-label="מקצועות נוספים">
+        <h2>אתרים למקצועות נוספים</h2>
+        <ul>
+          {others.map((o) => <li><a href={`/websites/${o.slug}`}>{o.keyword}</a></li>)}
+        </ul>
+      </nav>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero-actions {
+    margin-top: var(--space-4);
+  }
+
+  .crumbs {
+    border-bottom: 1px solid var(--c-border);
+    background: var(--c-bg-soft);
+    font-size: var(--fs-xs);
+  }
+
+  .crumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0.7rem 0;
+    margin: 0;
+    color: var(--c-ink-muted);
+  }
+
+  .crumbs li + li::before {
+    content: '/';
+    margin-inline-end: 0.5rem;
+    color: var(--c-border-strong);
+  }
+
+  .crumbs a {
+    color: var(--c-ink-soft);
+    text-decoration: none;
+  }
+
+  .crumbs a:hover {
+    text-decoration: underline;
+  }
+
+  .head {
+    font-size: var(--fs-xl);
+    margin-bottom: var(--space-3);
+  }
+
+  .body {
+    color: var(--c-ink-soft);
+  }
+
+  .body + .body {
+    margin-top: var(--space-3);
+  }
+
+  /* --- Live demo ---------------------------------------------------------- */
+  .demo {
+    display: grid;
+    gap: var(--space-5);
+    align-items: center;
+  }
+
+  .demo__shot {
+    display: block;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--c-bg);
+    transition:
+      border-color var(--dur) var(--ease),
+      transform var(--dur) var(--ease);
+  }
+
+  .demo__shot:hover {
+    border-color: var(--c-accent);
+    transform: translateY(-3px);
+  }
+
+  .demo__shot img {
+    width: 100%;
+    aspect-ratio: 1440 / 840;
+    object-fit: cover;
+    object-position: top center;
+  }
+
+  .demo__text h2 {
+    font-size: var(--fs-lg);
+    margin-bottom: var(--space-2);
+  }
+
+  .demo__text p {
+    font-size: var(--fs-sm);
+    color: var(--c-ink-soft);
+    margin-bottom: var(--space-4);
+  }
+
+  /* --- Must-haves --------------------------------------------------------- */
+  .musts {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  .musts li {
+    display: flex;
+    gap: 0.7rem;
+    align-items: flex-start;
+    padding-bottom: 0.9rem;
+    border-bottom: 1px solid var(--c-border);
+    font-size: var(--fs-sm);
+    color: var(--c-ink-soft);
+  }
+
+  .musts :global(svg) {
+    color: var(--c-gold);
+    flex-shrink: 0;
+    margin-top: 0.22rem;
+  }
+
+  .musts strong {
+    display: block;
+    color: var(--c-ink);
+    margin-bottom: 0.1rem;
+  }
+
+  /* --- Onward link -------------------------------------------------------- */
+  .service-link {
+    margin-top: var(--space-5);
+  }
+
+  .service-link a {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-lg);
+    background: var(--c-bg-soft);
+    text-decoration: none;
+    font-size: var(--fs-sm);
+    color: var(--c-ink-soft);
+    transition:
+      border-color var(--dur) var(--ease),
+      background-color var(--dur) var(--ease);
+  }
+
+  .service-link a:hover {
+    border-color: var(--c-accent);
+    background: var(--c-accent-soft);
+  }
+
+  .service-link strong {
+    display: block;
+    font-family: var(--font-serif);
+    font-size: var(--fs-md);
+    color: var(--c-ink);
+    margin-bottom: 0.2rem;
+  }
+
+  .service-link :global(svg) {
+    color: var(--c-accent);
+    flex-shrink: 0;
+    margin-top: 0.25rem;
+  }
+
+  .service-link :global(.service-link__arrow) {
+    margin-inline-start: auto;
+    color: var(--c-border-strong);
+    transform: rotate(180deg);
+  }
+
+  /* --- Other trades -------------------------------------------------------- */
+  .others {
+    margin-top: var(--space-6);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--c-border);
+  }
+
+  .others h2 {
+    font-family: var(--font-sans);
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--c-ink-muted);
+    margin-bottom: var(--space-2);
+  }
+
+  .others ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 1.1rem;
+    font-size: var(--fs-xs);
+  }
+
+  .others a {
+    display: inline-block;
+    padding: 0.3rem 0;
+    color: var(--c-accent);
+    text-decoration: none;
+  }
+
+  .others a:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .form-head {
+    margin-bottom: var(--space-4);
+  }
+
+  .form-head .lead {
+    margin-top: var(--space-2);
+  }
+
+  .form-card {
+    padding: clamp(1.25rem, 3vw, 2.25rem);
+  }
+
+  @media (min-width: 900px) {
+    .demo {
+      grid-template-columns: 1.1fr 1fr;
+      gap: var(--space-6);
+    }
+  }
+</style>

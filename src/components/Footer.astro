@@ -2,6 +2,7 @@
 import { nav, site, waLink } from '../config/site';
 import { services } from '../data/services';
 import { landings } from '../data/landings';
+import { industries } from '../data/industries';
 import Icon from './Icon.astro';
 import Logo from './Logo.astro';
 
@@ -70,6 +71,9 @@ const year = new Date().getFullYear();
     <h2>נושאים</h2>
     <ul>
       {landings.map((l) => <li><a href={`/${l.slug}`}>{l.keyword}</a></li>)}
+      <li>
+        <a href="/websites">{`בניית אתרים לפי מקצוע (${industries.length})`}</a>
+      </li>
     </ul>
   </nav>
 
@@ -137,6 +141,12 @@ const year = new Date().getFullYear();
     margin-top: var(--space-6);
     padding-top: var(--space-4);
     border-top: 1px solid rgba(255, 255, 255, 0.14);
+  }
+
+  .site-footer__topics + .site-footer__topics {
+    margin-top: var(--space-3);
+    padding-top: var(--space-3);
+    border-top: 0;
   }
 
   .site-footer__topics h2 {
