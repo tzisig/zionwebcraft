@@ -1,4 +1,4 @@
-export type ProjectCategory = 'business-website' | 'ecommerce' | 'landing-page';
+export type ProjectCategory = 'business-website' | 'ecommerce' | 'landing-page' | 'content';
 
 export type Project = {
   slug: string;
@@ -22,9 +22,28 @@ export const categoryLabels: Record<ProjectCategory | 'all', string> = {
   'business-website': 'אתרי תדמית',
   ecommerce: 'חנויות אונליין',
   'landing-page': 'דפי נחיתה',
+  content: 'אתרי תוכן',
 };
 
 export const projects: Project[] = [
+  {
+    slug: 'getglobalyields',
+    name: 'GetGlobalYields',
+    field: 'השקעות בשוק ההון האמריקאי למשקיעים זרים',
+    category: 'content',
+    year: '2026',
+    status: 'live',
+    liveUrl: 'https://getglobalyields.com',
+    featured: true,
+    cover: '/images/projects/getglobalyields.webp',
+    challenge:
+      'משקיע שאינו אמריקאי שרוצה להיכנס לשוק האמריקאי נתקל בשלושה חסמים: איזה ברוקר בכלל פותח לו חשבון, מה קורה עם המס במדינה שלו, ואיך מסתדרים כשכמעט כל התוכן בנושא נכתב עבור אמריקאים בלבד.',
+    solution:
+      'אתר תוכן באנגלית שבנוי סביב כוונת החיפוש של משקיע זר ולא סביב מבנה נושאים: השוואת ברוקרים, מדריכי מס לפי מדינה, אסטרטגיות הכנסה מאופציות וקייס סטאדי מלווה. הכל בארכיטקטורה סטטית, כדי שמאות עמודים ייטענו מיד ויסרקו היטב.',
+    result:
+      '130 עמודי מידע באוויר, ועוד 180 בתור שמתפרסמים עמוד ביום. ארכיטקטורה שמחזיקה מאות עמודים בלי לאבד מהירות טעינה, וממשיכה לגדול.',
+    tags: ['אתר תוכן', 'SEO', 'אנגלית', 'מאות עמודים'],
+  },
   {
     slug: 'niv-arad',
     name: 'ניב ארד',
