@@ -1,0 +1,357 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import FaqList from '../components/FaqList.astro';
+import ContactForm from '../components/ContactForm.astro';
+import Icon from '../components/Icon.astro';
+import { landings } from '../data/landings';
+import { services } from '../data/services';
+import { site, waLink } from '../config/site';
+
+/**
+ * Astro resolves static routes before dynamic ones, so this only ever matches
+ * the slugs listed in landings.ts - never /about, /faq or any other page.
+ */
+export const getStaticPaths = (() =>
+  landings.map((landing) => ({
+    params: { landing: landing.slug },
+    props: { landing },
+  }))) satisfies GetStaticPaths;
+
+const { landing } = Astro.props;
+const related = services.filter((s) => landing.related.includes(s.slug));
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: landing.faq.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'בית', item: site.url },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: landing.keyword,
+        item: `${site.url}/${landing.slug}`,
+      },
+    ],
+  },
+];
+---
+
+<BaseLayout title={landing.title} description={landing.description} schema={schema}>
+  <PageHero eyebrow={landing.keyword} title={landing.h1} lead={landing.lead}>
+    <div class="btn-row hero-actions">
+      <a class="btn btn--primary" href="#landing-form">
+        השאירו פרטים
+        <Icon name="arrow" size={16} />
+      </a>
+      <a
+        class="btn btn--outline"
+        href={waLink(`היי, הגעתי מהעמוד על ${landing.keyword}`)}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Icon name="whatsapp" size={16} />
+        שאלה מהירה בוואטסאפ
+      </a>
+    </div>
+  </PageHero>
+
+  <nav class="crumbs" aria-label="מיקום באתר">
+    <div class="container">
+      <ol>
+        <li><a href="/">בית</a></li>
+        <li aria-current="page">{landing.keyword}</li>
+      </ol>
+    </div>
+  </nav>
+
+  <section class="section">
+    <div class="container container--narrow">
+      {
+        landing.sections.map((section, i) => (
+          <div class="block reveal" data-reveal-delay={i * 50}>
+            <h2>{section.title}</h2>
+            {section.body.map((para) => (
+              <p>{para}</p>
+            ))}
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section section--soft">
+    <div class="container container--narrow">
+      <h2 class="list-head reveal">{landing.listTitle}</h2>
+
+      {
+        landing.listStyle === 'check' ? (
+          <ul class="checklist">
+            {landing.list.map((item, i) => (
+              <li class="reveal" data-reveal-delay={i * 40}>
+                <Icon name="check" size={18} />
+                <span>
+                  <strong>{item.title}</strong>
+                  {item.text}
+                </span>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <dl class="split">
+            {landing.list.map((item, i) => (
+              <div class="reveal" data-reveal-delay={i * 40}>
+                <dt>{item.title}</dt>
+                <dd>{item.text}</dd>
+              </div>
+            ))}
+          </dl>
+        )
+      }
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container container--narrow">
+      <h2 class="list-head reveal">שאלות שחוזרות בנושא הזה</h2>
+      <FaqList items={landing.faq} />
+
+      {
+        related.length > 0 && (
+          <div class="related reveal">
+            <h2>קשור לזה</h2>
+            <ul>
+              {related.map((s) => (
+                <li>
+                  <a href={`/services/${s.slug}`}>
+                    <Icon name={s.icon} size={18} />
+                    <span>
+                      <strong>{s.title}</strong>
+                      {s.short}
+                    </span>
+                    <Icon name="arrow" size={16} class="related__arrow" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+  <section class="section section--soft" id="landing-form">
+    <div class="container container--narrow">
+      <div class="form-head reveal">
+        <p class="eyebrow">נדבר?</p>
+        <h2>{landing.ctaTitle}</h2>
+        <p class="lead">{landing.ctaText}</p>
+      </div>
+      <div class="card form-card reveal">
+        <ContactForm sourceLabel={`landing-${landing.slug}`} />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero-actions {
+    margin-top: var(--space-4);
+  }
+
+  .crumbs {
+    border-bottom: 1px solid var(--c-border);
+    background: var(--c-bg-soft);
+    font-size: var(--fs-xs);
+  }
+
+  .crumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0.7rem 0;
+    margin: 0;
+    color: var(--c-ink-muted);
+  }
+
+  .crumbs li + li::before {
+    content: '/';
+    margin-inline-end: 0.5rem;
+    color: var(--c-border-strong);
+  }
+
+  .crumbs a {
+    color: var(--c-ink-soft);
+    text-decoration: none;
+  }
+
+  .crumbs a:hover {
+    text-decoration: underline;
+  }
+
+  .block + .block {
+    margin-top: var(--space-6);
+  }
+
+  .block h2 {
+    font-size: var(--fs-xl);
+    margin-bottom: var(--space-3);
+  }
+
+  .block p {
+    color: var(--c-ink-soft);
+  }
+
+  .block p + p {
+    margin-top: var(--space-3);
+  }
+
+  .list-head {
+    font-size: var(--fs-xl);
+    margin-bottom: var(--space-4);
+  }
+
+  /* --- Check list -------------------------------------------------------- */
+  .checklist {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  .checklist li {
+    display: flex;
+    gap: 0.7rem;
+    align-items: flex-start;
+    padding-bottom: 0.9rem;
+    border-bottom: 1px solid var(--c-border);
+    font-size: var(--fs-sm);
+    color: var(--c-ink-soft);
+  }
+
+  .checklist :global(svg) {
+    color: var(--c-gold);
+    flex-shrink: 0;
+    margin-top: 0.22rem;
+  }
+
+  .checklist strong {
+    display: block;
+    color: var(--c-ink);
+    margin-bottom: 0.1rem;
+  }
+
+  /* --- Split list -------------------------------------------------------- */
+  .split {
+    display: grid;
+    gap: 0;
+    margin: 0;
+    border-top: 1px solid var(--c-border);
+  }
+
+  .split > div {
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--c-border);
+  }
+
+  .split dt {
+    font-family: var(--font-serif);
+    font-size: var(--fs-md);
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+
+  .split dd {
+    margin: 0;
+    font-size: var(--fs-sm);
+    color: var(--c-ink-soft);
+  }
+
+  /* --- Related services --------------------------------------------------- */
+  .related {
+    margin-top: var(--space-6);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--c-border);
+  }
+
+  .related h2 {
+    font-family: var(--font-sans);
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--c-ink-muted);
+    margin-bottom: var(--space-3);
+  }
+
+  .related ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  .related a {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    text-decoration: none;
+    font-size: var(--fs-sm);
+    color: var(--c-ink-soft);
+    transition:
+      border-color var(--dur) var(--ease),
+      background-color var(--dur) var(--ease);
+  }
+
+  .related a:hover {
+    border-color: var(--c-accent);
+    background: var(--c-accent-soft);
+  }
+
+  .related a strong {
+    display: block;
+    color: var(--c-ink);
+    margin-bottom: 0.1rem;
+  }
+
+  .related :global(svg) {
+    color: var(--c-accent);
+    flex-shrink: 0;
+    margin-top: 0.2rem;
+  }
+
+  .related :global(.related__arrow) {
+    margin-inline-start: auto;
+    color: var(--c-border-strong);
+    transform: rotate(180deg);
+  }
+
+  .form-head {
+    margin-bottom: var(--space-4);
+  }
+
+  .form-head .lead {
+    margin-top: var(--space-2);
+  }
+
+  .form-card {
+    padding: clamp(1.25rem, 3vw, 2.25rem);
+  }
+</style>

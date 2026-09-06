@@ -1,6 +1,7 @@
 ---
 import { nav, site, waLink } from '../config/site';
 import { services } from '../data/services';
+import { landings } from '../data/landings';
 import Icon from './Icon.astro';
 import Logo from './Logo.astro';
 
@@ -65,6 +66,13 @@ const year = new Date().getFullYear();
     </div>
   </div>
 
+  <nav class="container site-footer__topics" aria-label="נושאים">
+    <h2>נושאים</h2>
+    <ul>
+      {landings.map((l) => <li><a href={`/${l.slug}`}>{l.keyword}</a></li>)}
+    </ul>
+  </nav>
+
   <div class="container site-footer__bottom">
     <p>&copy; {year} {site.name}. כל הזכויות שמורות.</p>
     <p class="site-footer__credit">נבנה כאן, בעברית, ובאהבה לפרטים.</p>
@@ -125,12 +133,52 @@ const year = new Date().getFullYear();
     text-underline-offset: 4px;
   }
 
+  .site-footer__topics {
+    margin-top: var(--space-6);
+    padding-top: var(--space-4);
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+  }
+
+  .site-footer__topics h2 {
+    font-family: var(--font-sans);
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.55);
+    margin-bottom: var(--space-2);
+  }
+
+  .site-footer__topics ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 1.1rem;
+    font-size: var(--fs-xs);
+  }
+
+  .site-footer__topics a {
+    display: inline-block;
+    padding: 0.3rem 0;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: color var(--dur) var(--ease);
+  }
+
+  .site-footer__topics a:hover {
+    color: #fff;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
   .site-footer__bottom {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     gap: var(--space-2);
-    margin-top: var(--space-6);
+    margin-top: var(--space-4);
     padding-top: var(--space-3);
     border-top: 1px solid rgba(255, 255, 255, 0.14);
     font-size: var(--fs-xs);
