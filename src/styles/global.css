@@ -4,7 +4,7 @@
    Palette and typography follow the approved brand spec.
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;600;700;800&family=Assistant:wght@300;400;500;600;700&display=swap');
+@import url('./fonts.css');
 
 :root {
   color-scheme: light;
@@ -15,7 +15,8 @@
   --c-bg-inverse: #1f2a44;
   --c-ink: #1a1a1a;
   --c-ink-soft: #4a4f57;
-  --c-ink-muted: #737880;
+  /* Darkened to clear 4.5:1 on --c-bg-soft (WCAG AA for small text). */
+  --c-ink-muted: #6d727a;
   --c-accent: #1f2a44;
   --c-accent-hover: #2c3a5c;
   --c-accent-soft: #eef1f6;

@@ -1,0 +1,144 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import { site } from '../config/site';
+
+interface Props {
+  title: string;
+  description: string;
+  eyebrow: string;
+  h1: string;
+  lead: string;
+}
+
+const { title, description, eyebrow, h1, lead } = Astro.props;
+
+const updated = new Date(site.legal.legalUpdated).toLocaleDateString('he-IL', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
+---
+
+<BaseLayout title={title} description={description}>
+  <PageHero eyebrow={eyebrow} title={h1} lead={lead} />
+
+  <nav class="crumbs" aria-label="מיקום באתר">
+    <div class="container">
+      <ol>
+        <li><a href="/">בית</a></li>
+        <li aria-current="page">{eyebrow}</li>
+      </ol>
+    </div>
+  </nav>
+
+  <section class="section">
+    <div class="container container--narrow legal">
+      <p class="legal__updated">עודכן לאחרונה: {updated}</p>
+      <slot />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .crumbs {
+    border-bottom: 1px solid var(--c-border);
+    background: var(--c-bg-soft);
+    font-size: var(--fs-xs);
+  }
+
+  .crumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0.7rem 0;
+    margin: 0;
+    color: var(--c-ink-muted);
+  }
+
+  .crumbs li + li::before {
+    content: '/';
+    margin-inline-end: 0.5rem;
+    color: var(--c-border-strong);
+  }
+
+  .crumbs a {
+    color: var(--c-ink-soft);
+    text-decoration: none;
+  }
+
+  .crumbs a:hover {
+    text-decoration: underline;
+  }
+
+  .legal__updated {
+    font-size: var(--fs-xs);
+    color: var(--c-ink-muted);
+    padding-bottom: var(--space-3);
+    margin-bottom: var(--space-5);
+    border-bottom: 1px solid var(--c-border);
+  }
+
+  .legal :global(h2) {
+    font-size: var(--fs-lg);
+    margin-top: var(--space-6);
+    margin-bottom: var(--space-3);
+  }
+
+  .legal :global(h2:first-of-type) {
+    margin-top: 0;
+  }
+
+  .legal :global(h3) {
+    font-family: var(--font-sans);
+    font-size: var(--fs-md);
+    margin-top: var(--space-4);
+    margin-bottom: var(--space-2);
+  }
+
+  .legal :global(p) {
+    color: var(--c-ink-soft);
+  }
+
+  .legal :global(p + p) {
+    margin-top: var(--space-3);
+  }
+
+  .legal :global(ul) {
+    margin: var(--space-3) 0 0;
+    padding-inline-start: 1.2rem;
+    display: grid;
+    gap: 0.6rem;
+    color: var(--c-ink-soft);
+  }
+
+  .legal :global(a) {
+    color: var(--c-accent);
+    text-underline-offset: 4px;
+  }
+
+  .legal :global(dl) {
+    margin: var(--space-3) 0 0;
+    padding: var(--space-3) var(--space-4);
+    border-inline-start: 3px solid var(--c-gold);
+    background: var(--c-bg-soft);
+    border-radius: var(--radius);
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .legal :global(dt) {
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--c-ink-muted);
+  }
+
+  .legal :global(dd) {
+    margin: 0;
+    font-size: var(--fs-sm);
+    color: var(--c-ink-soft);
+  }
+</style>

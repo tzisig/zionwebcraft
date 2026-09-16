@@ -1,0 +1,4 @@
+# Permanent redirects. Cloudflare Pages and Netlify both read this file.
+# The landing-page-design entry was merged into the service page that now
+# covers the same query, so the old address keeps working.
+/landing-page-design  /services/landing-page  301

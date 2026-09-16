@@ -18,6 +18,7 @@ const isFull = variant === 'full';
   id="lead-form"
   method="POST"
   action={site.formEndpoint}
+  data-source={sourceLabel}
   novalidate
 >
   <!-- Honeypot: bots fill it in, humans never see it. -->
@@ -309,6 +310,10 @@ const isFull = variant === 'full';
           headers: { Accept: 'application/json' },
         });
         if (!res.ok) throw new Error(String(res.status));
+        // Key event: a lead actually reached the inbox.
+        window.gtag?.('event', 'generate_lead', {
+          form_source: form.dataset.source || 'unknown',
+        });
         window.location.href = '/thank-you';
       } catch {
         submit.removeAttribute('aria-busy');

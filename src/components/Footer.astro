@@ -14,7 +14,7 @@ const year = new Date().getFullYear();
     <div class="site-footer__brand">
       <Logo variant="light" />
       <p class="site-footer__pitch">
-        בונה לעסקים קטנים אתרים מהירים שמייצרים פניות. אפיון, עיצוב, פיתוח וליווי, מול איש אחד.
+        אתרים לעסקים שרוצים יותר עבודה. מהאפיון ועד הליווי אחרי ההשקה, מול איש אחד.
       </p>
       <a class="btn btn--wa" href={waLink()} target="_blank" rel="noopener noreferrer">
         <Icon name="whatsapp" size={18} />
@@ -53,12 +53,6 @@ const year = new Date().getFullYear();
         </li>
         <li>
           <span class="site-footer__meta">
-            <Icon name="map-pin" size={15} />
-            {site.contact.city}
-          </span>
-        </li>
-        <li>
-          <span class="site-footer__meta">
             <Icon name="clock" size={15} />
             {site.contact.hours}
           </span>
@@ -74,6 +68,14 @@ const year = new Date().getFullYear();
       <li>
         <a href="/websites">{`בניית אתרים לפי מקצוע (${industries.length})`}</a>
       </li>
+    </ul>
+  </nav>
+
+  <nav class="container site-footer__legal" aria-label="מידע משפטי">
+    <ul>
+      <li><a href="/accessibility">הצהרת נגישות</a></li>
+      <li><a href="/privacy">מדיניות פרטיות</a></li>
+      <li><a href="/terms">תנאי שימוש</a></li>
     </ul>
   </nav>
 
@@ -181,6 +183,34 @@ const year = new Date().getFullYear();
     color: #fff;
     text-decoration: underline;
     text-underline-offset: 4px;
+  }
+
+  .site-footer__legal {
+    margin-top: var(--space-4);
+  }
+
+  .site-footer__legal ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 1.4rem;
+    font-size: var(--fs-xs);
+  }
+
+  .site-footer__legal a {
+    display: inline-block;
+    padding: 0.4rem 0;
+    min-height: 44px;
+    color: rgba(255, 255, 255, 0.78);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    transition: color var(--dur) var(--ease);
+  }
+
+  .site-footer__legal a:hover {
+    color: #fff;
   }
 
   .site-footer__bottom {

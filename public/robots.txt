@@ -2,4 +2,7 @@ User-agent: *
 Allow: /
 Disallow: /thank-you
 
+# AI crawlers are allowed on purpose: appearing inside AI answers is another
+# way for a small business to be found. Block a specific one by adding it here.
+
 Sitemap: https://zionwebcraft.com/sitemap-index.xml
