@@ -40,6 +40,20 @@ const schema = [
       acceptedAnswer: { '@type': 'Answer', text: f.a },
     })),
   },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'בית', item: site.url },
+      { '@type': 'ListItem', position: 2, name: 'לפי מקצוע', item: `${site.url}/websites` },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: industry.keyword,
+        item: `${site.url}/websites/${industry.slug}`,
+      },
+    ],
+  },
 ];
 ---
 
@@ -75,7 +89,7 @@ const schema = [
   <!-- How this customer decides -->
   <section class="section">
     <div class="container container--narrow">
-      <h2 class="head reveal">איך הלקוח שלך בוחר</h2>
+      <h2 class="head reveal">איך הלקוח שלכם בוחר</h2>
       {industry.decision.map((para) => <p class="body reveal">{para}</p>)}
     </div>
   </section>
@@ -97,8 +111,8 @@ const schema = [
           <h2>בניתי כבר עמוד ל{industry.profession}. אפשר לפתוח אותו עכשיו.</h2>
           <p>
             זה לא צילום מסך של רעיון, זה עמוד מלא שאפשר לגלול, ללחוץ ולבדוק במובייל. הוא
-            נבנה עם שם ותוכן בדויים כדי להדגים מבנה, קצב ועיצוב. הגרסה שלך תיבנה עם התוכן,
-            התמונות והמסרים שלך.
+            נבנה עם שם ותוכן בדויים כדי להדגים מבנה, קצב ועיצוב. הגרסה שלכם תיבנה עם התוכן,
+            התמונות והמסרים שלכם.
           </p>
           <div class="btn-row">
             <a
@@ -159,10 +173,10 @@ const schema = [
     <div class="container container--narrow">
       <div class="form-head reveal">
         <p class="eyebrow">נדבר?</p>
-        <h2>{`רוצה אתר ל${industry.profession.replace(/ים$/, '')} שלך?`}</h2>
+        <h2>{`רוצים אתר ל${industry.profession.replace(/ים$/, '')} שלכם?`}</h2>
         <p class="lead">
-          ספר לי על העסק ואחזור אליך תוך יום עסקים אחד עם שאלות ממוקדות וטווח מחיר ראשוני.
-          בלי מצגת ובלי שיחת מכירה.
+          ספרו לי על העסק ואחזור אליכם תוך יום עסקים עם כמה שאלות ממוקדות, ואחריהן הצעת מחיר
+          בכתב תוך יומיים. בלי מצגת ובלי שיחת מכירה.
         </p>
       </div>
       <div class="card form-card reveal">

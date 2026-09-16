@@ -9,12 +9,12 @@ import { waLink } from '../../config/site';
 
 <BaseLayout
   title="בניית אתרים לעסקים קטנים"
-  description="ארבעה שירותים: אתר תדמית, חנות אונליין, דף נחיתה ותחזוקת אתרים. מה כלול בכל אחד, למי הוא מתאים, וכמה זמן הוא לוקח."
+  description="אתר תדמית, חנות אונליין, דף נחיתה ותחזוקת אתרים. למי מתאים כל אחד, מתי הוא לא מה שאתם צריכים, מה כלול בו וכמה זמן הוא לוקח."
 >
   <PageHero
     eyebrow="שירותים"
-    title="ארבעה סוגי אתרים לעסקים קטנים. אחד מהם שלך."
-    lead="לכל שירות: למי הוא מתאים, מה בדיוק כלול, כמה זמן הוא לוקח ומה משפיע על המחיר. בלי כוכביות ובלי אותיות קטנות."
+    title="איזה אתר העסק שלכם באמת צריך?"
+    lead="דף נחיתה, אתר תדמית, חנות אונליין או תחזוקה לאתר שכבר יש לכם. כל אחד מהם נועד למשהו אחר לגמרי, ולכן השאלה הראשונה היא לא כמה זה עולה אלא מה אתם רוצים שיקרה. על כל שירות כתבתי למי הוא מתאים, מתי הוא לא, מה כלול בו וכמה זמן הוא לוקח."
   />
 
   {
@@ -36,8 +36,13 @@ import { waLink } from '../../config/site';
               </div>
 
               <div class="service-block__who service-block__cost">
-                <h3>מה זה עולה לא לעשות כלום</h3>
+                <h3>ולמה זה משנה</h3>
                 <p>{service.cost}</p>
+              </div>
+
+              <div class="service-block__who service-block__not">
+                <h3>מתי זה לא מה שאתם צריכים</h3>
+                <p>{service.notFor}</p>
               </div>
 
               <dl class="service-block__meta">
@@ -97,7 +102,10 @@ import { waLink } from '../../config/site';
       <div class="section-head reveal">
         <p class="eyebrow">השוואה מהירה</p>
         <h2>מה כלול בכל סוג פרויקט</h2>
-        <p class="lead">טבלה אחת שמסכמת את ההבדלים. גוללים לצדדים במסך קטן.</p>
+        <p class="lead">
+          טבלה אחת שמסכמת את ההבדלים, כדי שתוכלו להשוות תפוחים לתפוחים. במסך קטן גוללים
+          אותה לצדדים.
+        </p>
       </div>
 
       <div class="table-wrap reveal">
@@ -115,7 +123,7 @@ import { waLink } from '../../config/site';
                 <tr>
                   <th scope="row">{row.feature}</th>
                   {row.values.map((v) => (
-                    <td class:list={{ 'is-yes': v === '✓', 'is-no': v === '—' }}>
+                    <td class:list={{ 'is-yes': v === '✓', 'is-no': v === 'לא' }}>
                       {v === '✓' ? <Icon name="check" size={18} title="כלול" /> : v}
                     </td>
                   ))}
@@ -189,7 +197,8 @@ import { waLink } from '../../config/site';
     color: var(--c-ink-soft);
   }
 
-  .service-block__cost {
+  .service-block__cost,
+  .service-block__not {
     border-inline-start-color: var(--c-border-strong);
   }
 

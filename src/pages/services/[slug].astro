@@ -38,6 +38,20 @@ const schema = [
       acceptedAnswer: { '@type': 'Answer', text: f.a },
     })),
   },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'בית', item: site.url },
+      { '@type': 'ListItem', position: 2, name: 'שירותים', item: `${site.url}/services` },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: service.title,
+        item: `${site.url}/services/${service.slug}`,
+      },
+    ],
+  },
 ];
 ---
 
@@ -77,9 +91,25 @@ const schema = [
         <p class="lead">{service.forWho}</p>
 
         <aside class="cost">
-          <h3>מה זה עולה לא לעשות כלום</h3>
+          <h3>ולמה זה משנה</h3>
           <p>{service.cost}</p>
         </aside>
+
+        <aside class="cost cost--not">
+          <h3>מתי זה לא מה שאתם צריכים</h3>
+          <p>{service.notFor}</p>
+        </aside>
+
+        {
+          service.extra?.map((block) => (
+            <div class="extra">
+              <h2 class="detail__h2">{block.title}</h2>
+              {block.body.map((p) => (
+                <p class="extra__p">{p}</p>
+              ))}
+            </div>
+          ))
+        }
 
         <h2 class="detail__h2">מה כלול</h2>
         <ul class="checklist">
@@ -111,7 +141,7 @@ const schema = [
             </div>
           </dl>
           <a class="btn btn--primary btn--block" href="#service-form">
-            רוצה הצעת מחיר
+            רוצים הצעת מחיר
           </a>
         </div>
 
@@ -157,7 +187,10 @@ const schema = [
       <div class="reveal form-head">
         <p class="eyebrow">הצעת מחיר</p>
         <h2>נתחיל מכמה פרטים</h2>
-        <p class="lead">אחזור אליכם תוך יום עסקים עם שאלות ממוקדות וטווח מחיר ראשוני.</p>
+        <p class="lead">
+          אחזור אליכם תוך יום עסקים עם כמה שאלות ממוקדות, ואחריהן הצעת מחיר בכתב תוך
+          יומיים. בחינם ובלי התחייבות.
+        </p>
       </div>
       <div class="card form-card reveal">
         <ContactForm sourceLabel={`service-${service.slug}`} />
@@ -238,6 +271,14 @@ const schema = [
   .cost p {
     font-size: var(--fs-sm);
     color: var(--c-ink-soft);
+  }
+
+  .cost--not {
+    border-inline-start-color: var(--c-border-strong);
+  }
+
+  .extra__p + .extra__p {
+    margin-top: var(--space-3);
   }
 
   .checklist {

@@ -16,7 +16,7 @@ const shortProcess = processSteps.slice(0, 4);
 
 <BaseLayout
   title="בניית אתרים לעסקים"
-  description="בניית אתרים לעסקים קטנים: אתרי תדמית, חנויות אונליין ודפי נחיתה מהירים שמייצרים פניות. אפיון, עיצוב, פיתוח וליווי מול איש אחד, מ-2001."
+  description="בניית אתרים לעסקים שרוצים יותר עבודה: אתר תדמית, חנות אונליין או דף נחיתה, מול איש אחד שבונה אתרים מ-2001. הצעת מחיר בחינם ובלי התחייבות."
 >
   <!-- Hero -->
   <section class="hero">
@@ -24,11 +24,12 @@ const shortProcess = processSteps.slice(0, 4);
       <div class="hero__content">
         <p class="eyebrow">בניית אתרים לעסקים</p>
         <h1 class="hero__title">
-          בניית אתרים לעסקים <em>שרוצים שהטלפון יצלצל</em>
+          בניית אתרים לעסקים <em>שרוצים יותר עבודה</em>
         </h1>
         <p class="lead hero__lead">
-          אתר יפה זה מינימום. מה שמבדיל אתר שעובד מאתר שסתם קיים הוא כמה מהר הוא נטען, כמה
-          ברור מה לעשות בו, וכמה קל להשאיר בו פרטים. את זה אני בונה מ-2001, מול איש אחד: אני.
+          לפני שמדברים על אתר, שאלה אחת: אתם רוצים יותר עבודה ממה שיש לכם היום? אם לא, כנראה
+          שאתם לא צריכים אותי. אם כן, בואו נבנה לעסק שלכם אתר שעושה בדיוק את זה. אתם תמשיכו
+          לעבוד במה שאתם טובים בו, כי שם היתרון היחסי שלכם, לא בבניית אתרים.
         </p>
 
         <div class="btn-row hero__actions">
@@ -48,9 +49,9 @@ const shortProcess = processSteps.slice(0, 4);
         </div>
 
         <ul class="hero__points">
-          <li><Icon name="check" size={16} /> תשובה תוך יום עסקים אחד</li>
-          <li><Icon name="check" size={16} /> מחיר סגור, בלי תוספות באמצע</li>
-          <li><Icon name="check" size={16} /> הדומיין והאתר על שמך</li>
+          <li><Icon name="check" size={16} /> הצעת מחיר בחינם, בלי התחייבות</li>
+          <li><Icon name="check" size={16} /> תשובה תוך יום עסקים</li>
+          <li><Icon name="check" size={16} /> האתר והדומיין רשומים על שמכם</li>
         </ul>
       </div>
 
@@ -62,7 +63,7 @@ const shortProcess = processSteps.slice(0, 4);
           </div>
           <img
             class="mock__shot"
-            src="/images/projects/niv-arad.png"
+            src="/images/projects/niv-arad.webp"
             alt="צילום מסך מאתר שבניתי עבור ניב ארד, אסטרטגיית משכנתא"
             width="2880"
             height="1720"
@@ -91,13 +92,34 @@ const shortProcess = processSteps.slice(0, 4);
     </div>
   </section>
 
-  <!-- Services -->
+  <!-- Build it yourself or hire someone -->
   <section class="section">
+    <div class="container container--narrow prose-block reveal">
+      <p class="eyebrow">לבד או עם מישהו</p>
+      <h2>לבנות לבד או לתת למישהו?</h2>
+      <p>
+        מישהו כבר אמר לכם שאפשר לבנות אתר לבד בסוף שבוע. הוא יכול להיות צודק, והוא יכול
+        להיות טועה. בשני המקרים זה עולה לכם כסף, והשאלה היא רק כמה.
+      </p>
+      <p class="prose-block__key">
+        נניח שבניתם לבד, ונניח שאתם גם יודעים איך. חסכתם את עלות האתר. אבל את השעות האלה
+        הייתם יכולים להשקיע בעבודה שלכם, ושם כנראה הייתם מרוויחים הרבה יותר. זה כל מה שאומר
+        יתרון יחסי: לא כל דבר שאתם יודעים לעשות, משתלם לכם לעשות.
+      </p>
+      <p>
+        ומצד שני, גם אם יצא לכם אתר יפה, השאלה היא אם הוא בנוי כך שגוגל ימצא אותו. זה כבר
+        ידע אחר לגמרי.
+      </p>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="section section--soft">
     <div class="container">
       <SectionHead
         eyebrow="מה אני בונה"
-        title="ארבעה סוגי אתרים. אחד מהם מתאים לך."
-        lead="לא כל עסק צריך את אותו הדבר. הנה ארבעת הסוגים, למי כל אחד מתאים וכמה זמן הוא לוקח."
+        title="לא כל עסק צריך את אותו אתר"
+        lead="דף נחיתה, אתר תדמית, חנות אונליין או תחזוקה לאתר שכבר יש לכם. כל אחד נועד למשהו אחר לגמרי."
       />
       <div class="grid grid--4">
         {services.map((s, i) => <ServiceCard service={s} delay={i * 70} />)}
@@ -111,13 +133,38 @@ const shortProcess = processSteps.slice(0, 4);
     </div>
   </section>
 
+  <!-- The most common mistake -->
+  <section class="section">
+    <div class="container container--narrow prose-block reveal">
+      <p class="eyebrow">לפני שמשווים הצעות</p>
+      <h2>הטעות שאני רואה הכי הרבה</h2>
+      <p>
+        לדעתי, הטעות הנפוצה ביותר היא להסתכל רק על המחיר, בלי להבין מה מקבלים ומה מפסידים
+        כשבוחרים לא נכון.
+      </p>
+      <p>
+        בסופר אף אחד לא משווה קילו תפוחי אדמה לקילו תפוחי עץ ושואל למה אחד יקר יותר. עם
+        אתרים עושים את זה כל הזמן. דף נחיתה, אתר תדמית וחנות אונליין הם מוצרים שונים לגמרי,
+        וכל אחד נועד למשהו אחר.
+      </p>
+      <p>
+        אז קודם תבררו איזה אתר אתם צריכים, ורק אחר כך תשוו - תפוחים לתפוחים. בונה הגון יסביר
+        לכם את ההבדלים, ולא ינסה למכור לכם משהו שלא מתאים לכם.
+      </p>
+      <a class="link-arrow" href="/pricing">
+        מה משפיע על המחיר של אתר
+        <Icon name="arrow" size={15} />
+      </a>
+    </div>
+  </section>
+
   <!-- Featured work -->
   <section class="section section--soft">
     <div class="container">
       <SectionHead
         eyebrow="תיק עבודות"
-        title="עבודה אחרונה"
-        lead="לא רשימה של לוגואים. פרויקט אחד, עם האתגר שהיה, מה בניתי בפועל, ומה השתנה אחרי ההשקה."
+        title="עבודות אחרונות"
+        lead="לכל פרויקט: מה היה האתגר, מה נבנה, ומה יצא מזה. תסתכלו ותחליטו בעצמכם אם זה מה שאתם מחפשים."
       />
       <div class="grid grid--3">
         {featuredProjects.map((p, i) => <ProjectCard project={p} delay={i * 80} />)}
@@ -136,8 +183,8 @@ const shortProcess = processSteps.slice(0, 4);
     <div class="container">
       <SectionHead
         eyebrow="איך זה עובד"
-        title="תהליך ברור, בלי הפתעות"
-        lead="אתה יודע בכל רגע איפה הפרויקט עומד ומה השלב הבא."
+        title="הקמת אתר בלי שזה יגזול לכם זמן מהעבודה"
+        lead="בכל שלב אתם יודעים איפה הפרויקט עומד ומה הלאה. אתם ממשיכים לעבוד, אני בונה ומעדכן."
       />
       <ol class="steps">
         {
@@ -145,7 +192,7 @@ const shortProcess = processSteps.slice(0, 4);
             <li class="steps__item reveal" data-reveal-delay={i * 70}>
               <span class="steps__n">{step.n}</span>
               <h3 class="steps__title">{step.title}</h3>
-              <p class="steps__duration">{step.duration}</p>
+              {step.duration && <p class="steps__duration">{step.duration}</p>}
               <p class="steps__text">{step.text}</p>
             </li>
           ))
@@ -176,27 +223,60 @@ const shortProcess = processSteps.slice(0, 4);
     </div>
   </section>
 
+  <!-- Who builds it -->
+  <section class="section section--soft">
+    <div class="container about-teaser reveal">
+      <img
+        class="about-teaser__photo"
+        src={site.owner.photo}
+        alt={`${site.owner.name}, בונה אתרים מ-2001`}
+        width="880"
+        height="1100"
+        loading="lazy"
+        decoding="async"
+      />
+      <div class="prose-block">
+        <p class="eyebrow">מי אני</p>
+        <h2>מי יבנה לכם את האתר</h2>
+        <p>
+          אני בונה אתרים מ-2001. התחלתי בקורס של חברת בניית אתרים שבחרה עשרה מתוך עשרים וחמישה
+          משתתפים, והייתי אחד מהם.
+        </p>
+        <p>
+          אחר כך עבדתי חמש שנים ככלכלן, ומשם עברתי לארצות הברית ועבדתי כקבלן חשמל. בערבים
+          המשכתי לבנות אתרים. אז את הצד שלכם של השולחן אני מכיר מבפנים: הייתי בעל עסק שצריך
+          עבודה.
+        </p>
+        <p>ואתם מדברים רק איתי. מי שעונה לכם בטלפון הוא מי שבונה את האתר.</p>
+        <a class="link-arrow" href="/about">
+          הסיפור המלא
+          <Icon name="arrow" size={15} />
+        </a>
+      </div>
+    </div>
+  </section>
+
   <!-- Contact -->
   <section class="section" id="contact-form">
     <div class="container contact-split">
       <div class="contact-split__intro reveal">
         <SectionHead
           eyebrow="נדבר?"
-          title="ספרו לי על העסק, ואחזור אליכם"
-          lead="מילוי הטופס לוקח פחות מדקה. אחזור אליכם תוך יום עסקים אחד עם שאלות ממוקדות וטווח מחיר ראשוני, בלי מצגת ובלי שיחת מכירה."
+          title="רוצים הצעת מחיר? היא בחינם ובלי התחייבות"
+          lead="אי אפשר לתמחר אתר בלי לדעת מה הוא צריך לעשות, זה כמו לקנות חתול בשק. ספרו לי בכמה מילים על העסק, ואחזור אליכם תוך יום עסקים עם הצעה שמתאימה בדיוק למה שאתם צריכים."
         />
         <ul class="contact-split__list">
           <li>
             <Icon name="check" size={17} />
-            <span>שיחת היכרות של 30 דקות, ללא עלות וללא התחייבות</span>
+            <span>הצעת מחיר מותאמת, בחינם לגמרי</span>
           </li>
           <li>
             <Icon name="check" size={17} />
-            <span>הצעת מחיר מפורטת בכתב תוך יומיים</span>
+            <span>בלי התחייבות ובלי שיחות מכירה חוזרות</span>
           </li>
           <li>
             <Icon name="check" size={17} />
-            <span>אם זה לא מתאים לי, אני אגיד לך ואפנה אותך הלאה</span>
+            <span>אם אני לא הכתובת בשבילכם, אגיד לכם את זה ישר</span>
           </li>
         </ul>
         <a class="btn btn--wa" href={waLink()} target="_blank" rel="noopener noreferrer">
@@ -212,6 +292,49 @@ const shortProcess = processSteps.slice(0, 4);
 </BaseLayout>
 
 <style>
+  /* --- Prose sections ------------------------------------------------ */
+  .prose-block h2 {
+    margin-bottom: var(--space-3);
+  }
+
+  .prose-block p {
+    font-size: var(--fs-md);
+    color: var(--c-ink-soft);
+  }
+
+  .prose-block p + p {
+    margin-top: var(--space-3);
+  }
+
+  /* The one sentence each section hinges on. */
+  .prose-block__key {
+    padding: var(--space-3) var(--space-4);
+    border-inline-start: 3px solid var(--c-gold);
+    background: var(--c-bg-soft);
+    border-radius: var(--radius);
+    color: var(--c-ink) !important;
+  }
+
+  .prose-block .link-arrow {
+    margin-top: var(--space-4);
+  }
+
+  .about-teaser {
+    display: grid;
+    gap: var(--space-5);
+    align-items: center;
+    max-width: 960px;
+  }
+
+  .about-teaser__photo {
+    width: 100%;
+    max-width: 260px;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--c-border);
+  }
+
   /* --- Hero --------------------------------------------------------- */
   .hero {
     padding-block: clamp(3rem, 2rem + 5vw, 6rem);
@@ -472,6 +595,13 @@ const shortProcess = processSteps.slice(0, 4);
       grid-template-columns: repeat(2, 1fr);
     }
 
+  }
+
+  @media (min-width: 800px) {
+    .about-teaser {
+      grid-template-columns: 240px 1fr;
+      gap: var(--space-6);
+    }
   }
 
   @media (min-width: 1000px) {

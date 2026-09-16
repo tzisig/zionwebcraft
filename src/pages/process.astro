@@ -8,12 +8,12 @@ import { processSteps } from '../data/content';
 
 <BaseLayout
   title="איך בונים אתר לעסק"
-  description="ששה שלבים מהשיחה הראשונה ועד ההשקה: מה קורה בכל שלב, כמה זמן הוא לוקח, ומה אתה מקבל בסופו."
+  description="איך בונים אתר לעסק: שישה שלבים מהשיחה הראשונה ועד חודש הליווי אחרי ההשקה, ומה אתם מקבלים בסוף כל שלב."
 >
   <PageHero
     eyebrow="תהליך העבודה"
     title="איך בונים אתר לעסק, שלב אחרי שלב"
-    lead="בכל שלב אתה יודע מה קורה, כמה זמן זה לוקח ומה אתה מקבל בסופו. זה מה שמונע הפתעות."
+    lead="בכל שלב אתם יודעים מה קורה ומה אתם מקבלים בסופו. אתם ממשיכים לעבוד, ואני בונה ומעדכן."
   />
 
   <section class="section">
@@ -28,16 +28,18 @@ import { processSteps } from '../data/content';
               <div class="timeline__body">
                 <div class="timeline__head">
                   <h2>{step.title}</h2>
-                  <span class="timeline__duration">
-                    <Icon name="clock" size={14} />
-                    {step.duration}
-                  </span>
+                  {step.duration && (
+                    <span class="timeline__duration">
+                      <Icon name="clock" size={14} />
+                      {step.duration}
+                    </span>
+                  )}
                 </div>
                 <p>{step.text}</p>
                 <p class="timeline__deliverable">
                   <Icon name="check" size={15} />
                   <span>
-                    <strong>מה אתה מקבל:</strong> {step.deliverable}
+                    <strong>מה אתם מקבלים:</strong> {step.deliverable}
                   </span>
                 </p>
               </div>
@@ -49,9 +51,9 @@ import { processSteps } from '../data/content';
       <aside class="note reveal">
         <h2>כמה זמן זה לוקח בסך הכל</h2>
         <p>
-          דף נחיתה: 5-10 ימי עבודה. אתר תדמית: 2-4 שבועות. חנות אונליין: 4-8 שבועות.
-          הגורם שהכי משפיע הוא לא הפיתוח אלא כמה מהר מגיעים התוכן והאישורים מהצד שלך, ולכן
-          בשלב האפיון אנחנו קובעים מראש מי אחראי על מה ומתי.
+          דף נחיתה: 5-10 ימי עבודה. אתר תדמית: 2-4 שבועות. חנות אונליין: 4-8 שבועות. חלק מהזמן
+          תלוי גם בכם, כמה מהר מגיעים התוכן והאישורים, ולכן כבר באפיון מחליטים מי מביא מה
+          ומתי.
         </p>
       </aside>
     </div>
@@ -59,7 +61,7 @@ import { processSteps } from '../data/content';
 
   <CtaBand
     title="השלב הראשון הוא שיחה של 30 דקות"
-    text="אין בה מצגת ואין בה מכירה, רק שאלות על העסק. בסופה אתה יודע מה מתאים לך וכמה זה עולה בערך, גם אם התשובה היא שלא צריך אותי."
+    text="בחינם ובלי התחייבות. אין בה מצגת ואין מכירה, רק שאלות על העסק שלכם. אחריה תקבלו הצעת מחיר בכתב תוך יומיים."
   />
 </BaseLayout>
 

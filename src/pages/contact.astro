@@ -8,7 +8,7 @@ const channels = [
   {
     icon: 'whatsapp' as const,
     label: 'וואטסאפ',
-    value: 'הערוץ המהיר ביותר',
+    value: 'לשאלה קצרה',
     href: waLink(),
     external: true,
     primary: true,
@@ -34,14 +34,15 @@ const channels = [
 
 <BaseLayout
   title="צור קשר"
-  description="רוצים אתר לעסק? דברו איתי בוואטסאפ, בטלפון או השאירו פרטים. אני חוזר לכל פנייה תוך יום עסקים אחד, בלי שיחות מכירה חוזרות."
+  description="רוצים אתר לעסק? דברו איתי בוואטסאפ, בטלפון או השאירו פרטים. אני חוזר לכל פנייה תוך יום עסקים, והצעת המחיר בחינם ובלי התחייבות."
 >
   <section class="contact-hero">
     <div class="container">
       <p class="eyebrow">צור קשר</p>
       <h1>הדרך הכי מהירה להתחיל</h1>
       <p class="lead">
-        אני חוזר לכל פנייה תוך יום עסקים אחד. אם זה דחוף, וואטסאפ הוא הערוץ המהיר ביותר.
+        אני חוזר לכל פנייה תוך יום עסקים, והצעת המחיר בחינם ובלי התחייבות. יש לכם שאלה
+        קצרה? וואטסאפ הכי נוח.
       </p>
 
       <a
@@ -61,7 +62,7 @@ const channels = [
       <div class="card contact-form-card reveal">
         <h2>או השאירו פרטים ואחזור אליכם</h2>
         <p class="contact-form-card__sub">
-          שדות המסומנים בכוכבית הם חובה. השאר עוזר לי להתכונן לשיחה.
+          שדות המסומנים בכוכבית הם חובה. כל השאר עוזר לי להבין מה אתם צריכים.
         </p>
         <ContactForm sourceLabel="contact-page" />
       </div>
@@ -98,10 +99,6 @@ const channels = [
               <dt><Icon name="clock" size={15} /> שעות מענה</dt>
               <dd>{site.contact.hours}</dd>
             </div>
-            <div>
-              <dt><Icon name="map-pin" size={15} /> אזור פעילות</dt>
-              <dd>{site.contact.city}, ועבודה מרחוק בכל הארץ</dd>
-            </div>
           </dl>
         </div>
 
@@ -110,7 +107,7 @@ const channels = [
           <ol>
             <li><strong>תוך יום עסקים</strong> אני חוזר אליכם בערוץ שביקשתם</li>
             <li><strong>שיחה של 30 דקות</strong> להבין מה העסק צריך</li>
-            <li><strong>תוך יומיים</strong> הצעת מחיר מפורטת בכתב</li>
+            <li><strong>תוך יומיים</strong> הצעת מחיר בכתב, בחינם ובלי התחייבות</li>
           </ol>
         </div>
       </aside>

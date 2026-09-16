@@ -12,10 +12,10 @@ export const site = {
   dir: 'rtl',
 
   owner: {
-    name: 'ציון',
+    name: 'ציון סיגרון',
     role: 'מפתח אתרים עצמאי',
     /** Drop a photo at this path to replace the placeholder on /about. */
-    photo: '/images/owner.jpg',
+    photo: '/images/owner.webp',
   },
 
   contact: {
@@ -24,7 +24,6 @@ export const site = {
     phone: '058-443-3181',
     phoneHref: 'tel:+972584433181',
     email: 'mj9963@gmail.com',
-    city: 'תל אביב והמרכז',
     hours: 'א׳-ה׳, 09:00-18:00',
   },
 
@@ -41,6 +40,17 @@ export const site = {
   analytics: {
     gaMeasurementId: '',
     metaPixelId: '',
+  },
+
+  /**
+   * Who operates the site, and when the legal pages were last reviewed.
+   * Update `legalUpdated` whenever /privacy, /terms or /accessibility change.
+   */
+  legal: {
+    entity: 'ציון סיגרון',
+    legalUpdated: '2026-09-16',
+    /** Accessibility standard the site is built against. */
+    a11yStandard: 'תקן ישראלי ת״י 5568 ברמת AA, המבוסס על WCAG 2.0',
   },
 
   stats: [

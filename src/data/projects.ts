@@ -53,7 +53,7 @@ export const projects: Project[] = [
     status: 'live',
     // TODO: add the live URL once the domain is connected.
     featured: true,
-    cover: '/images/projects/niv-arad.png',
+    cover: '/images/projects/niv-arad.webp',
     challenge:
       'משרד בוטיק לתכנון פיננסי שנתפס כמו כל יועץ משכנתאות אחר. האתגר היה למצב אותו כאסטרטגי ולא כמתווך מול הבנק, ולהוביל לתיאום שיחת אפיון בלי להישמע כמו עוד הבטחה על חיסכון.',
     solution:
