@@ -36,9 +36,9 @@ export const site = {
     linkedin: '',
   },
 
-  // TODO: paste real IDs to enable tracking. Empty string = script not rendered.
+  // Empty string = the script is not rendered at all.
   analytics: {
-    gaMeasurementId: '',
+    gaMeasurementId: 'G-QK2R6LXBJC',
     metaPixelId: '',
   },
 
