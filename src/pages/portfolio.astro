@@ -34,8 +34,9 @@ const activeFilters = filters.filter((f) => counts[f] > 0);
     lead="לכל פרויקט: מה היה האתגר, מה בניתי, ומה יצא מזה. תסתכלו, ותחליטו בעצמכם אם זה מה שאתם מחפשים."
   />
 
-  <section class="section">
+  <section class="section" aria-labelledby="work-heading">
     <div class="container">
+      <h2 class="sr-only" id="work-heading">העבודות</h2>
       <div class="filters reveal" role="group" aria-label="סינון פרויקטים לפי סוג">
         {
           activeFilters.map((f, i) => (

@@ -13,6 +13,24 @@ npm run preview # serve the production build locally
 npm run check   # Astro + TypeScript diagnostics
 ```
 
+## Deploying
+
+The site is static, so any static host works. Cloudflare Pages and Netlify both
+read `public/_headers` and `public/_redirects` straight out of the build.
+
+| Setting | Value |
+|---|---|
+| Build command | `npm run build` |
+| Output directory | `dist` |
+| Node version | from `.nvmrc` (22) |
+
+`NAPI_RS_FORCE_WASI` in the npm scripts and `force=true` in `.npmrc` exist only
+because Windows Application Control blocks the native binding on the author's
+machine. Both are harmless on a Linux build image.
+
+`public/_headers` carries the CSP. Anything the site loads from a new host has
+to be added there, or the browser will block it with no visible error.
+
 ## Before going live
 
 Everything that needs a real value is a `TODO` in one of three files.
