@@ -28,6 +28,10 @@ const isFull = variant === 'full';
   </div>
   <input type="hidden" name="source" value={sourceLabel} />
   <input type="hidden" name="_subject" value="פנייה חדשה מהאתר" />
+  <!-- Filled in by the script below: which campaign and which page produced this lead. -->
+  <input type="hidden" name="campaign" value="" />
+  <input type="hidden" name="referrer" value="" />
+  <input type="hidden" name="landing_page" value="" />
 
   <div class="lead-form__grid">
     <div class="field">
@@ -243,6 +247,48 @@ const isFull = variant === 'full';
   const submit = document.getElementById('lead-submit') as HTMLButtonElement | null;
 
   if (form && status && submit) {
+    // Campaign attribution. The first landing page and referrer of the visit are
+    // kept in sessionStorage, because by the time someone fills the form they may
+    // be three pages deep and document.referrer would just say "our own site".
+    const remember = () => {
+      try {
+        if (sessionStorage.getItem('lead-origin')) return;
+        const params = new URLSearchParams(location.search);
+        const utm = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content']
+          .map((k) => (params.get(k) ? `${k}=${params.get(k)}` : ''))
+          .filter(Boolean)
+          .join('&');
+        const click = params.get('gclid') || params.get('fbclid') || '';
+        sessionStorage.setItem(
+          'lead-origin',
+          JSON.stringify({
+            campaign: utm || (click && `click_id=${click}`) || '',
+            referrer: document.referrer || '',
+            landing: location.pathname + location.search,
+          })
+        );
+      } catch {
+        // Private mode or blocked storage: the lead still sends, just without origin.
+      }
+    };
+    remember();
+
+    const applyOrigin = () => {
+      let origin: { campaign?: string; referrer?: string; landing?: string } = {};
+      try {
+        origin = JSON.parse(sessionStorage.getItem('lead-origin') || '{}');
+      } catch {
+        origin = {};
+      }
+      const set = (name: string, value: string) => {
+        const field = form.querySelector(`input[name="${name}"]`) as HTMLInputElement | null;
+        if (field) field.value = value;
+      };
+      set('campaign', origin.campaign || 'ישיר');
+      set('referrer', origin.referrer || 'אין');
+      set('landing_page', origin.landing || location.pathname);
+    };
+
     const messages: Record<string, string> = {
       name: 'נא למלא שם מלא',
       phone: 'נא למלא מספר טלפון תקין',
@@ -303,6 +349,8 @@ const isFull = variant === 'full';
       const original = label?.textContent ?? '';
       if (label) label.textContent = 'שולח...';
 
+      applyOrigin();
+
       try {
         const res = await fetch(form.action, {
           method: 'POST',
@@ -315,12 +363,17 @@ const isFull = variant === 'full';
           form_source: form.dataset.source || 'unknown',
         });
         window.location.href = '/thank-you';
-      } catch {
+      } catch (err) {
         submit.removeAttribute('aria-busy');
         if (label) label.textContent = original;
         status.hidden = false;
         status.textContent =
           'השליחה נכשלה. אפשר לנסות שוב, או פשוט לשלוח לי הודעה בוואטסאפ.';
+        // A lead that fails silently is a lead nobody knows was lost.
+        window.gtag?.('event', 'form_error', {
+          form_source: form.dataset.source || 'unknown',
+          reason: err instanceof Error ? err.message : 'unknown',
+        });
       }
     });
   }
