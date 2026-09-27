@@ -19,23 +19,36 @@ function privateLaunchGuard() {
     name: 'private-launch-guard',
     hooks: {
       'astro:build:done': ({ dir, logger }) => {
+        const headers = new URL('_headers', dir);
+
+        // Split on either ending. Git hands Windows checkouts CRLF, and a
+        // stray CR ends up inside the header value, which invalidates the
+        // header at the edge without any error.
+        const lines = fs.readFileSync(headers, 'utf8').split(/\r?\n/);
+
+        if (!site.indexing) {
+          // Extend the existing /* block instead of adding a second one:
+          // a repeated pattern is not merged reliably by the host.
+          const at = lines.indexOf('/*');
+          if (at === -1) throw new Error('_headers has no /* block to extend');
+          lines.splice(at + 1, 0, '  X-Robots-Tag: noindex, nofollow');
+        }
+
+        fs.writeFileSync(headers, lines.join('\n'), 'utf8');
+
         if (site.indexing) {
           logger.info('indexing is ON: pages are open to search engines.');
           return;
         }
 
-        const headers = new URL('_headers', dir);
-        const extra = '\n# Private launch: remove by setting site.indexing = true.\n/*\n  X-Robots-Tag: noindex, nofollow\n';
-        fs.appendFileSync(headers, extra, 'utf8');
-
-        const line = '='.repeat(64);
+        const rule = '='.repeat(64);
         logger.warn(
-          `\n${line}\n` +
+          `\n${rule}\n` +
             '  THE SITE IS BUILT AS NOINDEX. Search engines will ignore it.\n' +
             '  Every page carries noindex, nofollow, and so does the header.\n' +
-            "  When the Go Live gate is clear: set indexing: true in\n" +
+            '  When the Go Live gate is clear: set indexing: true in\n' +
             '  src/config/site.ts, rebuild, and redeploy.\n' +
-            line
+            rule
         );
       },
     },
