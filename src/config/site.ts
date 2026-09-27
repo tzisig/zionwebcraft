@@ -36,7 +36,7 @@ export const site = {
     whatsapp: '972584433181',
     phone: '058-443-3181',
     phoneHref: 'tel:+972584433181',
-    email: 'mj9963@gmail.com',
+    email: 'info@zionwebcraft.com',
     hours: 'א׳-ה׳, 09:00-18:00',
   },
 
