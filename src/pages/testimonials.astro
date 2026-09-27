@@ -13,11 +13,16 @@ const schema = [
     itemListElement: testimonials.map((t, i) => ({
       '@type': 'ListItem',
       position: i + 1,
+      name: `${t.name}, ${t.business}`,
       item: {
         '@type': 'Review',
         reviewBody: t.quote,
         author: { '@type': 'Person', name: t.name },
-        itemReviewed: { '@type': 'ProfessionalService', name: site.nameHe },
+        itemReviewed: {
+          '@type': 'ProfessionalService',
+          name: site.nameHe,
+          url: site.url,
+        },
       },
     })),
   },
