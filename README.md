@@ -13,6 +13,23 @@ npm run preview # serve the production build locally
 npm run check   # Astro + TypeScript diagnostics
 ```
 
+## Private launch
+
+`site.indexing` in `src/config/site.ts` is the master switch for search
+engines. While it is `false`:
+
+- every page is served `noindex, nofollow`
+- `dist/_headers` gains a matching `X-Robots-Tag`, which covers non-HTML files
+- every build prints a warning saying so
+
+That lets the site sit on the real domain, fully testable, while staying out of
+search. Crawling is deliberately still allowed in `robots.txt`: blocking it
+would stop search engines reading the noindex tag, and a blocked URL can be
+indexed with no content at all.
+
+To go public: set `indexing: true`, rebuild, redeploy, then connect Search
+Console and submit the sitemap.
+
 ## Deploying
 
 The site is static, so any static host works. Cloudflare Pages and Netlify both

@@ -7,6 +7,19 @@ export const site = {
   nameHe: 'ציון וובקרפט',
   tagline: 'בונה לעסקים קטנים אתרים שמביאים לקוחות',
   url: 'https://zionwebcraft.com',
+
+  /**
+   * Master switch for search engines.
+   *
+   * false = every page is served noindex, nofollow, so the site can be live on
+   * the real domain and fully testable while still being invisible in search.
+   * The build prints a warning on every run while this is false.
+   *
+   * Flip to true only when the Go Live gate is clear. Nothing else needs to
+   * change: the meta tag and the X-Robots-Tag header both read this flag.
+   */
+  indexing: false,
+
   locale: 'he-IL',
   lang: 'he',
   dir: 'rtl',

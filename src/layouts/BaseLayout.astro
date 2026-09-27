@@ -50,7 +50,12 @@ const organization = {
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    {
+      /* Either this page opts out, or the whole site is still private. */
+      (noindex || !site.indexing) && (
+        <meta name="robots" content="noindex, nofollow" />
+      )
+    }
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
