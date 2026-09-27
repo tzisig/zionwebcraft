@@ -41,7 +41,7 @@ export const site = {
   },
 
   // Formspree endpoint; submissions land in the inbox above.
-  formEndpoint: 'https://formspree.io/f/xyezbogb',
+  formEndpoint: 'https://formspree.io/f/myezbowd',
 
   social: {
     facebook: '',
