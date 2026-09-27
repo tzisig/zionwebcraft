@@ -96,17 +96,42 @@ const organization = {
 
     {
       gaMeasurementId && (
-        <Fragment>
-          <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`} />
-          <script is:inline define:vars={{ gaMeasurementId }}>
-            window.dataLayer = window.dataLayer || [];
-            function gtag() {
-              window.dataLayer.push(arguments);
+        <script is:inline define:vars={{ gaMeasurementId }}>
+          {/*
+            gtag.js is 173KB and costs about 340ms of main-thread time, which
+            is more than the rest of this site put together. Nothing about
+            measurement needs to happen before the page has painted, so the
+            library is fetched once the browser is idle.
+
+            Commands still run immediately: they queue on dataLayer and are
+            replayed when the library arrives, so pageviews and events are not
+            lost, only deferred.
+          */}
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            window.dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', gaMeasurementId);
+
+          var loadGtag = function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.src = 'https://www.googletagmanager.com/gtag/js?id=' + gaMeasurementId;
+            document.head.appendChild(s);
+          };
+
+          var whenIdle = function () {
+            if ('requestIdleCallback' in window) {
+              window.requestIdleCallback(loadGtag, { timeout: 3000 });
+            } else {
+              window.setTimeout(loadGtag, 1200);
             }
-            gtag('js', new Date());
-            gtag('config', gaMeasurementId);
-          </script>
-        </Fragment>
+          };
+
+          if (document.readyState === 'complete') whenIdle();
+          else window.addEventListener('load', whenIdle);
+        </script>
       )
     }
 
