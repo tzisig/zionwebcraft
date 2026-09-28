@@ -358,6 +358,14 @@ const isFull = variant === 'full';
           headers: { Accept: 'application/json' },
         });
         if (!res.ok) throw new Error(String(res.status));
+
+        // A 200 is not proof of delivery. Content blockers cancel the request
+        // and hand back an empty 200, which would otherwise read as success and
+        // send the visitor to the thank-you page while the lead went nowhere.
+        // Only the service's own acknowledgement counts.
+        const body = await res.json().catch(() => null);
+        if (!body || body.ok !== true) throw new Error('blocked');
+
         // Key event: a lead actually reached the inbox.
         window.gtag?.('event', 'generate_lead', {
           form_source: form.dataset.source || 'unknown',
@@ -368,7 +376,9 @@ const isFull = variant === 'full';
         if (label) label.textContent = original;
         status.hidden = false;
         status.textContent =
-          'השליחה נכשלה. אפשר לנסות שוב, או פשוט לשלוח לי הודעה בוואטסאפ.';
+          err instanceof Error && err.message === 'blocked'
+            ? 'השליחה נחסמה, כנראה על ידי תוסף בדפדפן. אפשר לנסות בדפדפן אחר, או פשוט לשלוח לי הודעה בוואטסאפ.'
+            : 'השליחה נכשלה. אפשר לנסות שוב, או פשוט לשלוח לי הודעה בוואטסאפ.';
         // A lead that fails silently is a lead nobody knows was lost.
         window.gtag?.('event', 'form_error', {
           form_source: form.dataset.source || 'unknown',
