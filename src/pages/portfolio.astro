@@ -26,7 +26,7 @@ const activeFilters = filters.filter((f) => counts[f] > 0);
 
 <BaseLayout
   title="תיק עבודות בניית אתרים"
-  description="פרויקטים שבניתי לעסקים: אתרי תדמית, חנויות אונליין ודפי נחיתה. לכל אחד האתגר, הפתרון והתוצאה בפועל."
+  description="פרויקטים ואתרי הדגמה שבניתי: אתרי תדמית, אתרי תוכן ודפי נחיתה. לכל אחד האתגר, הפתרון ומה יצא מזה."
 >
   <PageHero
     eyebrow="תיק עבודות"
@@ -52,6 +52,12 @@ const activeFilters = filters.filter((f) => counts[f] > 0);
           ))
         }
       </div>
+
+      <p class="note">
+        חלק מהעבודות כאן מסומנות <strong>אתר הדגמה</strong>. לא כל לקוח מסכים שאפרסם את האתר
+        שלו בשמו, ולכן במקרים האלה בניתי אתר מקביל עם עסק מומצא: אותה עבודה, אותו מבנה, שם
+        ופרטים שאינם אמיתיים. כל אתר הדגמה אומר את זה על עצמו גם בפנים.
+      </p>
 
       <p class="results" id="results-count" role="status" aria-live="polite">
         מוצגים {projects.length} פרויקטים
@@ -113,6 +119,18 @@ const activeFilters = filters.filter((f) => counts[f] > 0);
   .filter__count {
     font-size: var(--fs-xs);
     opacity: 0.65;
+  }
+
+  .note {
+    max-width: 62ch;
+    margin: 0 0 var(--space-3);
+    padding: var(--space-3);
+    border-inline-start: 3px solid var(--c-border-strong);
+    background: var(--c-bg-soft);
+    border-radius: var(--radius);
+    font-size: var(--fs-sm);
+    color: var(--c-ink-soft);
+    line-height: 1.7;
   }
 
   .results {

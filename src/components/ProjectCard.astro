@@ -38,6 +38,7 @@ const hue = [...project.slug].reduce((a, c) => a + c.charCodeAt(0), 0) % 40;
     <div class="project-card__top">
       <span class="tag">{categoryLabels[project.category]}</span>
       {project.status === 'in-progress' && <span class="tag tag--wip">בבנייה</span>}
+      {project.kind === 'demo' && <span class="tag tag--demo">אתר הדגמה</span>}
       <span class="project-card__year">{project.year}</span>
     </div>
 
@@ -47,7 +48,11 @@ const hue = [...project.slug].reduce((a, c) => a + c.charCodeAt(0), 0) % 40;
     <dl class="project-card__case">
       <div><dt>האתגר</dt><dd>{project.challenge}</dd></div>
       <div><dt>הפתרון</dt><dd>{project.solution}</dd></div>
-      <div><dt>התוצאה</dt><dd class="project-card__result">{project.result}</dd></div>
+      {/* A demo produced no result, so it says what it demonstrates instead. */}
+      <div>
+        <dt>{project.kind === 'demo' ? 'מה זה מדגים' : 'התוצאה'}</dt>
+        <dd class="project-card__result">{project.result}</dd>
+      </div>
     </dl>
 
     {
@@ -58,7 +63,7 @@ const hue = [...project.slug].reduce((a, c) => a + c.charCodeAt(0), 0) % 40;
           target="_blank"
           rel="noopener noreferrer nofollow"
         >
-          <span>לצפייה באתר החי</span>
+          <span>{project.kind === 'demo' ? 'לצפייה באתר ההדגמה' : 'לצפייה באתר החי'}</span>
           <Icon name="external" size={15} />
           <span class="sr-only">, נפתח בחלון חדש</span>
         </a>
@@ -126,6 +131,12 @@ const hue = [...project.slug].reduce((a, c) => a + c.charCodeAt(0), 0) % 40;
   .tag--wip {
     background: #fdf4e3;
     color: #8a5d0d;
+  }
+
+  .tag--demo {
+    background: var(--c-bg-soft);
+    color: var(--c-ink-soft);
+    border: 1px solid var(--c-border-strong);
   }
 
   .project-card__year {
