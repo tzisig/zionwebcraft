@@ -21,14 +21,27 @@ const isFull = variant === 'full';
   data-source={sourceLabel}
   novalidate
 >
-  <!-- Honeypot: bots fill it in, humans never see it. -->
+  {
+    /*
+      Honeypot: bots fill it in, humans never see it. Formspree discards any
+      submission that arrives with it filled, and still answers 200, so anything
+      that fills it silently destroys a real lead.
+
+      That is exactly what happened: the field used to be a website-shaped id
+      inside a visually-hidden but still rendered wrapper, so Chrome autofill
+      filled it along with the rest of the form and every submission from a
+      Chrome profile with saved data was thrown away.
+
+      So: no name autofill recognises, and display:none, which autofill skips
+      entirely. Bots reading the DOM still fill it.
+    */
+  }
   <div class="lead-form__hp" aria-hidden="true">
-    <label for="company-website">אל תמלאו שדה זה</label>
-    <input type="text" id="company-website" name="_gotcha" tabindex="-1" autocomplete="off" />
+    <input type="text" id="lf-hp" name="_gotcha" tabindex="-1" autocomplete="off" />
   </div>
   <input type="hidden" name="source" value={sourceLabel} />
   <input type="hidden" name="_subject" value="פנייה חדשה מהאתר" />
-  <!-- Filled in by the script below: which campaign and which page produced this lead. -->
+  {/* Filled in by the script below: which campaign and which page produced this lead. */}
   <input type="hidden" name="campaign" value="" />
   <input type="hidden" name="referrer" value="" />
   <input type="hidden" name="landing_page" value="" />
@@ -116,11 +129,7 @@ const isFull = variant === 'full';
 
 <style>
   .lead-form__hp {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
+    display: none;
   }
 
   .lead-form__grid {
