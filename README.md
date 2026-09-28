@@ -103,3 +103,6 @@ WASI fallback instead. On a machine without that policy, both can be removed.
 
 Static output — `npm run build` produces `dist/`, deployable to Netlify, Vercel, Cloudflare Pages
 or any static host. No server runtime required.
+
+Live on Cloudflare Pages, which builds from `main` on every push. What the site runs on, how to
+restore it, and what is knowingly unfinished are in [docs/operations.md](docs/operations.md).
